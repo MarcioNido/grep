@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Site;
 use App\Http\Controllers\Controller;
+use App\Site\Profile;
 
-//use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -24,6 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('site.home');
+        return view('site.home', ['cookie' => request()->cookie(), 'profile'=>new Profile()] );
     }
 }

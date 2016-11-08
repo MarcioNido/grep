@@ -1,7 +1,10 @@
+<?php
+use App\Http\Components\Html;
+?>
+
 @extends('layouts.app')
 
 @section('content')
-
 
     <div class="container-fluid" style="background: #ddd url(images/AdobeStock_103524609_WM.jpeg) top no-repeat; height: 490px; overflow: hidden">
         <div class="">
@@ -10,27 +13,25 @@
                     <div class="panel panel-info guru-home-panel" style="">
                         <div class="panel-heading guru-home-panel-heading">Encontre aqui o seu futuro im&oacute;vel</div>
                         <div class="panel-body guru-home-panel-body">
-                            <form class="form-group">
+                            <form class="form-group" method="post" action="{{ url('pesquisa/generate') }}">
+                                
+                                {{ csrf_field() }}
+                                
                                 <div class="row">
 
                                     <div class="col-sm-3 col-xs-6 guru-home-search">
-                                        <select id="tipo_negocio" class="form-control guru-chosen-no-search">
-                                            <option value="Comprar" selected="selected">Comprar</option>
-                                            <option value="Alugar">Alugar</option>
-                                        </select>
+                                        <?php echo Html::dropDownList('tipo_negocio', $profile->tipo_negocio, ['venda'=>'Comprar', 'locacao'=>'Alugar'], ['class'=>'form-control guru-chosen-no-search']); ?>
                                     </div>
+                                    
                                     <div class="col-sm-3 col-xs-6 guru-home-search">
-                                        <select id="tipo_imovel" class="form-control guru-chosen-no-search">
-                                            <option value="Apartamento" selected="selected">Apartamento</option>
-                                            <option value="Casa">Casa</option>
-                                            <option value="Terreno">Terreno</option>
-                                        </select>
+                                        <?php echo Html::dropDownList('tipo_imovel', $profile->tipo_imovel, ['apartamento'=>'Apartamento', 'casa'=>'Casa', 'terreno'=>'Terreno'], ['class'=>'form-control guru-chosen-no-search']); ?>
                                     </div>
+                                    
                                     <div class="col-sm-5 col-xs-12 guru-home-search">
-                                        <input type="text" class="form-control" placeholder="Digite um bairro ou cidade ...">
+                                        <input id="localidade" name="localidade" type="text" class="form-control" placeholder="Digite um bairro ou cidade ..." value="{{ $profile->localidade }}">
                                     </div>
                                     <div class="col-sm-1 col-xs-12 guru-home-search">
-                                        <a href="/venda/sp/sao-paulo/brooklin/apartamento" class="btn btn-warning guru-home-button"><span class="fa fa-search"></span></a>
+                                        <button type="submit" class="btn btn-warning guru-home-button"><span class="fa fa-search"></span></button>
                                     </div>
                   
                                 </div>

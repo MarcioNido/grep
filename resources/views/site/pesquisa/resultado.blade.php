@@ -1,11 +1,11 @@
 <?php 
 use App\Http\Components\Html;
+use App\Site\Foto;
 ?>
 
 @extends('layouts.app')
 
 @section('content')
-
 <div style="background-color: #345C8C; width: 100%">
     <div class="container">
         <ol class="breadcrumb">
@@ -198,9 +198,8 @@ use App\Http\Components\Html;
 
                 <div class="col-lg-9">
 
-                    
-                    @for ($i=0; $i<10; $i++)
-                    
+
+                    @foreach($imoveis as $imovel)
                     <!-- linha imovel -->
                     <div class="row">
                         <div class="col-lg-12">
@@ -209,9 +208,17 @@ use App\Http\Components\Html;
                                 
                                 <div class="panel-body" style="padding: 2px;">
 
+                                    <?php 
+                                    $foto = Foto::where('imovel_id', $imovel->imovel_id)->first();
+                                    if ($foto != null) { 
+                                        $arquivo = "http://www.leardi.com.br/imagens/".$foto->arquivo;
+                                    } else { 
+                                        $arquivo = "";
+                                    }
+                                    ?>
                                     
                                     <div class="col-md-4 col-sm-12" style="padding-left: 1px; padding-right: 1px;">
-                                        <a href="#"><img src="/images/imovel1.jpg" class="img-responsive" /></a>
+                                        <a href="#"><img src="{{ $arquivo }}" class="img-responsive lazyload" /></a>
                                     </div>
                                     <div class="col-md-8 col-sm-12">
                                         
@@ -220,11 +227,11 @@ use App\Http\Components\Html;
                                             <!--<div class="col-md-12 guru-special-line">&nbsp;</div>-->
                                             
                                             <div class="col-md-5">
-                                                <h3 style="font-weight: 300; margin-top: 0; margin-bottom: 0;">Casa T&eacute;rrea</h3>
+                                                <h3 style="font-weight: 300; margin-top: 0; margin-bottom: 0;">{{ title_case($imovel->tipo_imovel) }}</h3>
                                             </div>
                                             
                                             <div class="col-md-7">
-                                                <h3 style="font-weight: 300; margin-top: 0; margin-bottom: 20px;">Brooklin, S&atilde;o Paulo, SP</h3>
+                                                <h3 style="font-weight: 300; margin-top: 0; margin-bottom: 20px;">{{ title_case($imovel->regiao_mercadologica) }}, {{ title_case($imovel->cidade) }}, {{ $imovel->estado }}</h3>
                                             </div>
                                             
                                         </div>
@@ -296,8 +303,10 @@ use App\Http\Components\Html;
                         </div>
                     </div>
                     <!-- fim linha imovel -->
-                    @endfor
+                    @endforeach
                     
+                    
+                    {{ $imoveis->links() }}
                     
                     <div class="row">
                         <div class="col-lg-12" style="text-align: center;">
