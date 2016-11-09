@@ -71,13 +71,22 @@ img.guru-brand {max-height: 70px;}
 
 
 
-
+.guru-image-background {
+    height: 267px;
+    margin: 2px;
+    width: 100%;
+    -webkit-filter: blur(3px);
+    position: absolute;
+    background-size: cover;
+    
+}
 
 /*.guru-image {height: 120px;}*/
 .guru-image-wrapper {
-  height: 220px;
+  height: 275px;
   overflow: hidden;
-  background-color: #999;
+  position: relative;
+  margin-left: 4px;
 }
 
 .guru-image-wrapper img {

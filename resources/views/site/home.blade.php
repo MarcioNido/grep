@@ -13,7 +13,7 @@ use App\Http\Components\Html;
                     <div class="panel panel-info guru-home-panel" style="">
                         <div class="panel-heading guru-home-panel-heading">Encontre aqui o seu futuro im&oacute;vel</div>
                         <div class="panel-body guru-home-panel-body">
-                            <form class="form-group" method="post" action="{{ url('pesquisa/generate') }}">
+                            <form id="form_home" class="form-group" method="post" action="{{ url('pesquisa/generate') }}">
                                 
                                 {{ csrf_field() }}
                                 
@@ -29,9 +29,10 @@ use App\Http\Components\Html;
                                     
                                     <div class="col-sm-5 col-xs-12 guru-home-search">
                                         <input id="localidade" name="localidade" type="text" class="form-control" placeholder="Digite um bairro ou cidade ..." value="{{ $profile->localidade }}">
+                                        <input id="localidade_id" name="localidade_id" type="hidden">
                                     </div>
                                     <div class="col-sm-1 col-xs-12 guru-home-search">
-                                        <button type="submit" class="btn btn-warning guru-home-button"><span class="fa fa-search"></span></button>
+                                        <button type="button" class="btn btn-warning guru-home-button" onclick="send_form()"><span class="fa fa-search"></span></button>
                                     </div>
                   
                                 </div>
@@ -220,6 +221,8 @@ use App\Http\Components\Html;
         
     </div> 
     
+
+
 
 
 @endsection

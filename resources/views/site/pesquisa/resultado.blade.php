@@ -217,8 +217,12 @@ use App\Site\Foto;
                                     }
                                     ?>
                                     
-                                    <div class="col-md-4 col-sm-12" style="padding-left: 1px; padding-right: 1px;">
-                                        <a href="#"><img src="{{ $arquivo }}" class="img-responsive lazyload" /></a>
+                                    <div class="col-md-4 col-sm-12 guru-image-item" style="padding-left: 1px; padding-right: 1px;">
+                                        <div class="guru-image-background" style="background-image: url('{{ $arquivo }}')"></div>
+                                        <div class="guru-image-wrapper" style='background: transparent;'>
+                                            <a href="#"><img src="{{ $arquivo }}" class="img-responsive lazyload" /></a>
+                                        </div>
+                                        
                                     </div>
                                     <div class="col-md-8 col-sm-12">
                                         
@@ -231,7 +235,7 @@ use App\Site\Foto;
                                             </div>
                                             
                                             <div class="col-md-7">
-                                                <h3 style="font-weight: 300; margin-top: 0; margin-bottom: 20px;">{{ title_case($imovel->regiao_mercadologica) }}, {{ title_case($imovel->cidade) }}, {{ $imovel->estado }}</h3>
+                                                <h4 style="font-weight: 300; margin-top: 0; margin-bottom: 20px;">{{ title_case($imovel->regiao_mercadologica) }}, {{ title_case($imovel->cidade) }}, {{ $imovel->estado }}</h4>
                                             </div>
                                             
                                         </div>
@@ -308,32 +312,6 @@ use App\Site\Foto;
                     
                     {{ $imoveis->links() }}
                     
-                    <div class="row">
-                        <div class="col-lg-12" style="text-align: center;">
-                            
-                            <nav aria-label="Page navigation">
-                              <ul class="pagination" style="margin: 0 0 20px 0">
-                                <li>
-                                  <a href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                  </a>
-                                </li>
-                                <li class="active"><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
-                                <li>
-                                  <a href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                  </a>
-                                </li>
-                              </ul>
-                            </nav>     
-                            
-                        </div>
-                    </div>
-                            
                     
                 </div>
             </div>

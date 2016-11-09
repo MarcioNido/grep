@@ -20,8 +20,10 @@ Auth::routes();
 Route::group(['namespace' => 'Site'], function() {
     Route::get('/', 'HomeController@index');
     Route::get('/home', 'HomeController@index');
-    Route::get('/venda/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@venda');
-    Route::get('/locacao/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@locacao');
+    Route::get('/venda/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@generate');
+    Route::post('/venda/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@generate');    
+    Route::get('/locacao/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@generate');
     Route::post('/pesquisa/generate', 'PesquisaController@generate');
+    Route::get('/pesquisa/aclocalidade', 'PesquisaController@aclocalidade');
 });
 
