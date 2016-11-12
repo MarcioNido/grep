@@ -53,7 +53,10 @@ class importaLocalidade extends Command
                         [
                             'nome' => mb_convert_case(trim($cidade->cidade), MB_CASE_TITLE),
                             'descricao' => mb_convert_case(trim($cidade->cidade), MB_CASE_TITLE)." - ".$cidade['estado'],
+                            'estado' => $cidade->estado,
+                            'cidade' => mb_convert_case(trim($cidade->cidade), MB_CASE_TITLE),
                             'url'=> $this->toUrl(trim($cidade->estado)).'/'.$this->toUrl(trim($cidade->cidade)).'/todas-as-regioes',
+                            'tipo' => 1,
                         ]);
             } catch (Illuminate\Database\QueryException $ex) {
 
@@ -80,6 +83,10 @@ class importaLocalidade extends Command
                             'nome' => mb_convert_case(trim($regiao->regiao_mercadologica), MB_CASE_TITLE),
                             'descricao' => mb_convert_case(trim($regiao->regiao_mercadologica), MB_CASE_TITLE)." - ".mb_convert_case(trim($regiao->cidade), MB_CASE_TITLE)." - ".$regiao['estado'],
                             'url'=> $this->toUrl($regiao->estado).'/'.$this->toUrl(trim($regiao->cidade)).'/'. $this->toUrl(trim($regiao->regiao_mercadologica)),
+                            'cidade' => mb_convert_case(trim($regiao->cidade), MB_CASE_TITLE),
+                            'estado' => $regiao->estado,
+                            'regiao' => mb_convert_case(trim($regiao->regiao_mercadologica), MB_CASE_TITLE),
+                            'tipo'=>2,
                         ]);
                 
             } catch (Illuminate\Database\QueryException $ex) {

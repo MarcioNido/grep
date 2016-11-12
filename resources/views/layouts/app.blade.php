@@ -8,11 +8,12 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title')</title>
 
     <!-- Styles -->
-    <link href="/vendor/chosen/chosen.min.css" rel="stylesheet">
-    <link href="/css/guru-chosen.css" rel="stylesheet">
+    <link href="/vendor/select2/dist/css/select2.min.css" rel="stylesheet">
+    <link href="/vendor/select2-bootstrap/dist/select2-bootstrap.min.css" rel="stylesheet">
+    
     <link href="/vendor/font-awesome-4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <link href="/vendor/jquery-ui/jquery-ui.min.css" rel="stylesheet">
     <link href="/css/app.css" rel="stylesheet">
@@ -102,41 +103,22 @@
     
     <!-- Scripts -->
     <script src="/js/app.js"></script>
-    <script src="/vendor/chosen/chosen.jquery.min.js"></script>
+    <script src="/vendor/select2/dist/js/select2.min.js"></script>
     <script src="/vendor/jquery-ui/jquery-ui.js"></script>
 </body>
 </html>
 
+@stack('scripts')
+
 <script language="javascript">
 $(document).ready(function() {
-    $(".guru-chosen").chosen({ width: "100%" });
-    $(".guru-chosen-no-search").chosen({ width: "100%", disable_search: true });
-});    
-</script>
-
-<script language="javascript">
-$(function()
-{  
-    $('#localidade').autocomplete({
-
-          source: "pesquisa/aclocalidade",
-          minLength: 3,
-          select: function(event, ui) {
-              $('#localidade').val(ui.item.value);
-              $('#localidade_id').val(ui.item.id);
-          }
-
+    
+    $(".guru-select").select2({
+        theme: "bootstrap",
+        minimumResultsForSearch: 15
     });
+    
+    
 });    
-    
-function send_form()
-{
-    var url = '/' + $('#tipo_negocio').val();
-    url = url + '/' + $('#localidade_id').val();
-    url = url + '/' + $('#tipo_imovel').val();
-    
-    $('#form_home').attr('action',  url);
-    $('#form_home').submit();
-    
-}
 </script>
+

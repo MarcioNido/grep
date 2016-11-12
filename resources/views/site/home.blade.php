@@ -1,12 +1,15 @@
 <?php
 use App\Http\Components\Html;
+use App\Site\Localidade;
+
+//var_dump($profile);
 ?>
 
 @extends('layouts.app')
 
 @section('content')
 
-    <div class="container-fluid" style="background: #ddd url(images/AdobeStock_103524609_WM.jpeg) top no-repeat; height: 490px; overflow: hidden">
+    <div class="container-fluid" style="background: #ddd url(images/AdobeStock_103524609_WM.jpeg) top no-repeat; height: 490px;">
         <div class="">
             <div class="row">
                 <div class="col-lg-8 guru-home-panel-container" style="">
@@ -20,16 +23,16 @@ use App\Http\Components\Html;
                                 <div class="row">
 
                                     <div class="col-sm-3 col-xs-6 guru-home-search">
-                                        <?php echo Html::dropDownList('tipo_negocio', $profile->tipo_negocio, ['venda'=>'Comprar', 'locacao'=>'Alugar'], ['class'=>'form-control guru-chosen-no-search']); ?>
+                                        <?php echo Html::dropDownList('tipo_negocio', $profile->tipo_negocio, ['venda'=>'Comprar', 'locacao'=>'Alugar'], ['class'=>'form-control guru-select', 'style' => 'width: 100%']); ?>
                                     </div>
                                     
                                     <div class="col-sm-3 col-xs-6 guru-home-search">
-                                        <?php echo Html::dropDownList('tipo_imovel', $profile->tipo_imovel, ['apartamento'=>'Apartamento', 'casa'=>'Casa', 'terreno'=>'Terreno'], ['class'=>'form-control guru-chosen-no-search']); ?>
+                                        <?php echo Html::dropDownList('tipo_imovel', $profile->tipo_imovel, ['apartamento'=>'Apartamento', 'casa'=>'Casa', 'comercial'=>'Comercial', 'terreno'=>'Terreno', 'flat' => 'Flat', 'rural' => 'Rural'], ['class'=>'form-control guru-select', 'style' => 'width: 100%']); ?>
                                     </div>
                                     
                                     <div class="col-sm-5 col-xs-12 guru-home-search">
-                                        <input id="localidade" name="localidade" type="text" class="form-control" placeholder="Digite um bairro ou cidade ..." value="{{ $profile->localidade }}">
-                                        <input id="localidade_id" name="localidade_id" type="hidden">
+                                        <?php //echo Html::dropDownList('localidade_id', $profile->localidade_id, Localidade::getList(), ['class'=>'form-control']); ?>
+                                        <?php echo Localidade::getDropDown($profile->localidade_url); ?>
                                     </div>
                                     <div class="col-sm-1 col-xs-12 guru-home-search">
                                         <button type="button" class="btn btn-warning guru-home-button" onclick="send_form()"><span class="fa fa-search"></span></button>
@@ -220,9 +223,21 @@ use App\Http\Components\Html;
         
         
     </div> 
-    
-
-
-
 
 @endsection
+
+@push('scripts')
+<script language='javascript'>
+
+function send_form()
+{
+    var url = '/' + $('#tipo_negocio').val();
+    url = url + '/' + $('#localidade_url').val();
+    url = url + '/' + $('#tipo_imovel').val();
+    
+    $('#form_home').attr('action',  url);
+    $('#form_home').submit();
+    
+}
+</script>
+@endpush  
