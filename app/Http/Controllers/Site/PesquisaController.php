@@ -86,38 +86,19 @@ class PesquisaController extends Controller
     {
 
         
-        // retrieve localidade_url
         if ($request->isMethod('post')) {
-            $this->_filter['localidade_url'] = $request->localidade_url;
+            
+            $this->setPostFilter($request, $tipo_negocio);
+            
         } else { 
-            $this->_filter['localidade_url'] = $request->estado.'/'.$request->cidade.'/'.$request->regiao;
+
+            $this->setGetFilter($request, $tipo_negocio);
+            
         }
         
-        // fetch localidade record
-        // @todo: treat this error 
-        $localidade = Localidade::where('localidade_url', $this->_filter['localidade_url'])->first();
-
-
-        // set properties ... 
-        $this->_filter['tipo_negocio']   = $tipo_negocio;                // comes from the route ... 
-        $this->_filter['estado']         = $localidade->estado;          // localidade
-        $this->_filter['cidade']         = $localidade->cidade;          // localidade
-        $this->_filter['regiao']         = $localidade->regiao;          // localidade
-        $this->_filter['tipo_imovel']    = $request->tipo_imovel;        // get or post ...
         
-        // optional filters ... may not exist ...
-        $this->_filter['valor_minimo']   = $request->valor_minimo;       // post (filter only)
-        $this->_filter['valor_maximo']   = $request->valor_maximo;       // post (filter only)
-        $this->_filter['area_minima']    = $request->area_minima;        // post (filter only)
-        $this->_filter['area_maxima']    = $request->area_maxima;        // post (filter only)
-        
-        $this->_filter['dormitorios']    = $request->dormitorios;        // post (filter only)
-        $this->_filter['vagas']          = $request->vagas;              // post (filter only)
-        
-        $this->_filter['order']          = 'data_cadastro_sk';
-
         // sets the condition clause ... 
-        $this->setCondition($request);
+        $this->setCondition();
         
         // retrieve rows 
         $imoveis = Imovel::where($this->_condition)->orderBy($this->_filter['order'], 'desc')->paginate(10);
@@ -137,7 +118,101 @@ class PesquisaController extends Controller
         
     }
     
-    protected function setCondition(Request $request)
+    /**
+     * Sets the filters received by a post request 
+     * @param Request $request
+     * @param type $tipo_negocio
+     */
+    protected function setPostFilter(Request $request, $tipo_negocio)
+    {
+
+        // clears session filters because they will be sent via post (or not if it is from home)
+        $this->clearSessionFilters($request);
+
+        // gets localidade record
+        $localidade = Localidade::where('localidade_url', $request->localidade_url)->first();
+        if ($localidade == null) {
+            abort(404);
+        }
+
+        // set filters from post request 
+        $this->_filter['localidade_url'] = $request->localidade_url;
+        $this->_filter['tipo_negocio']   = $tipo_negocio;                // comes from the route ... 
+        $this->_filter['estado']         = $localidade->estado;          // localidade
+        $this->_filter['cidade']         = $localidade->cidade;          // localidade
+        $this->_filter['regiao']         = $localidade->regiao;          // localidade
+        $this->_filter['tipo_imovel']    = $request->tipo_imovel;        // get or post ...
+
+        // optional filters ... may not exist ...
+
+        $this->_filter['valor_minimo']   = $request->valor_minimo;       // post (filter only)
+        $this->_filter['valor_maximo']   = $request->valor_maximo;       // post (filter only)
+        $this->_filter['area_minima']    = $request->area_minima;        // post (filter only)
+        $this->_filter['area_maxima']    = $request->area_maxima;        // post (filter only)
+
+        $this->_filter['dormitorios']    = $request->dormitorios;        // post (filter only)
+        $this->_filter['vagas']          = $request->vagas;              // post (filter only)
+
+        $this->_filter['order']          = 'data_cadastro_sk';
+        
+        // saves the filters in session
+        $this->setSessionFilters($request);
+            
+        
+    }
+    
+    /**
+     * Sets the filters when receiving a get request 
+     * @param Request $request
+     * @param type $tipo_negocio
+     */
+    protected function setGetFilter(Request $request, $tipo_negocio)
+    {
+        
+        // clerar filters ... 
+        $this->_filter = [
+            'localidade_url' => '',
+            'tipo_negocio' => '',
+            'estado' => '',
+            'cidade' => '',
+            'regiao' => '',
+            'tipo_imovel' => '',
+            'valor_minimo' => '',
+            'valor_maximo' => '',
+            'dormitorios' => '',
+            'vagas' => '',
+            'order' => '',
+        ];
+        
+        // overwrite with filters stored in session 
+        $this->getSessionFilters($request);
+
+        // localidade comes from the url, parameter names are given by the route configuration 
+        $this->_filter['localidade_url'] = $request->estado.'/'.$request->cidade.'/'.$request->regiao;
+        
+        // gets localidade record
+        $localidade = Localidade::where('localidade_url', $this->_filter['localidade_url'])->first();
+        if (! $localidade) {
+            abort(404);
+        }
+        
+        // overwrite with filters that come from the url 
+        $this->_filter['tipo_negocio']   = $tipo_negocio;                // comes from the route ... 
+        $this->_filter['estado']         = $localidade->estado;          // localidade
+        $this->_filter['cidade']         = $localidade->cidade;          // localidade
+        $this->_filter['regiao']         = $localidade->regiao;          // localidade
+        $this->_filter['tipo_imovel']    = $request->tipo_imovel;        // get or post ...
+
+        // saves the filters in session
+        $this->setSessionFilters($request);
+        
+        
+    }
+    
+    /**
+     * Sets the condition to retrieve rows from properties 
+     */
+    protected function setCondition()
     {
         
         
@@ -152,6 +227,46 @@ class PesquisaController extends Controller
         $this->_condition[] = ['cidade', $this->_filter['cidade']];
         if ($this->_filter['regiao'] !== NULL) {
             $this->_condition[] = ['regiao_mercadologica', ($this->_filter['regiao'])];
+        }
+        if (isset($this->_filter['dormitorios']) && (int) $this->_filter['dormitorios'] != 0) {
+            $this->_condition[] = ['dormitorio', '>=', $this->_filter['dormitorios']];
+        }
+        
+        
+    }
+    
+    /**
+     * Saves filters in session
+     */
+    protected function setSessionFilters(Request $request)
+    {
+        
+        $request->session()->set('filter', $this->_filter);
+        
+    }
+    
+    /**
+     * Gets session filters that are not passed via get 
+     */
+    protected function getSessionFilters(Request $request)
+    {
+        
+        if ($request->session()->has('filter')) {
+            
+            $this->_filter = $request->session()->get('filter');
+        }
+        
+    }
+    
+    /**
+     * Clears the session filters 
+     * @param Request $request
+     */
+    protected function clearSessionFilters(Request $request)
+    {
+        
+        if ($request->session()->has('filter')) {
+            $request->session()->remove('filter');
         }
         
     }

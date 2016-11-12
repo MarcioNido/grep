@@ -70,21 +70,23 @@ use App\Site\Localidade;
             <div class="row">
                 <div class="col-md-12">
                     <label>Dormit&oacute;rios</label>
+                    <a href="javascript:void(0)" onclick="filtroDormitorios(0)" style="float: right;"><span class="fa fa-close"></span></a>
+                    <input type="hidden" id="dormitorios" name="dormitorios" value="{{ $filter['dormitorios'] }}" />
                     <div class="btn-group btn-group-justified" role="group">
                         <div class="btn-group" role="group">
                             <button type="button" class="btn {{ $filter['dormitorios'] == 1 ? 'btn-primary' : 'btn-default' }}" onclick="filtroDormitorios(1)">1+</button>
                         </div>
                         <div class="btn-group" role="group">
-                            <button type="button" class="btn {{ $filter['dormitorios'] == 1 ? 'btn-primary' : 'btn-default' }}" onclick="filtroDormitorios(2)">2+</button>
+                            <button type="button" class="btn {{ $filter['dormitorios'] == 2 ? 'btn-primary' : 'btn-default' }}" onclick="filtroDormitorios(2)">2+</button>
                         </div>                                        
                         <div class="btn-group" role="group">
-                            <button type="button" class="btn {{ $filter['dormitorios'] == 1 ? 'btn-primary' : 'btn-default' }}" onclick="filtroDormitorios(3)">3+</button>
+                            <button type="button" class="btn {{ $filter['dormitorios'] == 3 ? 'btn-primary' : 'btn-default' }}" onclick="filtroDormitorios(3)">3+</button>
                         </div>
                         <div class="btn-group" role="group">
-                            <button type="button" class="btn {{ $filter['dormitorios'] == 1 ? 'btn-primary' : 'btn-default' }}" onclick="filtroDormitorios(4)">4+</button>
+                            <button type="button" class="btn {{ $filter['dormitorios'] == 4 ? 'btn-primary' : 'btn-default' }}" onclick="filtroDormitorios(4)">4+</button>
                         </div>
                         <div class="btn-group" role="group">
-                            <button type="button" class="btn {{ $filter['dormitorios'] == 1 ? 'btn-primary' : 'btn-default' }}" onclick="filtroDormitorios(5)">5+</button>
+                            <button type="button" class="btn {{ $filter['dormitorios'] == 5 ? 'btn-primary' : 'btn-default' }}" onclick="filtroDormitorios(5)">5+</button>
                         </div>     
                     </div>
                 </div>                                
@@ -146,6 +148,12 @@ use App\Site\Localidade;
 function filtroTipoNegocio(tipo) 
 {
     $('#tipo_negocio').val(tipo);
+    sendForm();
+}
+
+function filtroDormitorios(dorms)
+{
+    $('#dormitorios').val(dorms);
     sendForm();
 }
 

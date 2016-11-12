@@ -142,7 +142,7 @@ $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter
                                                     </div>
                                                     <div class="col-xs-3 col-md-2">
                                                         <h7 style="color: #333333; font-weight: 300">Dorms.</h7>
-                                                        <h5 style="margin-top: 0; font-weight: 300">4</h5>                                                        
+                                                        <h5 style="margin-top: 0; font-weight: 300">{{ $imovel->dormitorio }}</h5>                                                        
                                                     </div>
                                                     <div class="col-xs-3 col-md-2">
                                                         <h7 style="color: #333333; font-weight: 300">Su&iacute;tes</h7>
