@@ -76,12 +76,12 @@ $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter
                                     if ($foto != null) { 
                                         $arquivo = "http://www.leardi.com.br/imagens/".$foto->arquivo;
                                     } else { 
-                                        $arquivo = "";
+                                        $arquivo = "/images/semfoto.png";
                                     }
                                     ?>
                                     
                                     <div class="col-md-4 col-sm-12 guru-image-item" style="padding-left: 1px; padding-right: 1px;">
-                                        <div class="guru-image-background" style="background-image: url('{{ $arquivo }}')"></div>
+                                        <div class="guru-image-background" style="background-image: url('{{ $arquivo != '/images/semfoto.png' ? $arquivo : '' }}')"></div>
                                         <div class="guru-image-wrapper" style='background: transparent;'>
                                             <a href="#"><img src="{{ $arquivo }}" class="img-responsive guru-image" /></a>
                                         </div>
@@ -89,32 +89,28 @@ $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter
                                     </div>
                                     <div class="col-md-8 col-sm-12">
                                         
-                                        <div class="row" style="margin-top: 5px;">
+                                        <div class="row" style="margin-top: 10px;">
                                             
                                             <!--<div class="col-md-12 guru-special-line">&nbsp;</div>-->
                                             
-                                            <div class="col-md-5">
-                                                <h3 style="font-weight: 300; margin-top: 0; margin-bottom: 0;">{{ title_case($imovel->tipo_imovel) }}</h3>
-                                            </div>
-                                            
-                                            <div class="col-md-7">
-                                                <h4 style="font-weight: 300; margin-top: 0; margin-bottom: 15px;">{{ title_case($imovel->regiao_mercadologica) }}, {{ title_case($imovel->cidade) }}, {{ $imovel->estado }}</h4>
+                                            <div class="col-md-12">
+                                                <h4 style="font-weight: 300; margin-top: 0; margin-bottom: 0;">{{ title_case($imovel->tipo_imovel) }} em {{ trim(title_case($imovel->regiao_mercadologica)) }}, {{ title_case($imovel->cidade) }}, {{ $imovel->estado }}</h4>
                                             </div>
                                             
                                         </div>
                                         
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h7 style="color: #333333; font-weight: 300">Pre&ccedil;o</h7>
-                                                <h5 style="margin-top: 0; font-weight: 300">R$ <?=  Html::moneyMask($imovel->valor_venda); ?></h5>
+                                        <div class="row" style="margin-top: 10px;">
+                                            <div class="col-sm-4">
+                                                <h6 style="color: #333333; font-weight: 300" class="guru-label">Pre&ccedil;o</h6>
+                                                <h4 style="margin-top: 0; font-weight: 300;">R$ <?= $filter['tipo_negocio'] == 'venda' ? Html::moneyMask($imovel->valor_venda) : Html::moneyMask($imovel->valor_locacao) ; ?></h4>
                                             </div>
-                                            <div class="col-sm-3 hidden-xs">
-                                                <h7 style="color: #333333; font-weight: 300">IPTU</h7>
-                                                <h5 style="margin-top: 0; font-weight: 300">R$ 25.000,00</h5>
+                                            <div class="col-sm-4 hidden-xs">
+                                                <h6 style="color: #333333; font-weight: 300" class="guru-label">IPTU</h6>
+                                                <h4 style="margin-top: 0; font-weight: 300;">R$ <?= Html::moneyMask($imovel->valor_iptu) ?></h4>
                                             </div>
-                                            <div class="col-sm-6 hidden-xs">
-                                                <h7 style="color: #333333; font-weight: 300">Condom&iacute;nio</h7>
-                                                <h5 style="margin-top: 0; font-weight: 300">R$ 5.000,00</h5>
+                                            <div class="col-sm-4 hidden-xs">
+                                                <h6 style="color: #333333; font-weight: 300" class="guru-label">Condom&iacute;nio</h7>
+                                                <h4 style="margin-top: 0; font-weight: 300;">R$ <?= Html::moneyMask($imovel->valor_condominio) ?></h4>
                                             </div>                                          
                                         </div>
                                         
@@ -122,12 +118,7 @@ $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter
                                             
                                             <div class="col-md-12">
                                                 <div class="guru-result-text-placeholder">
-                                                        <p style="color: #666666; font-weight: 300">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                        dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                        dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                        dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                        dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.
-                                                        </p>
+                                                        <p style="color: #666666; font-weight: 300"><?= $imovel->texto_promocional ?></p>
                                                 </div>
                                             </div>
                                             
@@ -135,26 +126,26 @@ $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter
                                         
                                         <div class="row">
                                             <div class="col-md-9">
-                                                <div class="row">
+                                                <div class="row" style="text-align: center;">
                                                     <div class="col-xs-3 col-md-3">
-                                                        <h7 style="color: #333333; font-weight: 300">&Aacute;rea (&#13217;)</h7>
-                                                        <h5 style="margin-top: 0; font-weight: 300">250</h5>                                                        
+                                                        <h6 style="color: #333333; font-weight: 300" class="guru-label">&Aacute;rea (&#13217;)</h6>
+                                                        <h4 style="margin-top: 0; font-weight: 300">250</h4>                                                     
                                                     </div>
-                                                    <div class="col-xs-3 col-md-2">
-                                                        <h7 style="color: #333333; font-weight: 300">Dorms.</h7>
-                                                        <h5 style="margin-top: 0; font-weight: 300">{{ $imovel->dormitorio }}</h5>                                                        
+                                                    <div class="col-xs-3 col-md-3">
+                                                        <h6 style="color: #333333; font-weight: 300" class="guru-label">Dorms.</h6>
+                                                        <h4 style="margin-top: 0; font-weight: 300">{{ $imovel->dormitorio }}</h4>                                                        
                                                     </div>
-                                                    <div class="col-xs-3 col-md-2">
-                                                        <h7 style="color: #333333; font-weight: 300">Su&iacute;tes</h7>
-                                                        <h5 style="margin-top: 0; font-weight: 300">3</h5>                                                        
+                                                    <div class="col-xs-3 col-md-3">
+                                                        <h6 style="color: #333333; font-weight: 300" class="guru-label">Su&iacute;tes</h6>
+                                                        <h4 style="margin-top: 0; font-weight: 300">3</h4>                                                     
                                                     </div>
-                                                    <div class="col-xs-3 col-md-5">
-                                                        <h7 style="color: #333333; font-weight: 300">Vagas</h7>
-                                                        <h5 style="margin-top: 0; font-weight: 300">4</h5>                                                        
+                                                    <div class="col-xs-3 col-md-3">
+                                                        <h6 style="color: #333333; font-weight: 300" class="guru-label">Vagas</h6>
+                                                        <h4 style="margin-top: 0; font-weight: 300">4</h4>                                                       
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3 col-sm-12" style="margin-top: 5px; padding-bottom: 10px;">
+                                            <div class="col-md-3 col-sm-12" style="margin-top: 12px;">
                                                 <a href="index.php?r=site/detalhe&id=123456" class="btn btn-warning" style="width: 100%; font-weight: 300"><span class="fa fa-search-plus"></span> Detalhes</a>
                                             </div>
                                         </div>

@@ -44,10 +44,12 @@ img.guru-brand {max-height: 70px;}
 
 .guru-select {width: 100%;}
 
-.guru-result-text-placeholder {height: 117px; overflow: hidden; margin-bottom: 10px; vertical-align: middle;}
+.guru-result-text-placeholder {height: 85px; overflow: hidden; margin-bottom: 15px; vertical-align: middle;}
 @media (max-width:1469px) {
-    .guru-result-text-placeholder {height: 65px;}
+    .guru-result-text-placeholder {height: 48px;}
 }
+
+h6.guru-label {margin-bottom: 2px;}
 
 .panel-info {
     border-color: #666666;

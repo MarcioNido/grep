@@ -34,7 +34,7 @@ class Html
     
     public static function textInput($name, $value='', $options=[])
     {
-        $html = '<input type="tel" pattern="[0-9]*" id="'.$name.'" name="' .$name. '" value="'.$value.'" ';
+        $html = '<input type="text" id="'.$name.'" name="' .$name. '" value="'.$value.'" ';
         if ($options) {
             foreach($options as $key => $value) {
                 $html.= $key.'="'.$value.'" ';
