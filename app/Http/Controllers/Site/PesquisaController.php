@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
 use App\Site\Imovel;
 use App\Site\Localidade;
+use App\Http\Components\Html;
 
 //use Illuminate\Http\Request;
 
@@ -230,6 +231,11 @@ class PesquisaController extends Controller
         }
         if (isset($this->_filter['dormitorios']) && (int) $this->_filter['dormitorios'] != 0) {
             $this->_condition[] = ['dormitorio', '>=', $this->_filter['dormitorios']];
+        }
+        if (isset($this->_filter['valor_minimo']) && (float) $this->_filter['valor_minimo'] != 0.00) {
+            if ($this->_filter['tipo_negocio'] == 'venda') {
+                $this->_condition[] = ['valor_venda', '>=', Html::removeMask($this->_filter['valor_minimo'])];
+            }
         }
         
         

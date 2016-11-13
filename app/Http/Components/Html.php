@@ -34,7 +34,7 @@ class Html
     
     public static function textInput($name, $value='', $options=[])
     {
-        $html = '<input type="text" id="'.$name.'" value="'.$value.'" ';
+        $html = '<input type="text" pattern="[0-9]*" id="'.$name.'" name="' .$name. '" value="'.$value.'" ';
         if ($options) {
             foreach($options as $key => $value) {
                 $html.= $key.'="'.$value.'" ';
@@ -43,6 +43,28 @@ class Html
         $html .= '/>';
         
         return $html;
+    }
+    
+    public static function removeMask($value)
+    {
+            $value = str_replace(",", ".", str_replace(".", "", $value));
+            if($value > 0) {
+                    return $value;
+            } else {
+                    return 0;
+            }
+        
+    }
+    
+    public static function moneyMask($value, $decimals=2)
+    {
+         if (is_numeric($value)) { 
+            if ($value == "") {
+                $value = 0;
+            }
+            $value = number_format($value, $decimals, ",", ".");
+         } 
+         return $value;
     }
     
 }

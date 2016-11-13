@@ -106,7 +106,7 @@ $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <h7 style="color: #333333; font-weight: 300">Pre&ccedil;o</h7>
-                                                <h5 style="margin-top: 0; font-weight: 300">R$ 5.000.000,00</h5>
+                                                <h5 style="margin-top: 0; font-weight: 300">R$ <?=  Html::moneyMask($imovel->valor_venda); ?></h5>
                                             </div>
                                             <div class="col-sm-3 hidden-xs">
                                                 <h7 style="color: #333333; font-weight: 300">IPTU</h7>

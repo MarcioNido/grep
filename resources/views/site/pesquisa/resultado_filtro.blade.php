@@ -53,13 +53,13 @@ use App\Site\Localidade;
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="valor_minimo">Valor M&iacute;nimo</label>
-                        <?= Html::textInput('valor_minimo', $filter['valor_minimo'], ['class'=>'form-control', 'style'=>'text-align: right;', 'placeholder' => 'Indiferente']) ?>
+                        <?= Html::textInput('valor_minimo', $filter['valor_minimo'], ['class'=>'form-control filtro', 'style'=>'text-align: right;', 'placeholder' => 'Indiferente', 'data-mask' => '#.##0', 'data-mask-reverse' => 'true' ]) ?>
                     </div>
                 </div>                                
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="valor_maximo">Valor M&aacute;ximo</label>
-                        <?= Html::textInput('valor_maximo', $filter['valor_maximo'], ['class'=>'form-control', 'style'=>'text-align: right;', 'placeholder' => 'Indiferente']) ?>
+                        <?= Html::textInput('valor_maximo', $filter['valor_maximo'], ['class'=>'form-control filtro', 'style'=>'text-align: right;', 'placeholder' => 'Indiferente', 'data-mask' => '#.##0', 'data-mask-reverse' => 'true']) ?>
                     </div>
                 </div>                                       
             </div>

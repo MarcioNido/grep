@@ -105,6 +105,7 @@
     <script src="/js/app.js"></script>
     <script src="/vendor/select2/dist/js/select2.min.js"></script>
     <script src="/vendor/jquery-ui/jquery-ui.js"></script>
+    <script src="/vendor/jquery.mask.min.js"></script>
 </body>
 </html>
 
