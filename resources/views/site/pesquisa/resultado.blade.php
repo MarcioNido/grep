@@ -83,7 +83,7 @@ $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter
                                     <div class="col-md-4 col-sm-12 guru-image-item" style="padding-left: 1px; padding-right: 1px;">
                                         <div class="guru-image-background" style="background-image: url('{{ $arquivo }}')"></div>
                                         <div class="guru-image-wrapper" style='background: transparent;'>
-                                            <a href="#"><img src="{{ $arquivo }}" class="img-responsive lazyload" /></a>
+                                            <a href="#"><img src="{{ $arquivo }}" class="img-responsive guru-image" /></a>
                                         </div>
                                         
                                     </div>

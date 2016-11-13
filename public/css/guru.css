@@ -98,6 +98,10 @@ img.guru-brand {max-height: 70px;}
   margin-left: 4px;
 }
 
+.guru-image {
+     display: inherit;
+}
+
 @media (max-width: 1469px) {
     .guru-image-wrapper {height: 210px;}
     .guru-image-background {height: 210px;}
