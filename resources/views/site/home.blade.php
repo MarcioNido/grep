@@ -16,7 +16,7 @@ use App\Site\Localidade;
                     <div class="panel panel-info guru-home-panel" style="">
                         <div class="panel-heading guru-home-panel-heading">Encontre aqui o seu futuro im&oacute;vel</div>
                         <div class="panel-body guru-home-panel-body">
-                            <form id="form_home" class="form-group" method="post" action="{{ url('pesquisa/generate') }}">
+                            <form id="form_home" class="form-group" method="post" action="#">
                                 
                                 {{ csrf_field() }}
                                 
@@ -231,6 +231,12 @@ use App\Site\Localidade;
 
 function send_form()
 {
+    
+    if ($('#localidade_url').val() == '') {
+        window.alert('Favor selecionar uma localidade ...');
+        return false;
+    }
+    
     var url = '/' + $('#tipo_negocio').val();
     url = url + '/' + $('#localidade_url').val();
     url = url + '/' + $('#tipo_imovel').val();

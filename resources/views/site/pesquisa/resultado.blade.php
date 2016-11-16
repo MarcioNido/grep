@@ -3,6 +3,7 @@ use App\Http\Components\Html;
 use App\Site\Foto;
 
 $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter['regiao'] != null ? $filter['regiao']. ' - ' : '') . $filter['cidade'] . ' - ' . $filter['estado'] . ' - Paulo Roberto Leardi';
+$subtitle = Html::subtitle($imoveis->total(), $filter);
 ?>
 
 @extends('layouts.app')
@@ -29,12 +30,12 @@ $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter
 
         <div class="row">
             <div class="col-md-9">
-                <h3 style="color: #FAFAFA; font-weight: 300;"><b>18.996 </b>Casas &agrave; venda em Brooklin, S&atilde;o Paulo, SP</h3>
+                <h4 style="color: #FAFAFA; font-weight: 300;">{!! $subtitle !!}</h4>
             </div>
             <div class="col-md-3" style="text-align: right; padding-right: 40px;">
-                <form class="form-inline" style="margin-top: 10px;">
+                <form class="form-inline" style="margin-top: 3px;">
                     <div class="form-group">
-                        <?= Html::dropDownList('orderSelect', '', ['Mais Recentes' => 'Mais Recentes', 'Maior Valor' => 'Maior Valor', 'Menor Valor' => 'Menor Valor'], ['class' => 'form-control guru-select']) ?>
+                        <?= Html::dropDownList('orderSelect', $filter['order'], ['Mais Recentes' => 'Mais Recentes', 'Maior Valor' => 'Maior Valor', 'Menor Valor' => 'Menor Valor'], ['class' => 'form-control guru-select', 'onchange' => 'changeOrder()']) ?>
                     </div>
                 </form>
             </div>
@@ -59,7 +60,7 @@ $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter
                     
                 </div>
 
-                <div class="col-lg-9">
+                <div class="col-lg-9" id="ph_resultado">
 
 
                     @foreach($imoveis as $imovel)
@@ -81,7 +82,7 @@ $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter
                                     ?>
                                     
                                     <div class="col-md-4 col-sm-12 guru-image-item" style="padding-left: 1px; padding-right: 1px;">
-                                        <div class="guru-image-background" style="background-image: url('{{ $arquivo != '/images/semfoto.png' ? $arquivo : '' }}')"></div>
+                                        <div class="guru-image-background" <?php if ($arquivo != '/images/semfoto.png') echo 'style="background-image: url(\''. $arquivo .'\')"'; ?>></div>
                                         <div class="guru-image-wrapper" style='background: transparent;'>
                                             <a href="#"><img src="{{ $arquivo }}" class="img-responsive guru-image" /></a>
                                         </div>
@@ -104,14 +105,21 @@ $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter
                                                 <h6 style="color: #333333; font-weight: 300" class="guru-label">Pre&ccedil;o</h6>
                                                 <h4 style="margin-top: 0; font-weight: 300;">R$ <?= $filter['tipo_negocio'] == 'venda' ? Html::moneyMask($imovel->valor_venda) : Html::moneyMask($imovel->valor_locacao) ; ?></h4>
                                             </div>
+                                            
+                                            @if ($imovel->valor_iptu != 0)
                                             <div class="col-sm-4 hidden-xs">
                                                 <h6 style="color: #333333; font-weight: 300" class="guru-label">IPTU</h6>
                                                 <h4 style="margin-top: 0; font-weight: 300;">R$ <?= Html::moneyMask($imovel->valor_iptu) ?></h4>
                                             </div>
+                                            @endif
+                                            
+                                            @if ($imovel->valor_condominio != 0) 
                                             <div class="col-sm-4 hidden-xs">
                                                 <h6 style="color: #333333; font-weight: 300" class="guru-label">Condom&iacute;nio</h7>
                                                 <h4 style="margin-top: 0; font-weight: 300;">R$ <?= Html::moneyMask($imovel->valor_condominio) ?></h4>
-                                            </div>                                          
+                                            </div>                               
+                                            @endif
+                                            
                                         </div>
                                         
                                         <div class="row">
@@ -129,20 +137,27 @@ $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter
                                                 <div class="row" style="text-align: center;">
                                                     <div class="col-xs-3 col-md-3">
                                                         <h6 style="color: #333333; font-weight: 300" class="guru-label">&Aacute;rea (&#13217;)</h6>
-                                                        <h4 style="margin-top: 0; font-weight: 300">250</h4>                                                     
+                                                        <h4 style="margin-top: 0; font-weight: 300">{{ $imovel->tipo_simplificado == "TERRENO" || $imovel->tipo_simplificado == "RURAL" ? $imovel->area_total_terreno : $imovel->area_util_construida }}</h4>                                                     
                                                     </div>
+                                                    
+                                                    @if ( $filter['tipo_imovel'] != 'comercial' && $filter['tipo_imovel'] != 'terreno' )
                                                     <div class="col-xs-3 col-md-3">
                                                         <h6 style="color: #333333; font-weight: 300" class="guru-label">Dorms.</h6>
                                                         <h4 style="margin-top: 0; font-weight: 300">{{ $imovel->dormitorio }}</h4>                                                        
                                                     </div>
                                                     <div class="col-xs-3 col-md-3">
                                                         <h6 style="color: #333333; font-weight: 300" class="guru-label">Su&iacute;tes</h6>
-                                                        <h4 style="margin-top: 0; font-weight: 300">3</h4>                                                     
+                                                        <h4 style="margin-top: 0; font-weight: 300">{{ $imovel->suite }}</h4>                                                     
                                                     </div>
+                                                    @endif
+                                                    
+                                                    @if ($imovel->vaga != 0) 
                                                     <div class="col-xs-3 col-md-3">
                                                         <h6 style="color: #333333; font-weight: 300" class="guru-label">Vagas</h6>
-                                                        <h4 style="margin-top: 0; font-weight: 300">4</h4>                                                       
+                                                        <h4 style="margin-top: 0; font-weight: 300">{{ $imovel->vaga }}</h4>                                                       
                                                     </div>
+                                                    @endif
+                                                    
                                                 </div>
                                             </div>
                                             <div class="col-md-3 col-sm-12" style="margin-top: 12px;">

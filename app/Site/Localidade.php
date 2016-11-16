@@ -11,13 +11,19 @@ class Localidade extends Model
     
     public static function getList() 
     {
-        return self::where('active', 1)->orderBy('descricao')->pluck('descricao', 'url');
+        return self::where('active', 1)->orderBy('descricao')->pluck('descricao', 'localidade_url');
     }
-    
-    public static function getDropDown($selectedValue='')
+
+    /**
+     * Generates the dropdownlist for localidade
+     * @param type $selectedValue
+     * @param string $allowClear if it is allowed to clear the field ('true' for the home, 'false' for the filter)
+     * @return string
+     */
+    public static function getDropDown($selectedValue='', $allowClear='true')
     {
         
-          $html  = "<select name='localidade_url' id='localidade_url' class='form-control guru-select filtro' data-placeholder='Selecione uma cidade ou região ...' data-allow-clear='true' style='width:100%'>";
+          $html  = "<select name='localidade_url' id='localidade_url' class='form-control guru-select filtro' data-placeholder='Selecione uma cidade ou região ...' data-allow-clear='{$allowClear}' style='width:100%'>";
           $html .= "<option></option>";
           // pega as cidades 
           $cidades = self::where('tipo', 1)->orderBy('estado')->orderBy('cidade')->get();

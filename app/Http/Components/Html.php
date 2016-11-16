@@ -67,4 +67,35 @@ class Html
          return $value;
     }
     
+    // $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter['regiao'] != null ? $filter['regiao']. ' - ' : '') . $filter['cidade'] . ' - ' . $filter['estado'] . ' - Paulo Roberto Leardi';
+
+    public static function subtitle($quant, $filter)
+    {
+        
+        $plural = [
+            'apartamento' => 'Apartamentos',
+            'casa' => 'Casas',
+            'comercial' => 'Imóveis Comerciais',
+            'rural' => 'Propriedades Rurais',
+            'terreno' => 'Terrenos',
+            'flat' => 'Flats',
+        ];
+        
+        $text  = "<b>".$quant . "</b> ";
+        
+        $text .= $plural[$filter['tipo_imovel']];
+        if ($filter['tipo_negocio'] == 'venda') {
+            $text .= ' à Venda';
+        } else { 
+            $text .= " para Alugar";
+        }
+        
+        $text .= ' em '. ($filter['regiao'] != null ? mb_convert_case($filter['regiao'], MB_CASE_TITLE). ', ' : '') . mb_convert_case($filter['cidade'], MB_CASE_TITLE) . ', ' . $filter['estado'];
+
+        return $text;
+        
+    }
+    
+    
+    
 }

@@ -41,7 +41,8 @@ class PesquisaController extends Controller
      *
      * @var string sql order clause
      */
-    protected $_order;
+    protected $_order_fld;
+    protected $_order_ad;
     
     
     /**
@@ -102,18 +103,16 @@ class PesquisaController extends Controller
         $this->setCondition();
         
         // retrieve rows 
-        $imoveis = Imovel::where($this->_condition)->orderBy($this->_filter['order'], 'desc')->paginate(10);
-
-
+        $imoveis = Imovel::where($this->_condition)->orderBy($this->_order_fld, $this->_order_ad)->paginate(10);
         
         // if it is a post, create or update the search cookies
         if ($request->isMethod('post')) {
             
-            Cookie::queue('tipo_negocio', $this->_filter['tipo_negocio']);
-            Cookie::queue('tipo_imovel', $this->_filter['tipo_imovel']);
-            Cookie::queue('localidade_url', $this->_filter['localidade_url']);
+            $this->setCookies();
             
         }
+        
+        $this->logAction($request);
         
         return $imoveis;
         
@@ -154,7 +153,7 @@ class PesquisaController extends Controller
         $this->_filter['dormitorios']    = $request->dormitorios;        // post (filter only)
         $this->_filter['vagas']          = $request->vagas;              // post (filter only)
 
-        $this->_filter['order']          = 'data_cadastro_sk';
+        $this->_filter['order']          = $request->order;
         
         // saves the filters in session
         $this->setSessionFilters($request);
@@ -182,7 +181,7 @@ class PesquisaController extends Controller
             'valor_maximo' => '',
             'dormitorios' => '',
             'vagas' => '',
-            'order' => '',
+            'order' => 'Mais Recentes',
         ];
         
         // overwrite with filters stored in session 
@@ -229,14 +228,91 @@ class PesquisaController extends Controller
         if ($this->_filter['regiao'] !== NULL) {
             $this->_condition[] = ['regiao_mercadologica', ($this->_filter['regiao'])];
         }
+        
+        // DORMITORIOS
         if (isset($this->_filter['dormitorios']) && (int) $this->_filter['dormitorios'] != 0) {
             $this->_condition[] = ['dormitorio', '>=', $this->_filter['dormitorios']];
         }
+        
+        // VAGAS
+        if (isset($this->_filter['vagas']) && (int) $this->_filter['vagas'] != 0) {
+            $this->_condition[] = ['vaga', '>=', $this->_filter['vagas']];
+        }
+
+        // VALOR MINIMO
         if (isset($this->_filter['valor_minimo']) && (float) $this->_filter['valor_minimo'] != 0.00) {
             if ($this->_filter['tipo_negocio'] == 'venda') {
                 $this->_condition[] = ['valor_venda', '>=', Html::removeMask($this->_filter['valor_minimo'])];
+            } else {
+                $this->_condition[] = ['valor_locacao', '>=', Html::removeMask($this->_filter['valor_minimo'])];
             }
         }
+        
+        // VALOR MAXIMO
+        if (isset($this->_filter['valor_maximo']) && (float) $this->_filter['valor_maximo'] != 0.00) {
+            if ($this->_filter['tipo_negocio'] == 'venda') {
+                $this->_condition[] = ['valor_venda', '<=', Html::removeMask($this->_filter['valor_maximo'])];
+            } else {
+                $this->_condition[] = ['valor_locacao', '<=', Html::removeMask($this->_filter['valor_maximo'])];
+            }
+        }
+        
+        // AREA MINIMA
+        if (isset($this->_filter['area_minima']) && (float) $this->_filter['area_minima'] != 0.00) {
+            if (in_array($this->_filter['tipo_imovel'], ['terreno', 'rural']) !== false) {
+                $this->_condition[] = ['area_total_terreno', '>=', (float) $this->_filter['area_minima']];
+            } else { 
+                $this->_condition[] = ['area_util_construida', '>=', (float) $this->_filter['area_minima']];
+            }
+        }
+        
+        // AREA MAXIMA
+        if (isset($this->_filter['area_maxima']) && (float) $this->_filter['area_maxima'] != 0.00) {
+            if (in_array($this->_filter['tipo_imovel'], ['terreno', 'rural']) !== false) {
+                $this->_condition[] = ['area_total_terreno', '<=', (float) $this->_filter['area_maxima']];
+            } else { 
+                $this->_condition[] = ['area_util_construida', '<=', (float) $this->_filter['area_maxima']];
+            }
+        }
+        
+        
+        $this->_order_fld = "data_cadastro_sk";
+        $this->_order_ad = "desc";
+        
+        
+        if (isset($this->_filter['order']) && $this->_filter['order'] != '') {
+            
+            if ($this->_filter['order'] == "Mais Recentes") {
+                
+                $this->_order_fld = "data_cadastro_sk";
+                $this->_order_ad = "desc";
+                
+            } elseif ($this->_filter['order'] == "Menor Valor") {
+                
+                if ($this->_filter['tipo_negocio'] == 'venda') {
+                    $this->_order_fld = "valor_venda";
+                    $this->_order_ad = "asc";
+                } else { 
+                    $this->_order_fld = "valor_locacao";
+                    $this->_order_ad = "asc";
+                }
+                
+            } elseif ($this->_filter['order'] = "Maior Valor") {
+                
+                if ($this->_filter['tipo_negocio'] == 'venda') {
+                    $this->_order_fld = "valor_venda";
+                    $this->_order_ad = "desc";
+                } else { 
+                    $this->_order_fld = "valor_locacao";
+                    $this->_order_ad = "desc";
+                }
+                
+            }
+            
+            
+            
+        }
+        
         
         
     }
@@ -274,6 +350,29 @@ class PesquisaController extends Controller
         if ($request->session()->has('filter')) {
             $request->session()->remove('filter');
         }
+        
+    }
+    
+    
+    protected function setCookies()
+    {
+            Cookie::queue('tipo_negocio', $this->_filter['tipo_negocio']);
+            Cookie::queue('tipo_imovel', $this->_filter['tipo_imovel']);
+            Cookie::queue('localidade_url', $this->_filter['localidade_url']);
+    }
+    
+    protected function logAction(Request $request)
+    {
+            $log = new \Monolog\Logger('test');
+            $log->pushHandler(new \Monolog\Handler\StreamHandler(storage_path("/logs/testfile.log")));
+            
+            $log->info("Pesquisa", [
+                'ip' => $_SERVER['REMOTE_ADDR'], 
+                'url' => $request->getUri(),
+                'method' => $request->getMethod(),
+                'guest' => \Illuminate\Support\Facades\Auth::guest(),
+                'user' => \Illuminate\Support\Facades\Auth::user(),
+            ]);
         
     }
     
