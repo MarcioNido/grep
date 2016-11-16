@@ -177,7 +177,6 @@ function filtroVagas(vagas)
 function sendForm()
 {
     
-    window.alert('Sending Form');
     $('#ph_resultado').css('opacity', '0.5');
     
     var url = '/' + $('#tipo_negocio').val();
