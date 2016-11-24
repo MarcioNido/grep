@@ -364,9 +364,16 @@ class PesquisaController extends Controller
     protected function logAction(Request $request)
     {
             $log = new \Monolog\Logger('test');
-            $log->pushHandler(new \Monolog\Handler\StreamHandler(storage_path("/logs/testfile.log")));
             
-            $log->info("Pesquisa", [
+            $formatter = new \Monolog\Formatter\JsonFormatter();
+            
+            $stream = new \Monolog\Handler\StreamHandler(storage_path("/logs/testfile.log"));
+            $stream->setFormatter($formatter);
+            
+            $log->pushHandler($stream);
+            
+            
+            $log->info("Pesquisa Teste", [
                 'ip' => $_SERVER['REMOTE_ADDR'], 
                 'url' => $request->getUri(),
                 'method' => $request->getMethod(),
@@ -374,6 +381,12 @@ class PesquisaController extends Controller
                 'user' => \Illuminate\Support\Facades\Auth::user(),
             ]);
         
+    }
+
+    public function detalhe(Request $request)
+    {
+        $imovel = Imovel::find($request->imovel_id);
+        return view('site.pesquisa.detalhe', ['imovel' => $imovel]);
     }
     
 /*    

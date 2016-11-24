@@ -95,7 +95,23 @@ class Html
         return $text;
         
     }
-    
-    
-    
+
+    public static function a($label, $link, $options=[])
+    {
+        $html  = "<a href='{$link}'";
+
+        foreach($options as $key => $value) {
+            $html .= " {$key}='{$value}'";
+        }
+
+        $html .= ">";
+        $html .= $label;
+        $html .= "</a>";
+
+        return $html;
+
+    }
+
+
+
 }

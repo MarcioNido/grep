@@ -20,12 +20,15 @@
     <link href="/css/site.css" rel="stylesheet">
     <link href="/css/guru.css" rel="stylesheet">
 
+    @yield('header')
+
     <!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
         ]); ?>
     </script>
+
 </head>
 <body>
     <div id="app">

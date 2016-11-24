@@ -26,6 +26,8 @@ Route::group(['namespace' => 'Site'], function() {
     
     Route::get('/venda/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@venda');
     Route::get('/locacao/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@locacao');
+
+    Route::get('/imovel/{imovel_id}', 'PesquisaController@detalhe');
     
 });
 
