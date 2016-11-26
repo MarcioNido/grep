@@ -64,7 +64,7 @@ h6.guru-label {margin-bottom: 2px;}
     border-color: #345C8C;
 }
 
-.breadcrumb {background-color: #345C8C; font-size: 12px; margin-bottom: 0; border-radius: 0;}
+.breadcrumb {background-color: #345C8C; font-size: 12px; margin-bottom: 0; border-radius: 0; padding: 8px 0;}
 .breadcrumb > li {color: #CCCCCC;}
 .breadcrumb .active {color: #E7E7E7;}
 .breadcrumb > li a {color: #CCCCCC;}

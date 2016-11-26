@@ -76,7 +76,21 @@ class PesquisaController extends Controller
         $imoveis = $this->processRequest($request, "locacao");
         return view('site.pesquisa.resultado', ['imoveis' => $imoveis, 'filter'=>$this->_filter]);
     }
-    
+
+
+    /**
+     * Shows the property's details
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function detalhe(Request $request)
+    {
+        $imovel = Imovel::find($request->imovel_id);
+        return view('site.pesquisa.detalhe', ['imovel' => $imovel]);
+    }
+
+
+
     /**
      * Processes get or post requests, prepare de condition, select the records and return the collection with pagination.
      * Saves main options as cookies for further use
@@ -276,7 +290,7 @@ class PesquisaController extends Controller
         }
         
         
-        $this->_order_fld = "data_cadastro_sk";
+        $this->_order_fld = "created_at";
         $this->_order_ad = "desc";
         
         
@@ -284,7 +298,7 @@ class PesquisaController extends Controller
             
             if ($this->_filter['order'] == "Mais Recentes") {
                 
-                $this->_order_fld = "data_cadastro_sk";
+                $this->_order_fld = "created_at";
                 $this->_order_ad = "desc";
                 
             } elseif ($this->_filter['order'] == "Menor Valor") {
@@ -383,13 +397,7 @@ class PesquisaController extends Controller
         
     }
 
-    public function detalhe(Request $request)
-    {
-        $imovel = Imovel::find($request->imovel_id);
-        return view('site.pesquisa.detalhe', ['imovel' => $imovel]);
-    }
-    
-/*    
+/*
     public function generate(Request $request)
     {
 

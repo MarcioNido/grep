@@ -2,7 +2,7 @@
 use App\Http\Components\Html;
 use App\Site\Foto;
 
-$title = 'Detalhes do Imóvel - Paulo Roberto Leardi';
+$title = $imovel->title().' - Paulo Roberto Leardi';
 ?>
 
 @extends('layouts.app')
@@ -29,7 +29,7 @@ $title = 'Detalhes do Imóvel - Paulo Roberto Leardi';
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h4 style="color: #FAFAFA; font-weight: 300;">Casa &agrave; venda em Brooklin, S&atilde;o Paulo, SP, com 3 Dormit&oacute;rios</h4>
+                    <h4 style="color: #FAFAFA; font-weight: 300;">{{ $imovel->title() }}</h4>
                 </div>
 
             </div>
@@ -68,45 +68,70 @@ $title = 'Detalhes do Imóvel - Paulo Roberto Leardi';
                                                 
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                                                        <h3 style="font-weight: 300; margin-top: 0; margin-bottom: 0;">Casa T&eacute;rrea</h3>
+                                                        <h3 style="font-weight: 300; margin-top: 0; margin-bottom: 0;">{{ $imovel->titleCase('tipo_imovel') }}</h3>
                                                     </div>
 
                                                     <div class="col-lg-9 col-md-6 col-sm-6 col-xs-12">
-                                                        <h3 style="font-weight: 300; margin-top: 0; margin-bottom: 20px;">Brooklin, S&atilde;o Paulo, SP</h3>
+                                                        <h3 style="font-weight: 300; margin-top: 0; margin-bottom: 20px;">{{ trim($imovel->titleCase('regiao_mercadologica')) }}, {{ $imovel->titleCase('cidade') }}, {{ $imovel->estado }}</h3>
                                                     </div>
                                                 </div>
                                                 
 
 
                                                 <div class="row">
-                                                    <div class="col-lg-2">
-                                                        <h7 style="color: #333333; font-weight: 300">Pre&ccedil;o (R$)</h7>
-                                                        <h5 style="margin-top: 0; font-weight: 300">5.000.000,00</h5>
+                                                    <div class="col-lg-3">
+                                                        @if ($imovel->valor_venda)
+                                                            <h7 style="color: #333333; font-weight: 300">Pre&ccedil;o Venda</h7>
+                                                            <h5 style="margin-top: 0; font-weight: 300">R$ {{ $imovel->toCurrency('valor_venda') }}</h5>
+                                                        @endif
+                                                        @if ($imovel->valor_locacao)
+                                                            <h7 style="color: #333333; font-weight: 300">Pre&ccedil;o Locação</h7>
+                                                            <h5 style="margin-top: 0; font-weight: 300">R$ {{ $imovel->toCurrency('valor_locacao') }}</h5>
+                                                        @endif
                                                     </div>
+
+                                                    @if ($imovel->valor_iptu)
                                                     <div class="col-lg-2 hidden-xs">
                                                         <h7 style="color: #333333; font-weight: 300">IPTU</h7>
-                                                        <h5 style="margin-top: 0; font-weight: 300">R$ 25.000,00</h5>
+                                                        <h5 style="margin-top: 0; font-weight: 300">R$ {{ $imovel->toCurrency('valor_iptu') }}</h5>
                                                     </div>
+                                                    @endif
+
+                                                    @if ($imovel->valor_condominio)
                                                     <div class="col-lg-2 hidden-xs">
                                                         <h7 style="color: #333333; font-weight: 300">Condom&iacute;nio</h7>
-                                                        <h5 style="margin-top: 0; font-weight: 300">R$ 5.000,00</h5>
-                                                    </div>       
+                                                        <h5 style="margin-top: 0; font-weight: 300">R$ {{ $imovel->toCurrency('valor_condominio') }}</h5>
+                                                    </div>
+                                                    @endif
+
+                                                    @if ($imovel->area())
                                                     <div class="col-lg-2 col-md-3">
                                                         <h7 style="color: #333333; font-weight: 300">&Aacute;rea (&#13217;)</h7>
-                                                        <h5 style="margin-top: 0; font-weight: 300">250</h5>                                                        
+                                                        <h5 style="margin-top: 0; font-weight: 300">{{ $imovel->area() }}</h5>
                                                     </div>
+                                                    @endif
+
+                                                    @if ($imovel->dormitorio)
                                                     <div class="col-lg-1 col-md-2 col-sm-3 col-xs-3">
                                                         <h7 style="color: #333333; font-weight: 300">Dorms.</h7>
-                                                        <h5 style="margin-top: 0; font-weight: 300">4</h5>                                                        
+                                                        <h5 style="margin-top: 0; font-weight: 300">{{ $imovel->dormitorio }}</h5>
                                                     </div>
+                                                    @endif
+
+                                                    @if ($imovel->suite)
                                                     <div class="col-lg-1 col-md-2 col-sm-3 col-xs-3">
                                                         <h7 style="color: #333333; font-weight: 300">Su&iacute;tes</h7>
-                                                        <h5 style="margin-top: 0; font-weight: 300">3</h5>                                                        
+                                                        <h5 style="margin-top: 0; font-weight: 300">{{ $imovel->suite }}</h5>
                                                     </div>
-                                                    <div class="col-lg-2 col-md-5 col-sm-3 col-xs-3">
+                                                    @endif
+
+                                                    @if ($imovel->vaga)
+                                                    <div class="col-lg-1 col-md-2 col-sm-3 col-xs-3">
                                                         <h7 style="color: #333333; font-weight: 300">Vagas</h7>
-                                                        <h5 style="margin-top: 0; font-weight: 300">4</h5>                                                        
-                                                    </div>                                            
+                                                        <h5 style="margin-top: 0; font-weight: 300">{{ $imovel->vaga }}</h5>
+                                                    </div>
+                                                    @endif
+
                                                 </div>
 
                                                 
@@ -119,8 +144,8 @@ $title = 'Detalhes do Imóvel - Paulo Roberto Leardi';
                                             <div class="col-xs-3 col-sm-3 col-md-2 col-lg-1" style="text-align: right; margin-top: -5px;">
                                                 
                                                 <div class="btn-group-vertical" role="group">
-                                                    <a type="button" data-mobile-iframe="true" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fapps.dev%2Fyii2-app-advanced%2Ffrontend%2Fweb%2Findex.php%3Fr%3Dsite%252Fdetalhe%26id%3D123456&amp;src=sdkpreparse&display=popup" data-href="http://apps.dev/yii2-app-advanced/frontend/web/index.php?r=site/detalhe&amp;id=123456" class="btn btn-primary fb-share-button fb-xfbml-parse-ignore" style="font-weight: 300; font-size: 18px;"><span class="fa fa-facebook-square"></span></a>
-                                                    <button type="button" class="btn btn-success" style="font-weight: 300; font-size: 18px;"><span class="fa fa-whatsapp"> </span></button>
+                                                    <a type="button" data-mobile-iframe="true" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ url('imovel/'.$imovel->id) }}&amp;src=sdkpreparse&display=popup" data-href="http://apps.dev/yii2-app-advanced/frontend/web/index.php?r=site/detalhe&amp;id=123456" class="btn btn-primary fb-share-button fb-xfbml-parse-ignore" style="font-weight: 300; font-size: 18px;"><span class="fa fa-facebook-square"></span></a>
+                                                    <a href="whatsapp://send?text={{ url('imovel/'.$imovel->id) }}" data-action="share/whatsapp/share" type="button" class="btn btn-success" style="font-weight: 300; font-size: 18px;"><span class="fa fa-whatsapp"> </span></a>
                                                     <button type="button" class="btn btn-default" style="font-weight: 300; font-size: 18px; color: #286090;"><span class="fa fa-heart"></span></button>
                                                 </div>
                                                 
@@ -149,8 +174,9 @@ $title = 'Detalhes do Imóvel - Paulo Roberto Leardi';
 
                                 <?php
                                     // @todo remover isso daqui e colocar no controller ou melhor, criar uma classe para as fotos
-                                    $fotos = Foto::where('imovel_id', $imovel->imovel_id)->orderBy('ordem')->limit(3)->get();
-                                    if ($fotos != null) {
+                                    //$fotos = Foto::where('imovel_id', $imovel->imovel_id)->orderBy('ordem')->limit(3)->get()
+                                    $fotos = $imovel->fotos()->orderBy('ordem')->limit(3)->get();
+                                    if ($fotos) {
                                         foreach($fotos as $foto) {
                                             $arquivo = "http://www.leardi.com.br/imagens/".$foto->arquivo;
                                 ?>
@@ -185,7 +211,8 @@ $title = 'Detalhes do Imóvel - Paulo Roberto Leardi';
 
                         </div>
                     </div>         
-                    
+
+                    @if ($imovel->texto_promocional)
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="panel">
@@ -193,11 +220,7 @@ $title = 'Detalhes do Imóvel - Paulo Roberto Leardi';
                                     
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <p style="color: #666666; font-weight: 300">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                                dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                                                dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
-
-                                            
+                                            <p style="color: #666666; font-weight: 300">{{ $imovel->texto_promocional }}</p>
                                         </div>
                                     </div>
                                     
@@ -206,6 +229,7 @@ $title = 'Detalhes do Imóvel - Paulo Roberto Leardi';
                             </div>
                         </div>
                     </div>
+                    @endif
 
                     
 
@@ -218,7 +242,7 @@ $title = 'Detalhes do Imóvel - Paulo Roberto Leardi';
                                 <div class="row">
                                     <div class="col-md-12 guru-image-item" data-src="/images/mapa-disabled.png">
                                         <div class="thumbnail" style="height: 160px;">
-                                            <div style="background: #ddd url(images/disabled-map.png) top no-repeat; height: 150px; overflow: hidden">
+                                            <div style="background: #ddd url(/images/disabled-map.png) top no-repeat; height: 150px; overflow: hidden">
                                                 
                                                 <div class="row">
                                                     <div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2">
@@ -246,56 +270,45 @@ $title = 'Detalhes do Imóvel - Paulo Roberto Leardi';
                             <div class="panel">
                                 <div class="panel-body">
 
-                                    
+                                    @if ( $car_unid = $imovel->caracteristicas()->where(['tipo' => 'UNIDADE'])->get() )
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <h4 style="font-weight: 300; margin-top: 0; margin-bottom: 0;">Caracter&iacute;sticas da Unidade</h4>
                                         </div>
                                     </div>
                                     
-                                    <div class="row">
+                                    <div class="row" style="margin-top: 5px;">
+                                         @foreach ( $car_unid as $car )
                                          <div class="col-md-4" >
-                                             <h5 style="font-weight: 300;"><span class="glyphicon glyphicon-check"></span> Terra&ccedil;o Gourmet</h5>
-                                             <h5 style="font-weight: 300;"><span class="glyphicon glyphicon-check"></span> Arm&aacute;rios Cozinha</h5>
+                                             <h5 style="font-weight: 300; margin-top: 5px; margin-bottom: 5px;"><span class="fa fa-check"></span> {{ title_case($car->descricao) }} </h5>
                                          </div>
-                                         <div class="col-md-4">
-                                             <h5 style="font-weight: 300;"><span class="glyphicon glyphicon-check"></span> Arm&aacute;rios Embutidos</h5>
-                                             <h5 style="font-weight: 300;"><span class="glyphicon glyphicon-check"></span> Closet</h5>
-
-                                         </div>
-                                        <div class="col-md-4">
-                                             <h5 style="font-weight: 300;"><span class="glyphicon glyphicon-check"></span> Arm&aacute;rios Embutidos</h5>
-                                             <h5 style="font-weight: 300;"><span class="glyphicon glyphicon-check"></span> Closet</h5>
-                                        </div>
+                                         @endforeach
                                      </div>
-                                    
+
+                                     <br>
+
+                                    @endif
 
 
-                                    <div class="row" style="margin-top: 40px;">
-                                        <div class="col-lg-12">
-                                            <h4 style="font-weight: 300; margin-top: 0; margin-bottom: 0;">Caracter&iacute;sticas do Condom&iacute;nio</h4>
+
+                                    @if ( $car_unid = $imovel->caracteristicas()->where(['tipo' => 'CONDOMÍNIO'])->get() )
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <h4 style="font-weight: 300; margin-top: 0; margin-bottom: 0;">Caracter&iacute;sticas do Condomínio</h4>
+                                            </div>
                                         </div>
-                                    </div>
-                                    
-                                    <div class="row">
-                                         <div class="col-md-4" >
-                                             <h5 style="font-weight: 300;"><span class="glyphicon glyphicon-check"></span> Piscina Coberta</h5>
-                                             <h5 style="font-weight: 300;"><span class="glyphicon glyphicon-check"></span> Fitness</h5>
-                                         </div>
-                                         <div class="col-md-4">
-                                             <h5 style="font-weight: 300;"><span class="glyphicon glyphicon-check"></span> Churrasqueira</h5>
-                                             <h5 style="font-weight: 300;"><span class="glyphicon glyphicon-check"></span> Playground</h5>
 
-                                         </div>
-                                        <div class="col-md-4">
-                                             <h5 style="font-weight: 300;"><span class="glyphicon glyphicon-check"></span> Pet Care</h5>
-                                             <h5 style="font-weight: 300;"><span class="glyphicon glyphicon-check"></span> Sal&atilde; de Festas</h5>
+                                        <div class="row" style="margin-top: 5px;">
+                                            @foreach ( $car_unid as $car )
+                                                <div class="col-md-4" >
+                                                    <h5 style="font-weight: 300; margin-top: 5px; margin-bottom: 5px;"><span class="fa fa-check"></span> {{ title_case($car->descricao) }} </h5>
+                                                </div>
+                                            @endforeach
                                         </div>
-                                     </div>
-                                    
-                                    
-                                    
-                                    
+                                    @endif
+
+
+
                                 </div>
                             </div>
                         </div>
@@ -538,7 +551,8 @@ $title = 'Detalhes do Imóvel - Paulo Roberto Leardi';
     $('.foto-imovel').on('click', function() {
 
         <?php
-            $fotos = Foto::where('imovel_id', $imovel->imovel_id)->orderBy('ordem')->limit(50)->get();
+
+            $fotos = $imovel->fotos()->orderBy('ordem')->limit(50)->get();
             $arquivos = "";
             if ($fotos != null) {
                 foreach($fotos as $foto) {
