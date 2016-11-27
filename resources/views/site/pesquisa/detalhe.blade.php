@@ -7,9 +7,9 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
 
 @extends('layouts.app')
 
-@section('header')
+@push('header')
     <link href="/vendor/lightGallery-master/dist/css/lightgallery.css" rel="stylesheet" />
-@endsection
+@endpush
 
 
 @section('title', $title)
@@ -177,8 +177,19 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
                                     //$fotos = Foto::where('imovel_id', $imovel->imovel_id)->orderBy('ordem')->limit(3)->get()
                                     $fotos = $imovel->fotos()->orderBy('ordem')->limit(3)->get();
                                     if ($fotos) {
+                                        $first = true;
                                         foreach($fotos as $foto) {
+
                                             $arquivo = "http://www.leardi.com.br/imagens/".$foto->arquivo;
+                                            if ($first) {
+                                                ?>
+                                                @push('header')
+                                                    <meta property="og:image" content="{{ $arquivo }}" />
+                                                @endpush
+                                                <?php
+                                                $first = false;
+                                            }
+
                                 ?>
                                             <div class="col-md-4 guru-image-item" data-src="http://www.leardi.com.br/imagens/{{ $foto->arquivo }}">
                                                 <div class="thumbnail">

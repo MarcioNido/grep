@@ -20,7 +20,7 @@
     <link href="/css/site.css" rel="stylesheet">
     <link href="/css/guru.css" rel="stylesheet">
 
-    @yield('header')
+    @stack('header')
 
     <!-- Scripts -->
     <script>
