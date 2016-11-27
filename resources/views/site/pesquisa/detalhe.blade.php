@@ -145,7 +145,7 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
                                                 
                                                 <div class="btn-group-vertical" role="group">
                                                     <a type="button" data-mobile-iframe="true" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ url('imovel/'.$imovel->id) }}&amp;src=sdkpreparse&display=popup" data-href="http://apps.dev/yii2-app-advanced/frontend/web/index.php?r=site/detalhe&amp;id=123456" class="btn btn-primary fb-share-button fb-xfbml-parse-ignore" style="font-weight: 300; font-size: 18px;"><span class="fa fa-facebook-square"></span></a>
-                                                    <a href="whatsapp://send?text={{ url('imovel/'.$imovel->id) }}" data-action="share/whatsapp/share" type="button" class="btn btn-success" style="font-weight: 300; font-size: 18px;"><span class="fa fa-whatsapp"> </span></a>
+                                                    <a href="whatsapp://send?text={{ url('imovel/'.$imovel->id) }}/" data-action="share/whatsapp/share" type="button" class="btn btn-success" style="font-weight: 300; font-size: 18px;"><span class="fa fa-whatsapp"> </span></a>
                                                     <button type="button" class="btn btn-default" style="font-weight: 300; font-size: 18px; color: #286090;"><span class="fa fa-heart"></span></button>
                                                 </div>
                                                 
