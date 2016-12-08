@@ -7,12 +7,6 @@ $title = $post->titulo;
 
 @section('title', $title)
 
-@push('header')
-<meta property="og:image" content="{{ url('/images/blog/'.$post->imagem->arquivo) }}" />
-<link rel="image_src" href="{{ url('/images/blog/'.$post->imagem->arquivo) }}" />
-@endpush
-
-
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -51,6 +45,11 @@ $title = $post->titulo;
                                             <a href="whatsapp://send?text={{ url('blogleardi/'.$post->key) }}/" data-action="share/whatsapp/share" type="button" class="btn btn-success" style="font-weight: 300; font-size: 18px;"><span class="fa fa-whatsapp"> </span></a>
                                         @endif
                                     </div>
+
+                                    @push('header')
+                                    <meta property="og:image" content="{{ url('/images/blog/'.$post->imagem->arquivo) }}" />
+                                    <link rel="image_src" href="{{ url('/images/blog/'.$post->imagem->arquivo) }}" />
+                                    @endpush
 
                                     <div class="thumbnail" style="max-width: 400px; float: right; margin: 2px 2px 10px 10px;">
                                         <img class="img-responsive" src="/images/blog/{{ $post->imagem->arquivo }}" />
