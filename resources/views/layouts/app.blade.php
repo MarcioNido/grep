@@ -62,7 +62,7 @@
                         <li><a href="{{ url('/') }}">Home</a></li>
                         <li><a href="{{ url('/contato') }}">Contato</a></li>
                         <li><a href="{{ url('/agencias') }}">Agencias</a></li>
-                        <li><a href="{{ url('/blog') }}">Blog</a></li>
+                        <li><a href="{{ url('/blogleardi') }}">Blog</a></li>
                         
                         <!-- Authentication Links -->
                         @if (Auth::guest())

@@ -9,14 +9,27 @@ class Imovel extends Model
     // table name
     protected $table = "web_imovel";
 
+    /**
+     * Relation One to Many Fotos
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function fotos()
     {
         return $this->hasMany('App\Site\Foto');
     }
 
+    /**
+     * Relation Many to Many Caracteristicas
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function caracteristicas()
     {
         return $this->belongsToMany('App\Site\Caracteristica', 'web_imovel_caracteristica', 'imovel_id', 'caracteristica_id');
+    }
+
+    public function agenciaPublicacao()
+    {
+        return $this->belongsTo('App\Site\Agencia', 'pub_agencia_id');
     }
 
     /**
@@ -57,6 +70,10 @@ class Imovel extends Model
         return number_format($this->$field, 2, ',', '.');
     }
 
+    /**
+     * Generates Html for the field preco
+     * @return string
+     */
     public function preco()
     {
         if ($this->disponivel_venda && $this->disponivel_locacao) {
@@ -70,6 +87,10 @@ class Imovel extends Model
         return $preco;
     }
 
+    /**
+     * Returns the area. Util/Construida if it exists or Total Tereno
+     * @return bool|mixed
+     */
     public function area()
     {
         if ($this->area_util_construida) {
@@ -81,19 +102,6 @@ class Imovel extends Model
 
         return false;
 
-    }
-
-    public function caracteristicasUnidade()
-    {
-        $car = array();
-        if ($this->car_unidade) {
-            $car_unidade = explode("/", $this->car_unidade);
-            if ($car_unidade) {
-                foreach($car_unidade as $car_id) {
-
-                }
-            }
-        }
     }
 
 }

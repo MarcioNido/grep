@@ -17,17 +17,28 @@
 
 Auth::routes();
 
+// Site Routes
 Route::group(['namespace' => 'Site'], function() {
     Route::get('/', 'HomeController@index');
     Route::get('/home', 'HomeController@index');
-    
+
+    // lista de imoveis
     Route::post('/venda/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@venda');    
     Route::post('/locacao/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@locacao');
-    
     Route::get('/venda/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@venda');
     Route::get('/locacao/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@locacao');
 
+    // detalhes do imóvel
     Route::get('/imovel/{imovel_id}', 'PesquisaController@detalhe');
-    
+    Route::get('/pesquisa/fone/{agencia_id}', 'PesquisaController@fone'); // botão VER TELEFONE
+
+    // lista das agencias
+    Route::get('/agencias', 'AgenciaController@lista');
+
 });
 
+// Blog Routes
+Route::group(['namespace' => 'Blog'], function() {
+    Route::get('/blogleardi', 'BlogController@lista');
+    Route::get('/blogleardi/{key}', 'BlogController@viewPost');
+});

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 use App\Http\Controllers\Controller;
+use App\Site\Agencia;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
 use App\Site\Imovel;
@@ -87,6 +88,18 @@ class PesquisaController extends Controller
     {
         $imovel = Imovel::find($request->imovel_id);
         return view('site.pesquisa.detalhe', ['imovel' => $imovel]);
+    }
+
+
+    /**
+     * Returns the agency phone
+     * @param $agencia_id
+     * @return string agency phone
+     */
+    public function fone($agencia_id)
+    {
+        $agencia = Agencia::find($agencia_id);
+        echo $agencia->ddd1." ".$agencia->telefone1;
     }
 
 
