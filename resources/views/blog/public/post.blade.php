@@ -122,7 +122,7 @@ $title = $post->titulo;
 
                     <div class='panel panel-default'>
                         <div class='panel-body'>
-                            <img class='img-responsive' src='http://www.leardi.com.br/blogleardi/wp-content/uploads/2014/10/Layout_Facebook.png' />
+                            <img class='img-responsive' src='/images/blog/ebook_franquia.png' />
                         </div>
                     </div>
 
