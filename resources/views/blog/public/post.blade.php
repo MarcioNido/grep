@@ -9,6 +9,7 @@ $title = $post->titulo;
 
 @push('header')
 <meta property="og:image" content="{{ url('/images/blog/'.$post->imagem->arquivo) }}" />
+<link rel=”image_src” href=”{{ url('/images/blog/'.$post->imagem->arquivo) }}” />
 @endpush
 
 
