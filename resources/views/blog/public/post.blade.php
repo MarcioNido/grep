@@ -7,6 +7,11 @@ $title = $post->titulo;
 
 @section('title', $title)
 
+@push('header')
+<meta property="og:image" content="{{ url('/images/blog/'.$post->imagem->arquivo) }}" />
+@endpush
+
+
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
