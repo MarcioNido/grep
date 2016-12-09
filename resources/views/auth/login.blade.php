@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row" style="margin-top: 40px; min-height: 680px;">
+    <div class="row" style="margin-top: 40px;">
         <div class="col-md-6 col-md-offset-3">
 
             <h3>Entre com o seu e-mail e senha.</h3>
