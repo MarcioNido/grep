@@ -162,7 +162,7 @@ $subtitle = Html::subtitle($imoveis->total(), $filter);
                                                 </div>
                                             </div>
                                             <div class="col-md-3 col-sm-12" style="margin-top: 12px;">
-                                                <a href="index.php?r=site/detalhe&id=123456" class="btn btn-warning" style="width: 100%; font-weight: 300"><span class="fa fa-search-plus"></span> Detalhes</a>
+                                                <a href="/imovel/{{ $imovel->id }}" class="btn btn-warning" style="width: 100%; font-weight: 300"><span class="fa fa-search-plus"></span> Detalhes</a>
                                             </div>
                                         </div>
                                         

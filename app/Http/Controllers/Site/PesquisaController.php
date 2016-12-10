@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site;
 use App\Http\Controllers\Controller;
 use App\Site\Agencia;
+use GoogleMaps\GoogleMaps;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
 use App\Site\Imovel;
@@ -409,6 +410,18 @@ class PesquisaController extends Controller
             ]);
         
     }
+
+    /**
+     * @param $id
+     */
+    public function getCoordinates($id)
+    {
+        $address = Imovel::find($id)->enderecoGoogle();
+        echo \GoogleMaps::load('geocoding')->setParam(['address' => $address])->get();
+    }
+
+
+
 
 /*
     public function generate(Request $request)

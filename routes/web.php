@@ -31,6 +31,7 @@ Route::group(['namespace' => 'Site'], function() {
     // detalhes do imóvel
     Route::get('/imovel/{imovel_id}', 'PesquisaController@detalhe');
     Route::get('/pesquisa/fone/{agencia_id}', 'PesquisaController@fone'); // botão VER TELEFONE
+    Route::get('/pesquisa/getCoordinates/{id}', 'PesquisaController@getCoordinates'); // VER MAPA
 
     // lista das agencias
     Route::get('/agencias', 'AgenciaController@lista');

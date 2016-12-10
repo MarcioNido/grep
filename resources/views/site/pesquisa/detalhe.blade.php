@@ -254,12 +254,11 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
 
                                 <div class="row">
                                     <div class="col-md-12 guru-image-item" data-src="/images/mapa-disabled.png">
-                                        <div class="thumbnail" style="height: 160px;">
-                                            <div style="background: #ddd url(/images/disabled-map.png) top no-repeat; height: 150px; overflow: hidden">
-                                                
+                                        <div class="thumbnail">
+                                            <div id="map" style="background: #ddd url(/images/disabled-map.png) top no-repeat; height: 150px; overflow: hidden">
                                                 <div class="row">
                                                     <div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2">
-                                                        <div class="well well-sm" style="text-align: center; margin-top: 40px;">
+                                                        <div class="well well-sm" style="text-align: center; margin-top: 40px; cursor: pointer;" onclick="initMapLazy();">
                                                             <h5><span class="fa fa-location-arrow"></span> Clique para Exibir o Mapa</h5>
                                                         </div>
                                                     </div>
@@ -501,5 +500,46 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
 
 
 </script>
+
+<script>
+    function initMapLazy() {
+
+        $.getJSON('{{ url('pesquisa/getCoordinates', ['id'=>$imovel->id]) }}')
+                .done(function(json) {
+                    var lat = json.results[0].geometry.location.lat;
+                    var lng = json.results[0].geometry.location.lng;
+                    var point = {lat: lat, lng: lng};
+                    var map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 16,
+                        center: point
+                    });
+
+                    var circle = new google.maps.Circle({
+                        strokeColor: '#345C8C',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#345C8C',
+                        fillOpacity: 0.35,
+                        map: map,
+                        center: point,
+                        radius: 200,
+                    });
+
+//                    var marker = new google.maps.Marker({
+//                        position: point,
+//                        map: map
+//                    });
+
+                    $('#map').css('height', '450px');
+                })
+                .fail(function() {
+                    window.alert('Ocorreu um erro ao abrir o mapa');
+                });
+
+
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6eNeWQSV-McQSUZ5YUicGiqe7SZkHZCc"></script>
+
 
 @endpush

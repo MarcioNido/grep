@@ -104,4 +104,10 @@ class Imovel extends Model
 
     }
 
+    public function enderecoGoogle()
+    {
+        return $this->logradouro." ".$this->endereco." - ".$this->bairro." - ".$this->cidade." - ".$this->estado;
+    }
+
+
 }
