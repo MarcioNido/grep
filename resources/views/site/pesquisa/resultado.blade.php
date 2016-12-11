@@ -83,8 +83,8 @@ $subtitle = Html::subtitle($imoveis->total(), $filter);
                                     ?>
                                     
                                     <div class="col-md-4 col-sm-12 guru-image-item" style="padding-left: 1px; padding-right: 1px;">
-                                        <div class="guru-image-background" <?php if ($arquivo != '/images/semfoto.png') echo 'style="background-image: url(\''. $arquivo .'\')"'; ?>></div>
                                         <div class="guru-image-wrapper" style='background: transparent;'>
+                                            <div class="guru-image-background" <?php if ($arquivo != '/images/semfoto.png') echo 'style="background-image: url(\''. $arquivo .'\')"'; ?>></div>
                                             <a href="/imovel/{{ $imovel->id }}"><img src="{{ $arquivo }}" class="img-responsive guru-image" /></a>
                                         </div>
                                         

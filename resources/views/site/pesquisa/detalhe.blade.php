@@ -193,9 +193,10 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
                                             }
 
                                 ?>
-                                            <div class="col-md-4 guru-image-item" data-src="http://www.leardi.com.br/imagens/{{ $foto->arquivo }}">
+                                            <div class="col-md-4 guru-image-item" data-src="{{ $arquivo }}">
                                                 <div class="thumbnail">
                                                     <div class="guru-image-wrapper">
+                                                        <div class="guru-image-background" <?php echo 'style="background-image: url(\''. $arquivo .'\')"'; ?>></div>
                                                         <img src="{{ $arquivo }}" alt="foto imóvel" class="img-responsive foto-imovel" />
                                                     </div>
                                                 </div>
@@ -282,7 +283,7 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
                             <div class="panel">
                                 <div class="panel-body">
 
-                                    @if ( $car_unid = $imovel->caracteristicas()->where(['tipo' => 'UNIDADE'])->get() )
+                                    @if ( ($car_unid = $imovel->caracteristicas()->where(['tipo' => 'UNIDADE'])->get()) && count($car_unid) > 0)
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <h4 style="font-weight: 300; margin-top: 0; margin-bottom: 0;">Caracter&iacute;sticas da Unidade</h4>
@@ -303,7 +304,7 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
 
 
 
-                                    @if ( $car_unid = $imovel->caracteristicas()->where(['tipo' => 'CONDOMÍNIO'])->get() )
+                                    @if ( ($car_cond = $imovel->caracteristicas()->where(['tipo' => 'CONDOMÍNIO'])->get()) && count($car_cond) > 0 )
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <h4 style="font-weight: 300; margin-top: 0; margin-bottom: 0;">Caracter&iacute;sticas do Condomínio</h4>
@@ -311,7 +312,7 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
                                         </div>
 
                                         <div class="row" style="margin-top: 5px;">
-                                            @foreach ( $car_unid as $car )
+                                            @foreach ( $car_cond as $car )
                                                 <div class="col-md-4" >
                                                     <h5 style="font-weight: 300; margin-top: 5px; margin-bottom: 5px;"><span class="fa fa-check"></span> {{ title_case($car->descricao) }} </h5>
                                                 </div>
@@ -511,7 +512,8 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
                     var point = {lat: lat, lng: lng};
                     var map = new google.maps.Map(document.getElementById('map'), {
                         zoom: 16,
-                        center: point
+                        center: point,
+                        scrollwheel: false,
                     });
 
                     var circle = new google.maps.Circle({

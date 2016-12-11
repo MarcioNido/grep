@@ -97,9 +97,8 @@ h6.guru-label {margin-bottom: 2px;}
 
 
 .guru-image-background {
-    height: 267px;
-    margin: 2px;
-    width: 99%;
+    height: 273px;
+    width: 100%;
     -webkit-filter: blur(3px);
     position: absolute;
     background-size: cover;
@@ -111,7 +110,6 @@ h6.guru-label {margin-bottom: 2px;}
   height: 275px;
   overflow: hidden;
   position: relative;
-  margin-left: 4px;
 }
 
 @media (max-width: 1469px) {
