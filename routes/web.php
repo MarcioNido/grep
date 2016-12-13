@@ -36,6 +36,9 @@ Route::group(['namespace' => 'Site'], function() {
     // lista das agencias
     Route::get('/agencias', 'AgenciaController@lista');
 
+    // mais informacoes
+    Route::post('/pesquisa/contato', 'PesquisaController@storeContato');
+
 });
 
 // Blog Routes

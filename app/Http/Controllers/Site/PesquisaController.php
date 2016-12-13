@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site;
 use App\Http\Controllers\Controller;
 use App\Site\Agencia;
+use App\Site\Contato;
 use GoogleMaps\GoogleMaps;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
@@ -418,6 +419,28 @@ class PesquisaController extends Controller
     {
         $address = Imovel::find($id)->enderecoGoogle();
         echo \GoogleMaps::load('geocoding')->setParam(['address' => $address])->get();
+    }
+
+    public function storeContato(Request $request)
+    {
+        $this->validate($request, [
+            'nome' => 'required|max:100',
+            'email' => 'required|email|max:100',
+            'ddd'=>'digits:2',
+            'telefone'=>'digits_between:8,9',
+        ]);
+
+        $contato = new Contato();
+        $contato->nome = $request['nome'];
+        $contato->email = $request['email'];
+        $contato->ddd = $request['ddd'];
+        $contato->telefone = $request['telefone'];
+        $contato->mensagem = $request['mensagem'];
+        $contato->envio_ofertas = $request['envio_ofertas'];
+        $contato->save();
+
+        echo json_encode(['status' => 'ok']);
+
     }
 
 
