@@ -55,17 +55,17 @@ use App\Site\Localidade;
                 
                 <div class="col-sm-4" style="text-align: right;">
                     <div class="thumbnail">
-                        <a href="index.php?r=site/seja-um-franqueado">
+                        <a href="/seja-um-franqueado">
                             <img class="img-responsive" src="images/home-seja-um-franqueado.jpg" />
                         </a>
                     </div>
                 </div>
                 
                 <div class="col-sm-8">
-                    <a href="index.php?r=site/seja-um-franqueado">
+                    <a href="/seja-um-franqueado">
                         <h3>Empreenda montando a sua imobiliária e sendo líder mesmo antes de iniciar a operação, baixo investimento com alta rentabilidade, saiba mais.</h3>
                     </a>
-                    <a href="index.php?r=site/seja-um-franqueado" class="btn btn-warning">SEJA UM FRANQUEADO!</a>
+                    <a href="/seja-um-franqueado" class="btn btn-warning">SEJA UM FRANQUEADO!</a>
                </div>
                 
             </div>

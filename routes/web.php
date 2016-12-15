@@ -39,6 +39,9 @@ Route::group(['namespace' => 'Site'], function() {
     // mais informacoes
     Route::post('/pesquisa/contato', 'PesquisaController@storeContato');
 
+    // seja um franqueado
+    Route::get('/seja-um-franqueado', 'FranqueadoController@index');
+
 });
 
 // Blog Routes
