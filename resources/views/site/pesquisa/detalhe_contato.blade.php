@@ -7,6 +7,8 @@
     <form id="form_contato" class="form-group" method="POST" action="{{ url('pesquisa/contato') }}">
 
         {{ csrf_field() }}
+        <input type="hidden" name="imovel_id" id="imovel_id" value="{{ $imovel->id }}" />
+        <input type="hidden" name="agencia_id" id="agencia_id" value="{{ $imovel->pub_agencia_id }}" />
 
         <div class="panel-body" style="background-color: #FFFFFF;">
             <div class="row">

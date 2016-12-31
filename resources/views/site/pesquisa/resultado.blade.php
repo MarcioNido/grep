@@ -2,8 +2,12 @@
 use App\Http\Components\Html;
 use App\Site\Foto;
 
+$filter = $searchResult->filter;
+$imoveis = $searchResult->imoveis;
+
 $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter['regiao'] != null ? $filter['regiao']. ' - ' : '') . $filter['cidade'] . ' - ' . $filter['estado'] . ' - Paulo Roberto Leardi';
 $subtitle = Html::subtitle($imoveis->total(), $filter);
+
 ?>
 
 @extends('layouts.app')

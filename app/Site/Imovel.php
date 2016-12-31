@@ -47,9 +47,9 @@ class Imovel extends Model
             $title .= " para Locação";
         }
 
-        $title .= " em ".mb_convert_case($this->regiao_mercadologica, MB_CASE_TITLE);
-        $title .= ", ".mb_convert_case($this->cidade, MB_CASE_TITLE);
-        $title .= ", ".$this->estado;
+        $title .= " em " . mb_convert_case($this->regiao_mercadologica, MB_CASE_TITLE);
+        $title .= ", " . mb_convert_case($this->cidade, MB_CASE_TITLE);
+        $title .= ", " . $this->estado;
 
         return $title;
 
@@ -77,12 +77,12 @@ class Imovel extends Model
     public function preco()
     {
         if ($this->disponivel_venda && $this->disponivel_locacao) {
-            $preco = "Venda R$ ".number_format($this->valor_venda, 2, ',', '.');
-            $preco .= "<br>Locação R$ ".number_format($this->valor_locacao, 2, ',', '.');
+            $preco = "Venda R$ " . number_format($this->valor_venda, 2, ',', '.');
+            $preco .= "<br>Locação R$ " . number_format($this->valor_locacao, 2, ',', '.');
         } elseif ($this->disponivel_venda) {
-            $preco = "R$ ".number_format($this->valor_venda, 2, ',', '.');
+            $preco = "R$ " . number_format($this->valor_venda, 2, ',', '.');
         } else {
-            $preco = "R$ ".number_format($this->valor_locacao, 2, ',', '.');
+            $preco = "R$ " . number_format($this->valor_locacao, 2, ',', '.');
         }
         return $preco;
     }
@@ -106,7 +106,7 @@ class Imovel extends Model
 
     public function enderecoGoogle()
     {
-        return $this->logradouro." ".$this->endereco." - ".$this->bairro." - ".$this->cidade." - ".$this->estado;
+        return $this->logradouro . " " . $this->endereco . " - " . $this->bairro . " - " . $this->cidade . " - " . $this->estado;
     }
 
 

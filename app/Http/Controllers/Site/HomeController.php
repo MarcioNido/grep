@@ -25,6 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('site.home', ['cookie' => request()->cookie(), 'profile'=>new Profile()] );
+        return view('site.home', ['cookie' => request()->cookie(), 'profile'=>Profile::getInstance()] );
     }
 }

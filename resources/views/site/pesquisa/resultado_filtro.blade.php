@@ -11,7 +11,7 @@ use App\Site\Localidade;
             <div class="row">
                 <div class="col-xs-12">
                     <div class="btn-group btn-group-justified" role="group">
-                        <input type='hidden' value='{{ $filter['tipo_negocio'] }}' id='tipo_negocio' />
+                        <input type='hidden' name="tipo_negocio" value='{{ $filter['tipo_negocio'] }}' id='tipo_negocio' />
                         <div class="btn-group" role="group">
                             <button type="button" class="guru-form-button btn <?php if ($filter['tipo_negocio'] == "venda") {echo 'btn-primary';} else {echo 'btn-default';} ?>" style="width: 100%" onclick="filtroTipoNegocio('venda');">Comprar</button>
                         </div>

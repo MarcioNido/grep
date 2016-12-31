@@ -14,4 +14,14 @@ class Contato extends Model
     // table name
     protected $table = "web_contato";
 
+    public function imovel()
+    {
+        return $this->belongsTo('App\Site\Imovel');
+    }
+
+    public function agencia()
+    {
+        return $this->belongsTo('App\Site\Agencia');
+    }
+
 }

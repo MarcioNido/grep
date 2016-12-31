@@ -35,7 +35,7 @@ use App\Site\Localidade;
                                         <?php echo Localidade::getDropDown($profile->localidade_url); ?>
                                     </div>
                                     <div class="col-sm-1 col-xs-12 guru-home-search">
-                                        <button type="button" class="btn btn-warning guru-home-button" onclick="send_form()"><span class="fa fa-search"></span></button>
+                                        <button id="bot_pesquisa" type="button" class="btn btn-warning guru-home-button" onclick="send_form()"><span class="fa fa-search"></span></button>
                                     </div>
                   
                                 </div>
