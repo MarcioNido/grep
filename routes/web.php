@@ -39,9 +39,21 @@ Route::group(['namespace' => 'Site'], function() {
     // mais informacoes
     Route::post('/pesquisa/contato', 'PesquisaController@storeContato');
 
+    // quero receber novidades
+    Route::get('/pesquisa/notificacao-imovel', 'PesquisaController@notificacaoImovel')->middleware('auth');
+
     // seja um franqueado
     Route::get('/seja-um-franqueado', 'FranqueadoController@index');
 
+});
+
+// area restrita
+Route::group(['namespace' => 'Site', 'middleware' => 'auth'], function() {
+    Route::get('/area-restrita/index', 'AreaRestritaController@index');
+    Route::get('/area-restrita/edita-alerta/{id}', 'AreaRestritaController@editaAlerta');
+    Route::post('/area-restrita/edita-alerta/{id}', 'AreaRestritaController@storeAlerta');
+    Route::get('/area-restrita/cancela-alerta/{id}', 'AreaRestritaController@cancelaAlerta');
+    Route::post('/area-restrita/cancela-alerta/{id}', 'AreaRestritaController@cancelaAlerta');
 });
 
 // Blog Routes

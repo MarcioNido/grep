@@ -14,6 +14,25 @@ class Localidade extends Model
         return self::where('active', 1)->orderBy('descricao')->pluck('descricao', 'localidade_url');
     }
 
+
+    public static function getDropDownData()
+    {
+        // cidades
+        $cidades = self::where('tipo', 1)->orderBy('estado')->orderBy('cidade')->get();
+        $data = [];
+        foreach($cidades as $cidade) {
+            $data['Cidades'][$cidade->localidade_url] = $cidade->cidade." - ".$cidade->estado;
+        }
+
+        // regiões
+        $regioes = self::where('tipo', 2)->orderBy('estado')->orderBy('cidade')->orderBy('regiao')->get();
+        foreach($regioes as $regiao) {
+            $data[$regiao->cidade . " - " . $regiao->estado][$regiao->localidade_url] = $regiao->regiao;
+        }
+
+        return $data;
+
+    }
     /**
      * Generates the dropdownlist for localidade
      * @param type $selectedValue

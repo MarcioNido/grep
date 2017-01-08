@@ -1,5 +1,5 @@
 <?php
-use App\Http\Components\Html;
+use App\Http\Components\CHtml;
 $title = "Agências Paulo Roberto Leardi";
 ?>
 

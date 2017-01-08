@@ -1,5 +1,5 @@
 <?php
-use App\Http\Components\Html;
+use App\Http\Components\CHtml;
 $title = "Seja um Franqueado Paulo Roberto Leardi";
 ?>
 
@@ -374,10 +374,10 @@ $title = "Seja um Franqueado Paulo Roberto Leardi";
                 <div class="row">
                     <div class="col-md-3">
                         <div class="thumbnail">
-                            <?= Html::a('<img src="http://www.leardi.com.br/blogleardi/wp-content/uploads/2014/10/Layout_Facebook.png" />', url('/seja-um-franqueado'), ['style'=>'width:100%;']); ?>
+                            <?= CHtml::a('<img src="http://www.leardi.com.br/blogleardi/wp-content/uploads/2014/10/Layout_Facebook.png" />', url('/seja-um-franqueado'), ['style'=>'width:100%;']); ?>
                             <div class="caption">
                                 <h3>Baixe nosso e-Book</h3>
-                                <p><?= Html::a('<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                                <p><?= CHtml::a('<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                                 dolore magna aliqua. </p>', ''); ?></p>
                             </div>
 
@@ -415,11 +415,11 @@ $title = "Seja um Franqueado Paulo Roberto Leardi";
 
                     <div class="col-md-3">
                         <div class="thumbnail">
-                            <?= Html::a('<img src="http://www.leardi.com.br/images/folder.jpg" />', '', ['style'=>'width:100%;']); ?>
+                            <?= CHtml::a('<img src="http://www.leardi.com.br/images/folder.jpg" />', '', ['style'=>'width:100%;']); ?>
 
                             <div class="caption">
                                 <h3>Baixe nosso folder</h3>
-                                <?= Html::a('<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                                <?= CHtml::a('<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                                 dolore magna aliqua. </p>', ''); ?>
                             </div>
 

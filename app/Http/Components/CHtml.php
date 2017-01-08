@@ -7,7 +7,7 @@ namespace App\Http\Components;
  *
  * @author marcionido
  */
-class Html 
+class CHtml
 {
     
 
@@ -42,6 +42,12 @@ class Html
         }
         $html .= '/>';
         
+        return $html;
+    }
+
+    public static function radio($name, $value, $checked=false)
+    {
+        $html = '<input type="radio" name="'.$name.'" value="'.$value.'"' . ($checked ? ' checked="checked"' : '') . '>';
         return $html;
     }
     

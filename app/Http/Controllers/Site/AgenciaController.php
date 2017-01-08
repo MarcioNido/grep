@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
 use App\Site\Imovel;
 use App\Site\Localidade;
-use App\Http\Components\Html;
+use App\Http\Components\CHtml;
 
 //use Illuminate\Http\Request;
 

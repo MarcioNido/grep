@@ -1,12 +1,14 @@
 <?php 
-use App\Http\Components\Html;
+use App\Http\Components\CHtml;
 use App\Site\Foto;
 
+/** @var $searchResult \App\Site\ImovelSearch */
 $filter = $searchResult->filter;
 $imoveis = $searchResult->imoveis;
+$filter_desc = $searchResult->getSessionFiltersDesc();
 
 $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter['regiao'] != null ? $filter['regiao']. ' - ' : '') . $filter['cidade'] . ' - ' . $filter['estado'] . ' - Paulo Roberto Leardi';
-$subtitle = Html::subtitle($imoveis->total(), $filter);
+$subtitle = CHtml::subtitle($imoveis->total(), $filter);
 
 ?>
 
@@ -39,7 +41,7 @@ $subtitle = Html::subtitle($imoveis->total(), $filter);
             <div class="col-md-3" style="text-align: right; padding-right: 40px;">
                 <form class="form-inline" style="margin-top: 3px;">
                     <div class="form-group">
-                        <?= Html::dropDownList('orderSelect', $filter['order'], ['Mais Recentes' => 'Mais Recentes', 'Maior Valor' => 'Maior Valor', 'Menor Valor' => 'Menor Valor'], ['class' => 'form-control guru-select', 'onchange' => 'changeOrder()']) ?>
+                        <?= CHtml::dropDownList('orderSelect', $filter['order'], ['Mais Recentes' => 'Mais Recentes', 'Maior Valor' => 'Maior Valor', 'Menor Valor' => 'Menor Valor'], ['class' => 'form-control guru-select', 'onchange' => 'changeOrder()']) ?>
                     </div>
                 </form>
             </div>
@@ -59,13 +61,10 @@ $subtitle = Html::subtitle($imoveis->total(), $filter);
             <div class="row">
                 
                 <div id="ph_filtro" class="col-lg-3 hidden-md hidden-sm hidden-xs">
-
                     @include('site.pesquisa.resultado_filtro')
-                    
                 </div>
 
                 <div class="col-lg-9" id="ph_resultado">
-
 
                     @foreach($imoveis as $imovel)
                     <!-- linha imovel -->
@@ -108,20 +107,20 @@ $subtitle = Html::subtitle($imoveis->total(), $filter);
                                         <div class="row" style="margin-top: 10px;">
                                             <div class="col-sm-4">
                                                 <h6 style="color: #333333; font-weight: 300" class="guru-label">Pre&ccedil;o</h6>
-                                                <h4 style="margin-top: 0; font-weight: 300;">R$ <?= $filter['tipo_negocio'] == 'venda' ? Html::moneyMask($imovel->valor_venda) : Html::moneyMask($imovel->valor_locacao) ; ?></h4>
+                                                <h4 style="margin-top: 0; font-weight: 300;">R$ <?= $filter['tipo_negocio'] == 'venda' ? CHtml::moneyMask($imovel->valor_venda) : CHtml::moneyMask($imovel->valor_locacao) ; ?></h4>
                                             </div>
                                             
                                             @if ($imovel->valor_iptu != 0)
                                             <div class="col-sm-4 hidden-xs">
                                                 <h6 style="color: #333333; font-weight: 300" class="guru-label">IPTU</h6>
-                                                <h4 style="margin-top: 0; font-weight: 300;">R$ <?= Html::moneyMask($imovel->valor_iptu) ?></h4>
+                                                <h4 style="margin-top: 0; font-weight: 300;">R$ <?= CHtml::moneyMask($imovel->valor_iptu) ?></h4>
                                             </div>
                                             @endif
                                             
                                             @if ($imovel->valor_condominio != 0) 
                                             <div class="col-sm-4 hidden-xs">
                                                 <h6 style="color: #333333; font-weight: 300" class="guru-label">Condom&iacute;nio</h7>
-                                                <h4 style="margin-top: 0; font-weight: 300;">R$ <?= Html::moneyMask($imovel->valor_condominio) ?></h4>
+                                                <h4 style="margin-top: 0; font-weight: 300;">R$ <?= CHtml::moneyMask($imovel->valor_condominio) ?></h4>
                                             </div>                               
                                             @endif
                                             
@@ -200,32 +199,7 @@ $subtitle = Html::subtitle($imoveis->total(), $filter);
 
 
 <div style="background-color: #6B88AE; width: 100%; padding: 40px 0;">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10 col-md-offset-1" style="text-align: left;">
-                <h3 style="color: #FAFAFA; font-weight: 300">Receba novos im&oacute;veis e atualiza&ccedil;&otilde;es relacionadas &agrave; sua pesquisa direto em sua caixa de e-mail!</h3>
-                <h5 style="color: #E7E7E7; font-weight: 300;"></h5>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-5 col-md-offset-1" >
-                <h5 style="color: #CCCCCC"><span class="fa fa-check"></span> Comprar</h5>
-                <h5 style="color: #CCCCCC"><span class="fa fa-check"></span> Apartamento</h5>
-            </div>
-            <div class="col-md-5">
-                <h5 style="color: #CCCCCC"><span class="fa fa-check"></span> Brooklin, S&atilde;o Paulo, SP</h5>
-                <h5 style="color: #CCCCCC"><span class="fa fa-check"></span> 3 Dormit&oacute;rios</h5>
-
-            </div>
-        </div>
-        <div class="row" style="margin-top: 30px;">
-            <div class="col-lg-10 col-md-offset-1">
-                <button class="btn btn-warning">QUERO RECEBER AS OPORTUNIDADES!</button>
-            </div>
-        </div>
-    </div>
-
+    @include('site.pesquisa.receba_novidades')
 </div>
 
 @endsection

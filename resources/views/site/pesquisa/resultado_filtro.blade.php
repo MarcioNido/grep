@@ -1,5 +1,5 @@
 <?php
-use App\Http\Components\Html;
+use App\Http\Components\CHtml;
 use App\Site\Localidade;
 ?>
 
@@ -43,7 +43,7 @@ use App\Site\Localidade;
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="tipo_imovel">Tipo de Im&oacute;vel</label>
-                        <?php echo Html::dropDownList('tipo_imovel', $filter['tipo_imovel'], ['apartamento'=>'Apartamento', 'casa'=>'Casa', 'comercial'=>'Comercial', 'terreno'=>'Terreno', 'flat' => 'Flat', 'rural' => 'Rural'], ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%']); ?>
+                        <?php echo CHtml::dropDownList('tipo_imovel', $filter['tipo_imovel'], ['apartamento'=>'Apartamento', 'casa'=>'Casa', 'comercial'=>'Comercial', 'terreno'=>'Terreno', 'flat' => 'Flat', 'rural' => 'Rural'], ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%']); ?>
                     </div>
                 </div>                                
             </div>
@@ -54,13 +54,13 @@ use App\Site\Localidade;
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="valor_minimo">Valor M&iacute;nimo</label>
-                        <?= Html::textInput('valor_minimo', $filter['valor_minimo'], ['class'=>'form-control filtro', 'style'=>'text-align: right;', 'placeholder' => 'Indiferente', 'data-mask' => '#.##0', 'data-mask-reverse' => 'true' ]) ?>
+                        <?= CHtml::textInput('valor_minimo', $filter['valor_minimo'], ['class'=>'form-control filtro', 'style'=>'text-align: right;', 'placeholder' => 'Indiferente', 'data-mask' => '#.##0', 'data-mask-reverse' => 'true' ]) ?>
                     </div>
                 </div>                                
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="valor_maximo">Valor M&aacute;ximo</label>
-                        <?= Html::textInput('valor_maximo', $filter['valor_maximo'], ['class'=>'form-control filtro', 'style'=>'text-align: right;', 'placeholder' => 'Indiferente', 'data-mask' => '#.##0', 'data-mask-reverse' => 'true']) ?>
+                        <?= CHtml::textInput('valor_maximo', $filter['valor_maximo'], ['class'=>'form-control filtro', 'style'=>'text-align: right;', 'placeholder' => 'Indiferente', 'data-mask' => '#.##0', 'data-mask-reverse' => 'true']) ?>
                     </div>
                 </div>                                       
             </div>
@@ -136,13 +136,13 @@ use App\Site\Localidade;
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="fValorMin">&Aacute;rea M&iacute;nima</label>
-                        <?= Html::textInput('area_minima', $filter['area_minima'], ['class'=>'form-control filtro', 'style'=>'text-align: right;', 'placeholder' => 'Indiferente']) ?>
+                        <?= CHtml::textInput('area_minima', $filter['area_minima'], ['class'=>'form-control filtro', 'style'=>'text-align: right;', 'placeholder' => 'Indiferente']) ?>
                     </div>
                 </div>                                
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="fValorMax">&Aacute;rea M&aacute;xima</label>
-                        <?= Html::textInput('area_maxima', $filter['area_maxima'], ['class'=>'form-control filtro', 'style'=>'text-align: right;', 'placeholder' => 'Indiferente']) ?>
+                        <?= CHtml::textInput('area_maxima', $filter['area_maxima'], ['class'=>'form-control filtro', 'style'=>'text-align: right;', 'placeholder' => 'Indiferente']) ?>
                     </div>
                 </div>                                       
             </div>

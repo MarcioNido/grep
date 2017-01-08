@@ -1,5 +1,5 @@
 <?php
-use App\Http\Components\Html;
+use App\Http\Components\CHtml;
 use App\Site\Localidade;
 
 //var_dump($profile);
@@ -23,11 +23,11 @@ use App\Site\Localidade;
                                 <div class="row">
 
                                     <div class="col-sm-3 col-xs-6 guru-home-search">
-                                        <?php echo Html::dropDownList('tipo_negocio', $profile->tipo_negocio, ['venda'=>'Comprar', 'locacao'=>'Alugar'], ['class'=>'form-control guru-select', 'style' => 'width: 100%']); ?>
+                                        <?php echo CHtml::dropDownList('tipo_negocio', $profile->tipo_negocio, ['venda'=>'Comprar', 'locacao'=>'Alugar'], ['class'=>'form-control guru-select', 'style' => 'width: 100%']); ?>
                                     </div>
                                     
                                     <div class="col-sm-3 col-xs-6 guru-home-search">
-                                        <?php echo Html::dropDownList('tipo_imovel', $profile->tipo_imovel, ['apartamento'=>'Apartamento', 'casa'=>'Casa', 'comercial'=>'Comercial', 'terreno'=>'Terreno', 'flat' => 'Flat', 'rural' => 'Rural'], ['class'=>'form-control guru-select', 'style' => 'width: 100%']); ?>
+                                        <?php echo CHtml::dropDownList('tipo_imovel', $profile->tipo_imovel, ['apartamento'=>'Apartamento', 'casa'=>'Casa', 'comercial'=>'Comercial', 'terreno'=>'Terreno', 'flat' => 'Flat', 'rural' => 'Rural'], ['class'=>'form-control guru-select', 'style' => 'width: 100%']); ?>
                                     </div>
                                     
                                     <div class="col-sm-5 col-xs-12 guru-home-search">

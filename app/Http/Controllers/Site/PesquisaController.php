@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Http\Components\CHtml;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Site\Agencia;
 use App\Site\Contato;
 //use GoogleMaps\GoogleMaps;
 //use Illuminate\Support\Facades\Cookie;
+use App\Site\NotificacaoImovel;
 use Illuminate\Http\Request;
 use App\Site\Imovel;
 //use App\Site\Localidade;
@@ -32,17 +35,6 @@ class PesquisaController extends Controller
      */
     protected $_order_fld;
     protected $_order_ad;
-    
-    
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //$this->middleware('auth');
-    }
 
     /**
      * Show the search results - properties for sale
@@ -59,6 +51,7 @@ class PesquisaController extends Controller
     /**
      * Show the search results - properties for rent
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function locacao(Request $request)
@@ -76,7 +69,8 @@ class PesquisaController extends Controller
     public function detalhe(Request $request)
     {
         $imovel = Imovel::find($request->imovel_id);
-        return view('site.pesquisa.detalhe', ['imovel' => $imovel]);
+        $filter_desc = (new ImovelSearch($request))->getSessionFiltersDesc();
+        return view('site.pesquisa.detalhe', ['imovel' => $imovel, 'filter_desc' => $filter_desc]);
     }
 
 
@@ -124,6 +118,34 @@ class PesquisaController extends Controller
         $contato->save();
 
         echo json_encode(['status' => 'ok']);
+
+    }
+
+    public function notificacaoImovel(Request $request)
+    {
+
+        // try to create or update a notification
+        $filter = (new ImovelSearch($request))->getSessionFilters();
+        if (! $filter) {
+            throw new \HttpException("Configurações não encontradas", 404);
+        }
+
+        $notificacao = new NotificacaoImovel();
+        $notificacao->user_id       = Auth::id();
+        $notificacao->estado        = $filter['estado'];
+        $notificacao->cidade        = $filter['cidade'];
+        $notificacao->regiao        = $filter['regiao'];
+        $notificacao->tipo_negocio  = $filter['tipo_negocio'];
+        $notificacao->tipo_imovel   = $filter['tipo_imovel'];
+        $notificacao->valor_minimo  = CHtml::removeMask($filter['valor_minimo']);
+        $notificacao->valor_maximo  = CHtml::removeMask($filter['valor_maximo']);
+        $notificacao->area_minima   = (int) $filter['area_minima'];
+        $notificacao->area_maxima   = (int) $filter['area_maxima'];
+        $notificacao->dormitorios   = (int) $filter['dormitorios'];
+        $notificacao->vagas         = (int) $filter['vagas'];
+        $notificacao->save();
+
+        return redirect('area-restrita/index');
 
     }
 

@@ -4,7 +4,7 @@ namespace App\Site;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
-use App\Http\Components\Html;
+use App\Http\Components\CHtml;
 
 /**
  * Class ImovelSearch
@@ -24,7 +24,7 @@ class ImovelSearch
     public $filter=[
         'localidade_url' => 'sp/sao-paulo/todas-as-regioes',
         'estado' => 'SP',
-        'cidade' => 'SÃO PAULO',
+        'cidade' => 'São Paulo',
         'tipo_negocio' => 'venda',
         'tipo_imovel' => 'apartamento',
         'valor_minimo' => '',
@@ -133,18 +133,18 @@ class ImovelSearch
         // VALOR MINIMO
         if (isset($this->filter['valor_minimo']) && (float) $this->filter['valor_minimo'] != 0.00) {
             if ($this->filter['tipo_negocio'] == 'venda') {
-                $this->_condition[] = ['valor_venda', '>=', Html::removeMask($this->filter['valor_minimo'])];
+                $this->_condition[] = ['valor_venda', '>=', CHtml::removeMask($this->filter['valor_minimo'])];
             } else {
-                $this->_condition[] = ['valor_locacao', '>=', Html::removeMask($this->filter['valor_minimo'])];
+                $this->_condition[] = ['valor_locacao', '>=', CHtml::removeMask($this->filter['valor_minimo'])];
             }
         }
 
         // VALOR MAXIMO
         if (isset($this->filter['valor_maximo']) && (float) $this->filter['valor_maximo'] != 0.00) {
             if ($this->filter['tipo_negocio'] == 'venda') {
-                $this->_condition[] = ['valor_venda', '<=', Html::removeMask($this->filter['valor_maximo'])];
+                $this->_condition[] = ['valor_venda', '<=', CHtml::removeMask($this->filter['valor_maximo'])];
             } else {
-                $this->_condition[] = ['valor_locacao', '<=', Html::removeMask($this->filter['valor_maximo'])];
+                $this->_condition[] = ['valor_locacao', '<=', CHtml::removeMask($this->filter['valor_maximo'])];
             }
         }
 
@@ -213,21 +213,18 @@ class ImovelSearch
      */
     protected function setSessionFilters()
     {
-
         $this->request->session()->set('filter', $this->filter);
-
     }
 
     /**
      * Gets session filters that are not passed via get
      */
-    protected function getSessionFilters()
+    public function getSessionFilters()
     {
-
         if ($this->request->session()->has('filter')) {
             $this->filter = $this->request->session()->get('filter');
         }
-
+        return $this->filter;
     }
 
 
@@ -258,6 +255,59 @@ class ImovelSearch
             'user' => \Illuminate\Support\Facades\Auth::user(),
         ]);
 
+    }
+
+    /**
+     * Creates an array with the filter descriptions
+     * @return array filter description
+     */
+    public function getSessionFiltersDesc()
+    {
+
+        $filter = $this->getSessionFilters();
+        $perfil = [];
+
+        if (isset($filter)) {
+            if ($filter['tipo_negocio'] == 'venda') {
+                $perfil[] = "Comprar";
+            } else {
+                $perfil[] = "Alugar";
+            }
+            $perfil[] = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE);
+            $localidade = "";
+            if (isset($filter['regiao']) && $filter['regiao'] != '') {
+                $localidade .= $filter['regiao'] . ", ";
+            }
+            $localidade .= $filter['cidade'] . ", " . $filter['estado'];
+            $perfil[] = $localidade;
+
+            if ($filter['dormitorios'] != '') {
+                $perfil[] = $filter['dormitorios'] . " dormitórios";
+            }
+
+            if ($filter['vagas'] != '') {
+                $perfil[] = $filter['vagas'] . " vagas";
+            }
+
+            if (isset($filter['valor_minimo']) && (int)$filter['valor_minimo'] != 0) {
+                $perfil[] = "Mín R$ " . \App\Http\Components\CHtml::moneyMask($filter['valor_minimo']);
+            }
+
+            if (isset($filter['valor_maximo']) && (int)$filter['valor_maximo'] != 0) {
+                $perfil[] = "Máx R$ " . \App\Http\Components\CHtml::moneyMask($filter['valor_maximo']);
+            }
+
+            if (isset($filter['area_minima']) && (int)$filter['area_minima'] != 0) {
+                $perfil[] = "Min " . $filter['area_minima'] . " ㎡";
+            }
+
+            if (isset($filter['area_maxima']) && (int)$filter['area_maxima'] != 0) {
+                $perfil[] = "Máx " . $filter['area_maxima'] . " ㎡";
+            }
+
+        }
+
+        return $perfil;
     }
 
 }

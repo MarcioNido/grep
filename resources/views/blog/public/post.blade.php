@@ -1,5 +1,5 @@
 <?php
-use App\Http\Components\Html;
+use App\Http\Components\CHtml;
 $title = $post->titulo;
 ?>
 
@@ -41,7 +41,7 @@ $title = $post->titulo;
 
                                     <div class="btn-group-vertical" role="group" style="float:right; margin-top: 2px;">
                                         <a type="button" data-mobile-iframe="true" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ url('blogleardi/'.$post->key) }}&src=sdkpreparse&display=popup" data-href="{{ url('blogleardi/'.$post->key) }}/" class="btn btn-primary fb-share-button fb-xfbml-parse-ignore" style="font-weight: 300; font-size: 18px;"><span class="fa fa-facebook-square"></span></a>
-                                        @if ( Html::isMobile() )
+                                        @if ( CHtml::isMobile() )
                                             <a href="whatsapp://send?text={{ url('blogleardi/'.$post->key) }}/" data-action="share/whatsapp/share" type="button" class="btn btn-success" style="font-weight: 300; font-size: 18px;"><span class="fa fa-whatsapp"> </span></a>
                                         @endif
                                     </div>

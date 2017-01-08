@@ -1,5 +1,5 @@
 <?php
-use App\Http\Components\Html;
+use App\Http\Components\CHtml;
 use App\Site\Foto;
 
 $title = $imovel->title().' - Paulo Roberto Leardi';
@@ -145,7 +145,7 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
                                                 
                                                 <div class="btn-group-vertical" role="group">
                                                     <a type="button" data-mobile-iframe="true" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ url('imovel/'.$imovel->id) }}&amp;src=sdkpreparse&display=popup" data-href="http://apps.dev/yii2-app-advanced/frontend/web/index.php?r=site/detalhe&amp;id=123456" class="btn btn-primary fb-share-button fb-xfbml-parse-ignore" style="font-weight: 300; font-size: 18px;"><span class="fa fa-facebook-square"></span></a>
-                                                    @if ( Html::isMobile() )
+                                                    @if ( CHtml::isMobile() )
                                                         <a href="whatsapp://send?text={{ url('imovel/'.$imovel->id) }}/" data-action="share/whatsapp/share" type="button" class="btn btn-success" style="font-weight: 300; font-size: 18px;"><span class="fa fa-whatsapp"> </span></a>
                                                     @endif
                                                     <button type="button" class="btn btn-default" style="font-weight: 300; font-size: 18px; color: #286090;"><span class="fa fa-heart"></span></button>
@@ -349,32 +349,7 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
 
 
 <div style="background-color: #345C8C; width: 100%; padding: 40px 0;">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10 col-md-offset-1" style="text-align: left;">
-                <h3 style="color: #FAFAFA; font-weight: 300">Receba novos im&oacute;veis e atualiza&ccedil;&otilde;es relacionadas &agrave; sua pesquisa direto em sua caixa de e-mail!</h3>
-                <h5 style="color: #E7E7E7; font-weight: 300;"></h5>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-5 col-md-offset-1" >
-                <h5 style="color: #CCCCCC"><span class="glyphicon glyphicon-check"></span> Comprar</h5>
-                <h5 style="color: #CCCCCC"><span class="glyphicon glyphicon-check"></span> Apartamento</h5>
-            </div>
-            <div class="col-md-5">
-                <h5 style="color: #CCCCCC"><span class="glyphicon glyphicon-check"></span> Brooklin, S&atilde;o Paulo, SP</h5>
-                <h5 style="color: #CCCCCC"><span class="glyphicon glyphicon-check"></span> 3 Dormit&oacute;rios</h5>
-
-            </div>
-        </div>
-        <div class="row" style="margin-top: 30px;">
-            <div class="col-lg-10 col-md-offset-1">
-                <button class="btn btn-warning">QUERO RECEBER AS OPORTUNIDADES!</button>
-            </div>
-        </div>
-    </div>
-
+    @include('site.pesquisa.receba_novidades')
 </div>
 
 <div style="background-color: #E1ECF8; width: 100%; padding: 40px 0;">
@@ -392,10 +367,10 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
             <div class="row">
                 <div class="col-md-3">
                     <div class="thumbnail">
-                        <?= Html::a('<img src="/images/imovel1.jpg" />', '#', ['style'=>'width:100%;']); ?>
+                        <?= CHtml::a('<img src="/images/imovel1.jpg" />', '#', ['style'=>'width:100%;']); ?>
                         <div class="caption">
                             <h3>Vila Nova Conceicao</h3>
-                            <p><?= Html::a('<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                            <p><?= CHtml::a('<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                                 dolore magna aliqua. </p>', '/imovel/123456'); ?></p>
                         </div>                            
 
@@ -406,11 +381,11 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
                 </div>
                 <div class="col-md-3">
                     <div class="thumbnail">
-                        <?= Html::a('<img src="/images/imovel2.jpg" />', '#', ['style'=>'width:100%;']); ?>
+                        <?= CHtml::a('<img src="/images/imovel2.jpg" />', '#', ['style'=>'width:100%;']); ?>
 
                         <div class="caption">
                             <h3>Jardim America</h3>
-                            <?= Html::a('<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                            <?= CHtml::a('<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                                 dolore magna aliqua. </p>',  '/imovel/123456'); ?>
                         </div>                            
 
@@ -420,11 +395,11 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
                 </div>
                 <div class="col-md-3">
                     <div class="thumbnail">
-                        <?= Html::a('<img src="/images/imovel3.jpg" />', '#', ['style'=>'width:100%;']); ?>
+                        <?= CHtml::a('<img src="/images/imovel3.jpg" />', '#', ['style'=>'width:100%;']); ?>
 
                         <div class="caption">
                            <h3>Vila Luzitania</h3>
-                           <?= Html::a('<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                           <?= CHtml::a('<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                                dolore magna aliqua. </p>',  '/imovel/123456'); ?>
                        </div>
 
@@ -435,11 +410,11 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
                 
                 <div class="col-md-3">
                     <div class="thumbnail">
-                        <?= Html::a('<img src="/images/imovel1.jpg" />', '#', ['style'=>'width:100%;']); ?>
+                        <?= CHtml::a('<img src="/images/imovel1.jpg" />', '#', ['style'=>'width:100%;']); ?>
 
                         <div class="caption">
                            <h3>Vila Mariana</h3>
-                           <?= Html::a('<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                           <?= CHtml::a('<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                                dolore magna aliqua. </p>',  '/imovel/123456'); ?>
                        </div>
 
