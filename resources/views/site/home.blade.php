@@ -9,7 +9,7 @@ use App\Site\Localidade;
 
 @section('content')
 
-    <div class="container-fluid" style="background: #ddd url(images/AdobeStock_103524609_WM.jpeg) top no-repeat; height: 490px;">
+    <div class="container-fluid" style="background: #ddd url('/images/bannerhome.jpg') center no-repeat; height: 490px;">
         <div class="">
             <div class="row">
                 <div class="col-lg-8 guru-home-panel-container" style="">
