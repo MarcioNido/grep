@@ -54,6 +54,8 @@ Route::group(['namespace' => 'Site', 'middleware' => 'auth'], function() {
     Route::post('/area-restrita/edita-alerta/{id}', 'AreaRestritaController@storeAlerta');
     Route::get('/area-restrita/cancela-alerta/{id}', 'AreaRestritaController@cancelaAlerta');
     Route::post('/area-restrita/cancela-alerta/{id}', 'AreaRestritaController@cancelaAlerta');
+    Route::any('/area-restrita/cadastro-imovel/{id?}', 'CadastroImovelController@edita');
+    Route::get('/area-restrita/cadastro-imovel/tipo-imovel/{codtiposimplificado}', 'CadastroImovelController@tipoimovel');
 });
 
 // Blog Routes

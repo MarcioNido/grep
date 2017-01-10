@@ -4,22 +4,38 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Components\CHtml;
 use App\Http\Controllers\Controller;
+use App\Site\CadImovel;
 use App\Site\Localidade;
 use App\Site\NotificacaoImovel;
+use Collective\Html\FormFacade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\DropDownTool;
 
-class AreaRestritaController extends Controller
+class CadastroImovelController extends Controller
 {
-    /**
-     * Exibe a página principal da área restrita
-     * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function index(Request $request)
+
+    public function edita(Request $request)
     {
-        $alertasImoveis = NotificacaoImovel::where(['user_id' => Auth::id(), 'active' => 1])->get();
-        return view('site.area-restrita.index', ['alertasImoveis' => $alertasImoveis]);
+
+        if (isset($request->id) && $request->id != 0) {
+            $imovel = CadImovel::where(['id'=>$request->id, 'user_id'=>Auth::id()])->first();
+            if (! $imovel) {
+                throw new \Exception("Imóvel não encontrado ...", 404);
+            }
+        } else {
+            $imovel = new CadImovel();
+            $imovel->user_id = Auth::id();
+        }
+
+        if ($request->isMethod('post')) {
+            $imovel->fill($request->all());
+            $imovel->save();
+            return redirect('/area-restrita/index');
+        }
+
+        return view('site.area-restrita.cadastro-imovel', ['imovel' => $imovel]);
+
     }
 
     /**
@@ -95,6 +111,11 @@ class AreaRestritaController extends Controller
 
         return view('site.area-restrita.cancela-alerta', ['alerta' => $alerta]);
 
+    }
+
+    public function tipoimovel($codtiposimplificado=0)
+    {
+        return FormFacade::activeDropDownList('Subtipo de Imóvel', 'codtipoimovel', 0, DropDownTool::getTipoImovel($codtiposimplificado), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'codtipoimovel', 'placeholder' => 'Selecione ...']);
     }
 
 }

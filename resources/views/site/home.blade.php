@@ -2,14 +2,13 @@
 use App\Http\Components\CHtml;
 use App\Site\Localidade;
 
-//var_dump($profile);
 ?>
 
 @extends('layouts.app')
 
 @section('content')
 
-    <div class="container-fluid" style="background: #ddd url('/images/bannerhome.jpg') center no-repeat; height: 490px;">
+    <div class="container-fluid" style="background: #ddd url('/images/bannerhomeleardi2.jpg') center no-repeat; height: 490px;">
         <div class="">
             <div class="row">
                 <div class="col-lg-8 guru-home-panel-container" style="">

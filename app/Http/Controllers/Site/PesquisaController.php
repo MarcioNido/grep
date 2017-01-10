@@ -99,13 +99,6 @@ class PesquisaController extends Controller
 
     public function storeContato(Request $request)
     {
-        $this->validate($request, [
-            'nome' => 'required|max:100',
-            'email' => 'required|email|max:100',
-            'ddd'=>'digits:2',
-            'telefone'=>'digits_between:8,9',
-        ]);
-
         $contato = new Contato();
         $contato->nome = $request['nome'];
         $contato->email = $request['email'];
@@ -115,7 +108,7 @@ class PesquisaController extends Controller
         $contato->envio_ofertas = $request['envio_ofertas'];
         $contato->imovel_id = $request['imovel_id'];
         $contato->agencia_id = $request['agencia_id'];
-        $contato->save();
+        $contato->saveOrFail();
 
         echo json_encode(['status' => 'ok']);
 
