@@ -11,6 +11,7 @@ use Collective\Html\FormFacade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\DropDownTool;
+use App\Site\Cep;
 
 class CadastroImovelController extends Controller
 {
@@ -29,8 +30,18 @@ class CadastroImovelController extends Controller
         }
 
         if ($request->isMethod('post')) {
+
             $imovel->fill($request->all());
-            $imovel->save();
+            $imovel->agencia_id = 24;
+            $imovel->data_hora_cadastro = (new \DateTime())->format('Y-m-d H:i:s');
+            $imovel->valor_venda = CHtml::removeMask($imovel->valor_venda);
+            $imovel->valor_locacao = CHtml::removeMask($imovel->valor_locacao);
+            $imovel->valor_iptu = CHtml::removeMask($imovel->valor_iptu);
+            $imovel->valor_condominio = CHtml::removeMask($imovel->valor_condominio);
+            $imovel->areautilconstruida = CHtml::removeMask($imovel->areautilconstruida);
+            $imovel->areatotalterreno = CHtml::removeMask($imovel->areatotalterreno);
+            $imovel->nascimento = (new \DateTime($imovel->nascimento))->format('Y-m-d');
+            $imovel->saveOrFail();
             return redirect('/area-restrita/index');
         }
 
@@ -116,6 +127,25 @@ class CadastroImovelController extends Controller
     public function tipoimovel($codtiposimplificado=0)
     {
         return FormFacade::activeDropDownList('Subtipo de Imóvel', 'codtipoimovel', 0, DropDownTool::getTipoImovel($codtiposimplificado), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'codtipoimovel', 'placeholder' => 'Selecione ...']);
+    }
+
+    public function cidade($estado='')
+    {
+        return FormFacade::activeDropDownList('Cidade', 'codcidade', 0, DropDownTool::getCidade($estado), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'codcidade', 'placeholder' => '...', 'onchange' => 'trigger_codcidade()']);
+    }
+
+    public function bairro($codcidade=0)
+    {
+        return FormFacade::activeDropDownList('Bairro', 'codbairro', 0, DropDownTool::getBairro($codcidade), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'codbairro', 'placeholder' => '...']);
+    }
+
+    public function cep($cep='')
+    {
+        $endereco = Cep::where(['cep' => $cep])->first();
+        $response = [
+            'endereco' => $endereco->endereco,
+        ];
+        echo json_encode($response);
     }
 
 }

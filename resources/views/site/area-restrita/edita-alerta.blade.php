@@ -4,6 +4,11 @@ use App\Http\Components\CHtml as CHtml;
 use App\Site\Localidade;
 $title = "Alerta por E-mail";
 $localidade_url = Localidade::where(['estado'=>$alerta->estado, 'cidade' => $alerta->cidade, 'regiao' => $alerta->regiao])->first();
+$breadcrumbs = [
+    'Home' => url('/'),
+    'Área Restrita' => url('/area-restrita/index'),
+    'Edita Alerta' => '',
+];
 ?>
 @extends('layouts.app')
 
@@ -49,27 +54,27 @@ $localidade_url = Localidade::where(['estado'=>$alerta->estado, 'cidade' => $ale
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-3 col-xs-6">
                                         {{ Form::activeDropDownList('Dormitórios', 'dormitorios', $alerta->dormitorios, [1=>'1+', 2=>'2+', 3=>'3+', 4=>'4+', 5=>'5+'], ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'placeholder'=>'Indiferente']) }}
                                     </div>
 
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-3 col-xs-6">
                                         {{ Form::activeDropDownList('Vagas', 'vagas', $alerta->vagas, [1=>'1+', 2=>'2+', 3=>'3+', 4=>'4+', 5=>'5+'], ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'placeholder'=>'Indiferente']) }}
                                     </div>
-                                    <div class="col-lg-3 col-md-6">
+                                    <div class="col-lg-3 col-xs-6">
                                         {{ Form::activeText('Área Mínima', 'area_minima', ($alerta->area_minima ?: ""), ['style'=>'text-align: right;', 'placeholder' => 'Indiferente', 'data-mask' => '#.##0', 'data-mask-reverse' => 'true']) }}
                                     </div>
-                                    <div class="col-lg-3 col-md-6">
+                                    <div class="col-lg-3 col-xs-6">
                                         {{ Form::activeText('Área Máxima', 'area_maxima', ($alerta->area_maxima ?: ""), ['style'=>'text-align: right;', 'placeholder' => 'Indiferente', 'data-mask' => '#.##0', 'data-mask-reverse' => 'true']) }}
                                     </div>
 
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-6">
+                                    <div class="col-lg-3 col-xs-6">
                                         {{ Form::activeText('Valor Mínimo', 'valor_minimo', ($alerta->valor_minimo ?: ""), ['style'=>'text-align: right;', 'placeholder' => 'Indiferente', 'data-mask' => '#.##0', 'data-mask-reverse' => 'true' ]) }}
                                     </div>
-                                    <div class="col-lg-3 col-md-6">
+                                    <div class="col-lg-3 col-xs-6">
                                         {{ Form::activeText('Valor Máximo', 'valor_maximo', ($alerta->valor_maximo ?: ""), ['style'=>'text-align: right;', 'placeholder' => 'Indiferente', 'data-mask' => '#.##0', 'data-mask-reverse' => 'true' ]) }}
                                     </div>
                                 </div>

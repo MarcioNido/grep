@@ -95,6 +95,7 @@
             </div>
         </nav>
 
+        {{ Form::breadcrumbs(isset($breadcrumbs) ? $breadcrumbs : []) }}
         @yield('content')
     </div>
 

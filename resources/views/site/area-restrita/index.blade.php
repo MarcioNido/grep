@@ -1,6 +1,10 @@
 <?php
 use App\Http\Components\CHtml;
-        $title = 'Área Restrita';
+$title = 'Área Restrita';
+$breadcrumbs = [
+        'Home' => url('/'),
+        'Área Restrita' => '',
+];
 ?>
 
 @extends('layouts.app')
@@ -63,7 +67,7 @@ use App\Http\Components\CHtml;
                                 <?php echo  CHtml::a('Cancelar/Suspender', 'area-cliente/page', ['class'=>'btn btn-default']); ?>
                             </li>
                         </ul>
-                        <?php echo  CHtml::a("Anunciar Im&oacute;vel", 'area-cliente/page', ['class'=>'btn btn-primary']); ?>
+                        <?php echo  CHtml::a("Anunciar Im&oacute;vel", '/area-restrita/cadastro-imovel', ['class'=>'btn btn-primary']); ?>
 
                     </div>
                 </div>

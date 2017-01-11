@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Site\Bairro;
+use App\Site\Cidade;
+use App\Site\Estado;
 use App\Site\TipoLogradouro;
 use App\Site\TipoSimplificado;
 use App\Site\TipoImovel;
@@ -34,6 +37,30 @@ class DropDownTool
             ->select('codtipologradouro', 'descricao')
             ->orderBy('descricao')
             ->pluck('descricao', 'codtipologradouro');
+    }
+
+    public static function getEstado()
+    {
+        return Estado::where(['situacao' => 'Ativo'])
+            ->select('sigla')
+            ->orderBy('sigla')
+            ->pluck('sigla', 'sigla');
+    }
+
+    public static function getCidade($estado='')
+    {
+        return Cidade::where(['siglaestado' => $estado, 'situacao' => 'Ativo'])
+            ->select('codcidade', 'descricao')
+            ->orderBy('descricao')
+            ->pluck('descricao', 'codcidade');
+    }
+
+    public static function getBairro($codcidade=0)
+    {
+        return Bairro::where(['codcidade' => $codcidade, 'situacao'=>'Ativo'])
+            ->select('codbairro', 'descricao')
+            ->orderBy('descricao')
+            ->pluck('descricao', 'codbairro');
     }
 
 }

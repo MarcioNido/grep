@@ -4,6 +4,11 @@ use App\Http\Components\CHtml as CHtml;
 use App\Site\Localidade;
 $title = "Cancelamento de Alerta";
 $localidade_url = Localidade::where(['estado'=>$alerta->estado, 'cidade' => $alerta->cidade, 'regiao' => $alerta->regiao])->first();
+$breadcrumbs = [
+    'Home' => url('/'),
+    'Área Restrita' => url('/area-restrita/index'),
+    'Cancelamento Alerta'=> '',
+];
 ?>
 @extends('layouts.app')
 
