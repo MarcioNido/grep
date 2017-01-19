@@ -77,6 +77,13 @@ $title = "Agências Paulo Roberto Leardi";
 
                     </div>
 
+                    <div class="row">
+                        <div class="col-sm-12" style="text-align: right;">
+                            {{ $posts->links() }}
+                        </div>
+                    </div>
+
+
                 </div>
 
 

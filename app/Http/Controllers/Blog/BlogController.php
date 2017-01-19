@@ -17,7 +17,7 @@ class BlogController extends Controller
      */
     public function lista(Request $request)
     {
-        $posts = Post::where(['ativo'=>1])->orderBy('id', 'desc')->get();
+        $posts = Post::where(['ativo'=>1])->orderBy('id', 'desc')->paginate(12);
         return view('blog.public.lista', ['posts' => $posts]);
     }
 
