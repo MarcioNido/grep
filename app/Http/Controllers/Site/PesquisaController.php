@@ -70,7 +70,78 @@ class PesquisaController extends Controller
     {
         $imovel = Imovel::find($request->imovel_id);
         $filter_desc = (new ImovelSearch($request))->getSessionFiltersDesc();
-        return view('site.pesquisa.detalhe', ['imovel' => $imovel, 'filter_desc' => $filter_desc]);
+        $imoveisSimilares = $this->getImoveisSimilares($imovel, $filter_desc);
+        return view('site.pesquisa.detalhe', ['imovel' => $imovel, 'filter_desc' => $filter_desc, 'imoveisSimilares' => $imoveisSimilares]);
+    }
+
+    /**
+     * Retorna 4 imóveis similares ...
+     * Parametros em ordem de prioridade:
+     *  - tipo de negócio
+     *  - tipo de imóvel
+     *  - estado
+     *  - cidade
+     *  - região
+     *  - faixa de valor
+     * @param $imovel
+     */
+    protected function getImoveisSimilares($imovel, $filter_desc)
+    {
+        $filtros = array();
+        if (in_array('Comprar', $filter_desc)) {
+            $filtros['disponivel_venda'] = 1;
+            $valor = $imovel->valor_venda;
+        } else {
+            $filtros['disponivel_locacao'] = 1;
+            $valor = $imovel->valor_locacao;
+        }
+
+        $filtros['tipo_simplificado'] = $imovel->tipo_simplificado;
+        $filtros['tipo_imovel'] = $imovel->tipo_imovel;
+        $filtros['estado'] = $imovel->estado;
+        $filtros['cidade'] = $imovel->cidade;
+        $filtros['regiao_mercadologica'] = $imovel->regiao_mercadologica;
+        $filtros['valor_venda'] = $imovel->valor_venda;
+        $filtros['valor_locacao'] = $imovel->valor_locacao;
+
+        for ($i=1; $i<=3; $i++) {
+            $imoveis = $this->searchSimilares($filtros, $imovel->id);
+            if ($imoveis && count($imoveis) == 4) {
+                break;
+            }
+            if ($i == 1) {
+                unset($filtros['regiao_mercadologica']);
+            } elseif ($i == 2) {
+                unset($filtros['valor_venda']);
+                unset($filtros['valor_locacao']);
+            }
+
+        }
+
+        return $imoveis;
+
+    }
+
+    protected function searchSimilares($filtros, $id)
+    {
+        $condition = [];
+        foreach($filtros as $key => $value) {
+            if ($key == "valor_venda" || $key == "valor_locacao") {
+                $valor_minimo = (float) $value * 0.80;
+                $valor_maximo = (float) $value * 1.20;
+                $condition[] = [$key, '>=', $valor_minimo];
+                $condition[] = [$key, '<=', $valor_maximo];
+            } else {
+                $condition[] = [$key, $value];
+            }
+        }
+
+        $condition[] = ['id', '!=', $id];
+        $imoveis = Imovel::where($condition)->orderBy('created_at', 'desc')->limit(4)->get();
+
+        return $imoveis;
+
+
     }
 
 

@@ -365,63 +365,28 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
             </div>
             
             <div class="row">
+
+                @foreach($imoveisSimilares as $similar)
+                    <?php
+                    // @todo remover isso daqui e colocar no controller ou melhor, criar uma classe para as fotos
+                    $foto = Foto::where('imovel_id', $similar->id)->first();
+                    if ($foto != null) {
+                    $arquivo = "http://www.leardi.com.br/imagens/".$foto->arquivo;
+                    } else {
+                    $arquivo = "/images/semfoto.png";
+                    }
+                    ?>
                 <div class="col-md-3">
                     <div class="thumbnail">
-                        <?= CHtml::a('<img src="/images/imovel1.jpg" />', '#', ['style'=>'width:100%;']); ?>
+                        <a href="/imovel/{{ $similar->id }}"><img src="{{ $arquivo }}" class="img-responsive" /></a>
                         <div class="caption">
-                            <h3>Vila Nova Conceicao</h3>
-                            <p><?= CHtml::a('<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                dolore magna aliqua. </p>', '/imovel/123456'); ?></p>
+                            <h3>{{ mb_convert_case($similar->regiao_mercadologica, MB_CASE_TITLE) }}</h3>
+                            <p><?= CHtml::a(substr($similar->texto_promocional, 0, 300), "/imovel/{$similar->id}"); ?></p>
                         </div>                            
 
                     </div>
-
-
-
                 </div>
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                        <?= CHtml::a('<img src="/images/imovel2.jpg" />', '#', ['style'=>'width:100%;']); ?>
-
-                        <div class="caption">
-                            <h3>Jardim America</h3>
-                            <?= CHtml::a('<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                                dolore magna aliqua. </p>',  '/imovel/123456'); ?>
-                        </div>                            
-
-                    </div>
-
-
-                </div>
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                        <?= CHtml::a('<img src="/images/imovel3.jpg" />', '#', ['style'=>'width:100%;']); ?>
-
-                        <div class="caption">
-                           <h3>Vila Luzitania</h3>
-                           <?= CHtml::a('<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                               dolore magna aliqua. </p>',  '/imovel/123456'); ?>
-                       </div>
-
-
-                    </div>
-
-                </div>
-                
-                <div class="col-md-3">
-                    <div class="thumbnail">
-                        <?= CHtml::a('<img src="/images/imovel1.jpg" />', '#', ['style'=>'width:100%;']); ?>
-
-                        <div class="caption">
-                           <h3>Vila Mariana</h3>
-                           <?= CHtml::a('<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                               dolore magna aliqua. </p>',  '/imovel/123456'); ?>
-                       </div>
-
-
-                    </div>
-
-                </div>                
+                @endforeach
 
             </div>
 

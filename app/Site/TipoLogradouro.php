@@ -11,7 +11,6 @@ class TipoLogradouro extends Model
     use ValidatingTrait;
 
     protected   $table="i_tipologradouro";
-    protected   $primaryKey="codtipologradouro";
     public      $timestamps=false;
 
     protected $rules=[];

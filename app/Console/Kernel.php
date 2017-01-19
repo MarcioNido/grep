@@ -6,6 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\importaLocalidade;
 use App\Console\Commands\importaCaracteristica;
+use App\Console\Commands\importaBlog;
 
 class Kernel extends ConsoleKernel
 {
@@ -17,6 +18,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         importaLocalidade::class,
         importaCaracteristica::class,
+        importaBlog::class,
     ];
 
     /**

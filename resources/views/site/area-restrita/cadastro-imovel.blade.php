@@ -52,13 +52,13 @@ $breadcrumbs = [
                                         {{ Form::activeText('CEP', 'cep', $imovel->cep, ['onchange' => 'trigger_cep()', 'id' => 'cep']) }}
                                     </div>
                                     <div class="col-md-2">
-                                        {{ Form::activeDropDownList('Tipo', 'tipo_logradouro', $imovel->tipo_logradouro, \App\DropDownTool::getTipoLogradouro(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'placeholder' => 'Selecione ...']) }}
+                                        {{ Form::activeDropDownList('Tipo', 'tipo_logradouro', $imovel->tipo_logradouro, \App\DropDownTool::getTipoLogradouro(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'placeholder' => 'Selecione ...', 'id' => 'tipo_logradouro']) }}
                                     </div>
                                     <div class="col-md-6">
                                         {{ Form::activeText('Endereço', 'endereco', $imovel->endereco, ['id' => 'endereco']) }}
                                     </div>
                                     <div class="col-md-2">
-                                        {{ Form::activeText('Número', 'numero', $imovel->numero) }}
+                                        {{ Form::activeText('Número', 'numero', $imovel->numero, ['id' => 'numero']) }}
                                     </div>
                                 </div>
 
@@ -76,7 +76,9 @@ $breadcrumbs = [
 
                                 <div class="row">
                                     <div class="col-md-2">
-                                        {{ Form::activeDropDownList('Estado', 'estado', $imovel->estado, \App\DropDownTool::getEstado(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'placeholder' => '...', 'onchange' => 'trigger_estado()', 'id'=>'estado']) }}
+                                        <span id="ph_estado">
+                                            {{ Form::activeDropDownList('Estado', 'estado', $imovel->estado, \App\DropDownTool::getEstado(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'placeholder' => '...', 'onchange' => 'trigger_estado()', 'id'=>'estado']) }}
+                                        </span>
                                     </div>
                                     <div class="col-md-4">
                                         <span id="ph_codcidade">
@@ -164,13 +166,13 @@ $breadcrumbs = [
                                         {{ Form::activeText('DDD', 'ddd1', $imovel->ddd1) }}
                                     </div>
                                     <div class="col-md-4">
-                                        {{ Form::activeText('Telefone', 'telefone1', $imovel->telefone1) }}
+                                        {{ Form::activeText('Telefone', 'telefone1', $imovel->telefone1, ['style' => 'text-align:right', 'data-mask' => '#####-####', 'data-mask-reverse' => true]) }}
                                     </div>
                                     <div class="col-md-2">
                                         {{ Form::activeText('DDD', 'ddd2', $imovel->ddd2) }}
                                     </div>
                                     <div class="col-md-4">
-                                        {{ Form::activeText('Telefone', 'telefone2', $imovel->telefone2) }}
+                                        {{ Form::activeText('Telefone', 'telefone2', $imovel->telefone2, ['style' => 'text-align:right', 'data-mask' => '#####-####', 'data-mask-reverse' => true]) }}
                                     </div>
                                 </div>
                                 <div class="row">
@@ -267,11 +269,24 @@ $breadcrumbs = [
     {
         $.getJSON('/area-restrita/busca-cep/'+$('#cep').val())
                 .done(function(json) {
-                    $('#endereco').val(json.endereco)
+                    $('#tipo_logradouro').val(json.tipo_logradouro).trigger('change');
+                    $('#endereco').val(json.endereco);
+                    $('#numero').val(json.numero);
+                    $('#ph_estado').html(json.estado);
+                    $('#ph_codcidade').html(json.codcidade);
+                    $('#ph_codbairro').html(json.codbairro);
+                    $('#estado').select2({theme: "bootstrap", minimunResultsForSearch: 15});
+                    $('#codcidade').select2({theme: "bootstrap", minimunResultsForSearch: 15});
+                    $('#codbairro').select2({theme: "bootstrap", minimunResultsForSearch: 15});
                 })
                 .fail(function() {
                     // nothing to do ?
                 })
+    }
+
+    function location_set()
+    {
+
     }
 
 </script>

@@ -44,6 +44,7 @@ Route::group(['namespace' => 'Site'], function() {
 
     // seja um franqueado
     Route::get('/seja-um-franqueado', 'FranqueadoController@index');
+    Route::post('/seja-um-franqueado/contato', 'FranqueadoController@storeContato');
 
 });
 
@@ -55,10 +56,15 @@ Route::group(['namespace' => 'Site', 'middleware' => 'auth'], function() {
     Route::get('/area-restrita/cancela-alerta/{id}', 'AreaRestritaController@cancelaAlerta');
     Route::post('/area-restrita/cancela-alerta/{id}', 'AreaRestritaController@cancelaAlerta');
     Route::any('/area-restrita/cadastro-imovel/{id?}', 'CadastroImovelController@edita');
+    Route::any('/area-restrita/cancela-imovel/{id}', 'CadastroImovelController@cancelaImovel');
     Route::get('/area-restrita/drop-down/tipo-imovel/{codtiposimplificado?}', 'CadastroImovelController@tipoimovel');
     Route::get('/area-restrita/drop-down/cidade/{estado?}', 'CadastroImovelController@cidade');
     Route::get('/area-restrita/drop-down/bairro/{codcidade?}', 'CadastroImovelController@bairro');
     Route::get('/area-restrita/busca-cep/{cep?}', 'CadastroImovelController@cep');
+    Route::any('/area-restrita/envia-fotos/{id}', 'CadastroImovelController@enviaFotos');
+    Route::get('/area-restrita/fotos-enviadas', 'CadastroImovelController@fotosEnviadas');
+    Route::any('/area-restrita/trabalhe-conosco/{id?}', 'TrabalheConoscoController@edita');
+    Route::any('/area-restrita/dados-pessoais', 'UserController@edita');
 });
 
 // Blog Routes

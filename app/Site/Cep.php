@@ -16,4 +16,9 @@ class Cep extends Model
 
     protected $rules=[];
 
+    public function cidade()
+    {
+        return $this->belongsTo('\App\Site\Cidade', 'codcidade', 'codcidade');
+    }
+
 }

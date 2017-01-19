@@ -28,8 +28,27 @@ class CadImovel extends Model
         'codcidade' => 'required',
         'estado' => 'required',
         'nome' => 'required',
-        'telefone1' => 'required',
-        'email' => 'required',
+        'telefone1' => 'required|max:9',
+        'telefone2' => 'max:9|nullable',
+        'email' => 'email|required',
+        'nascimento' => 'date|nullable',
     ];
+
+    public function getEnderecoCompleto()
+    {
+        $endereco = $this->tipo_logradouro." ".mb_convert_case($this->endereco, MB_CASE_TITLE).", ".$this->numero;
+        if ($this->unidade) {
+            $endereco .= " Und: ".$this->unidade;
+        }
+        if ($this->bloco) {
+            $endereco .= " Bl.: ".$this->bloco;
+        }
+        if ($this->complemento) {
+            $endereco .= " ".$this->complemento;
+        }
+
+        return $endereco;
+
+    }
 
 }

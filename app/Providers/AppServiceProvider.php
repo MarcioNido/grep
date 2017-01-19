@@ -21,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
 
         // form components
         FormFacade::component('activeText', 'components.form.activeText', ['label', 'name', 'value'=>null, 'attributes'=>[]]);
+        FormFacade::component('activePassword', 'components.form.activePassword', ['label', 'name', 'value'=>null, 'attributes'=>[]]);
         FormFacade::component('activeTextArea', 'components.form.activeTextArea', ['label', 'name', 'value'=>null, 'attributes'=>[]]);
         FormFacade::component('activeDropDownList', 'components.form.activeDropDownList', ['label', 'name', 'value'=>null, 'data'=>[], 'attributes'=>[]]);
         FormFacade::component('activeRadio', 'components.form.activeRadio', ['label', 'name', 'value', 'checked_value'=>null, 'attributes'=>[]]);

@@ -34,5 +34,10 @@ class Post extends Model
         return $this->hasOne('App\Blog\Imagem');
     }
 
+    public static function getDestaques()
+    {
+        return self::orderBy('created_at', 'desc')->limit(3)->get();
+    }
+
 
 }

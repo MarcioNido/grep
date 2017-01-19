@@ -21,7 +21,7 @@ $breadcrumbs = [
 
         <div class="row">
 
-            <?php if ($alertasImoveis != null) { ?>
+            <?php if ($alertasImoveis != null && count($alertasImoveis) > 0) { ?>
 
                 <div class="col-md-6">
 
@@ -38,8 +38,8 @@ $breadcrumbs = [
                             <ul class="list-group">
                                 <li class="list-group-item">
                                     <h4 class='list-group-item-heading'>Alerta por Email</h4>
-                                    <h5><b>{{ $perfil['title'] }}</b></h5>
-                                    <h5><b>{{ $perfil['caracteristicas'] }}</b></h5>
+                                    <h5>{{ $perfil['title'] }}</h5>
+                                    <h5>{{ $perfil['caracteristicas'] }}</h5>
                                     <?php echo CHtml::a('Configurar', "/area-restrita/edita-alerta/{$alertaImovel->id}", ['class'=>'btn btn-warning']); ?>
                                     <?php echo CHtml::a('Cancelar Alerta', "/area-restrita/cancela-alerta/{$alertaImovel->id}", ['class'=>'btn btn-default']); ?>
                                 </li>
@@ -54,22 +54,34 @@ $breadcrumbs = [
 
 
             <?php } ?>
+
             <div class="col-md-6">
 
                 <div class="panel panel-primary">
                     <div class="panel-heading">PROPRIET&Aacute;RIOS</div>
                     <div class="panel-body">
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <p>Av. Padre Antonio Jose dos Santos, 313 Und.: 161</p>
-                                <?php echo  CHtml::a('Editar Dados', 'area-cliente/page', ['class'=>'btn btn-warning']); ?>
-                                <?php echo  CHtml::a('Gerenciar Fotos', 'area-cliente/page', ['class'=>'btn btn-warning']); ?>
-                                <?php echo  CHtml::a('Cancelar/Suspender', 'area-cliente/page', ['class'=>'btn btn-default']); ?>
-                            </li>
-                        </ul>
+
+                        @if ($imoveis != null)
+
+                            @foreach($imoveis as $imovel)
+
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <p>{{ $imovel->getEnderecoCompleto() }}</p>
+                                        <?php echo  CHtml::a('Editar Dados', "/area-restrita/cadastro-imovel/{$imovel->id}", ['class'=>'btn btn-warning']); ?>
+                                        <?php echo  CHtml::a('Enviar Fotos', "/area-restrita/envia-fotos/{$imovel->id}", ['class'=>'btn btn-warning']); ?>
+                                        <?php echo  CHtml::a('Cancelar/Suspender', "/area-restrita/cancela-imovel/{$imovel->id}", ['class'=>'btn btn-default']); ?>
+                                    </li>
+                                </ul>
+
+                            @endforeach
+
+                        @endif
+
                         <?php echo  CHtml::a("Anunciar Im&oacute;vel", '/area-restrita/cadastro-imovel', ['class'=>'btn btn-primary']); ?>
 
                     </div>
+
                 </div>
 
 
@@ -82,31 +94,23 @@ $breadcrumbs = [
                 <div class="panel panel-primary">
                     <div class="panel-heading">CONFIGURA&Ccedil;&Otilde;ES</div>
                     <div class="panel-body">
-                        <p><?php // echo  //Html::a("Alterar dados pessoais", ['imovel/cadastro'], ['class'=>'']); ?></p>
-                        <p><?php // echo  //Html::a("Alterar configura&ccedil;&otilde;es de recebimento de email", ['imovel/cadastro'], ['class'=>'']); ?></p>
+                        <?php echo  CHtml::a("Alterar dados pessoais", '/area-restrita/dados-pessoais', ['class'=>'btn btn-primary']); ?>
                     </div>
                 </div>
 
+            </div>
 
+            @if ($trabalhe != null)
+            <div class="col-md-6">
                 <div class="panel panel-warning">
                     <div class="panel-heading">CORRETORES</div>
                     <div class="panel-body">
-                        <p>Crie o seu perfil aqui e nossos franqueados entrar&atilde;o em contato</p>
-                        <?php // echo  //Html::a("Criar meu Perfil", ['imovel/cadastro'], ['class'=>'btn btn-warning']); ?>
+                        <p>Configure aqui o seu perfil</p>
+                        <?php echo  CHtml::a("Configurar Perfil", "/area-restrita/trabalhe-conosco/{$trabalhe->id}", ['class'=>'btn btn-warning']); ?>
                     </div>
                 </div>
-
-                <div class="panel panel-warning">
-                    <div class="panel-heading">FRANQUIAS</div>
-                    <div class="panel-body">
-                        <p>Interessado em ser um Franqueado Paulo Roberto Leardi? Cadastre-se e entraremos em contato!</p>
-                        <?php // echo  //Html::a("Quero Mais Informa&ccedil;&otilde;es", ['imovel/cadastro'], ['class'=>'btn btn-warning']); ?>
-                    </div>
-                </div>
-
-
-
             </div>
+            @endif
 
         </div>
 

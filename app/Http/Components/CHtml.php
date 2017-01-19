@@ -127,6 +127,19 @@ class CHtml
         return false;
     }
 
+    public static function dateUs($date)
+    {
+        return substr($date,6,4).'-'.substr($date,3,2).'-'.substr($date,0,2);
+    }
 
+    public static function dateBr($date)
+    {
+        return substr($date, 8,2).'/'.substr($date,5,2).'/'.substr($date,0,4);
+    }
+
+    public static function phoneRemoveMask($value)
+    {
+        return preg_replace('/\D/', '', $value);
+    }
 
 }

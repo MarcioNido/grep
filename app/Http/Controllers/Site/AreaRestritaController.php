@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Site;
 
 use App\Http\Components\CHtml;
 use App\Http\Controllers\Controller;
+use App\Site\CadImovel;
 use App\Site\Localidade;
 use App\Site\NotificacaoImovel;
+use App\Site\TrabalheConosco;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +21,9 @@ class AreaRestritaController extends Controller
     public function index(Request $request)
     {
         $alertasImoveis = NotificacaoImovel::where(['user_id' => Auth::id(), 'active' => 1])->get();
-        return view('site.area-restrita.index', ['alertasImoveis' => $alertasImoveis]);
+        $imoveis = CadImovel::where(['user_id' => Auth::id(), 'active' => 1])->get();
+        $trabalhe = TrabalheConosco::where(['user_id' => Auth::id()])->first();
+        return view('site.area-restrita.index', ['alertasImoveis' => $alertasImoveis, 'imoveis' => $imoveis, 'trabalhe' => $trabalhe]);
     }
 
     /**

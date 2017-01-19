@@ -34,9 +34,9 @@ class DropDownTool
     public static function getTipoLogradouro()
     {
         return TipoLogradouro::where(['situacao' => 'Ativo'])
-            ->select('codtipologradouro', 'descricao')
-            ->orderBy('descricao')
-            ->pluck('descricao', 'codtipologradouro');
+            ->select('codtipologradouro')
+            ->orderBy('codtipologradouro')
+            ->pluck('codtipologradouro', 'codtipologradouro');
     }
 
     public static function getEstado()

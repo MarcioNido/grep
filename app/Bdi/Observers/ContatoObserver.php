@@ -2,6 +2,7 @@
 
 namespace App\Bdi\Observers;
 
+use App\Bdi\Jobs\ContatoMaisInformacoesFacJob;
 use App\Site\Contato;
 use App\Bdi\Jobs\ContatoMaisInformacoesEmailJob;
 use Carbon\Carbon;
@@ -20,11 +21,11 @@ class ContatoObserver
      */
     public function created(Contato $contato)
     {
-        $jobEmail = (new ContatoMaisInformacoesEmailJob($contato))->onQueue('email');
+        $jobEmail = (new ContatoMaisInformacoesEmailJob($contato))->onQueue('main');
         dispatch($jobEmail);
 
-//        dispatch(new ContatoMaisInformacoesEmailJob($contato));
-//        dispatch(new ContatoMaisInformacoesFacJob($contato));
+        $jobFac = (new ContatoMaisInformacoesFacJob($contato))->onQueue('main');
+        dispatch($jobFac);
     }
 
 }

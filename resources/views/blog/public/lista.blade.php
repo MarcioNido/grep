@@ -63,7 +63,7 @@ $title = "Agências Paulo Roberto Leardi";
                                 <div class="col-sm-4">
                                     <div class="thumbnail">
                                         <a href="/blogleardi/{{$post->key}}">
-                                            <img class="img-responsive" style="width: 100%" src="/images/blog/{{ $post->imagem->arquivo }}" />
+                                            <img class="img-responsive" style="width: 100%" src="{{ $post->imagem->arquivo }}" />
                                         </a>
                                         <div class="caption">
                                             <h3><a href="/blogleardi/{{$post->key}}">{{ $post->titulo }}</a></h3>

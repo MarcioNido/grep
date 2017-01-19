@@ -79,7 +79,7 @@ use App\Site\Localidade;
             <div class="row">
                 <div class="col-sm-8" style="text-align: right;">
                     <h3>Seja um corretor LEARDI, descubra como fazer parte da nossa família e as vantagens.</h3>
-                    <button class="btn btn-warning" style="margin-bottom: 20px;">TRABALHE CONOSCO!</button>
+                    <a class="btn btn-warning" href="/area-restrita/trabalhe-conosco" style="margin-bottom: 20px;">TRABALHE CONOSCO!</a>
                 </div>
                 <div class="col-sm-4">
                     <div class="thumbnail">
@@ -95,63 +95,8 @@ use App\Site\Localidade;
     
     
     <div style="background-color: #6B88AE; width: 100%; padding: 40px 0;">
-        
-        <div class="container">
-            <div class="row">
 
-                <div class="col-lg-12">
-
-                    <h2 style="color: #FFFFFF;">Blog Leardi</h2>
-                    <p style="color: #FAFAFA;">Fique por dentro das novidades do mercado imobiliario e de franquias. Oportunidades, dicas, informacao.</p>
-
-                </div>
-
-            </div>
-            
-            <div class="row">
-
-                <div class="col-md-4">
-                    
-                    <div class="thumbnail">
-                        <img src="images/blog1.jpg" />
-                        <div class="caption">
-                            <h3>Dicas para prospectar clientes e vender imóveis nas redes sociais</h3>
-                            <p>Prospecção de clientes significa a estratégia utilizada para procurar e conquistar clientes. A maioria dos corretores de imóveis já utilizou a internet com objetivo é procurar, encontrar e conquistar clientes novos através da sua participação nas Redes Sociais.</p>
-                            <p><a href="#" class="btn btn-warning" role="button">Continuar Lendo</a></p>
-                        </div>
-                    </div>
-                    
-                </div>
-                
-                <div class="col-md-4">
-                    
-                    <div class="thumbnail">
-                        <img src="images/blog2.jpg" />
-                        <div class="caption">
-                            <h3>10 dicas para tirar boas fotos de imóveis em Goiás</h3>
-                            <p>Existem diversos itens que podem ajudar a potencializar a venda de imóveis em Goiás e em outras cidades. Uma das formas de se destacar é utilizar a internet e todo seu potencial para atrair pessoas interessadas em comprar empreendimentos. Anúncios otimizados costumam trazer melhores resultados e um item importante é a galeria de imagens da casa ou apartamento à venda.</p>
-                            <p><a href="#" class="btn btn-warning" role="button">Continuar Lendo</a></p>
-                        </div>
-                    </div>
-                    
-                </div>
-                
-                <div class="col-md-4">
-                    
-                    <div class="thumbnail">
-                        <img src="images/blog3.jpg" />
-                        <div class="caption">
-                            <h3>O cliente mudou!! – Dicas para ofertar imóveis</h3>
-                            <p>As técnicas de ofertar imóveis não são tão eficazes como costumavam ser. Por isso Separamos algumas novas dicas para você colocar mais inteligência em seus processos de vendas.</p>
-                            <p><a href="#" class="btn btn-warning" role="button">Continuar Lendo</a></p>
-                        </div>
-                    </div>
-                    
-                </div>
-                
-            </div>
-            
-        </div>
+        @include('blog.public.destaques')
         
     </div>
 
