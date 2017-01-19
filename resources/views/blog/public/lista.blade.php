@@ -54,24 +54,24 @@ $title = "Agências Paulo Roberto Leardi";
                         <?php $i=0; ?>
                         @foreach ($posts as $post)
                             <?php
-                                    if ($i++ >= 3) {
-                                        $i=1;
-                                        echo '</div>';
-                                        echo '<div class="row">';
-                                    }
+                                if ($i++ >= 3) {
+                                    $i=1;
+                                    echo '</div>';
+                                    echo '<div class="row">';
+                                }
                             ?>
-                                <div class="col-sm-4">
-                                    <div class="thumbnail">
-                                        <a href="/blogleardi/{{$post->key}}">
-                                            <img class="img-responsive" style="width: 100%" src="{{ $post->imagem->arquivo }}" />
-                                        </a>
-                                        <div class="caption">
-                                            <h3><a href="/blogleardi/{{$post->key}}">{{ $post->titulo }}</a></h3>
-                                            <p>{{ substr(strip_tags($post->texto), 0, 200) }}</p>
-                                            <p style='text-align: right;'><a href="/blogleardi/{{$post->key}}">Continuar lendo</a></p>
-                                        </div>
+                            <div class="col-sm-4">
+                                <div class="thumbnail">
+                                    <a href="/blogleardi/{{$post->key}}">
+                                        <img class="img-responsive" style="width: 100%" src="{{ $post->imagem->arquivo }}" />
+                                    </a>
+                                    <div class="caption">
+                                        <h3><a href="/blogleardi/{{$post->key}}">{{ $post->titulo }}</a></h3>
+                                        <p>{{ substr(strip_tags($post->texto), 0, 200) }}</p>
+                                        <p style='text-align: right;'><a href="/blogleardi/{{$post->key}}">Continuar lendo</a></p>
                                     </div>
                                 </div>
+                            </div>
 
                         @endforeach
 
