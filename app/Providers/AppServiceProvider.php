@@ -2,10 +2,15 @@
 
 namespace App\Providers;
 
+use App\Site\ImovelSearch;
 use Collective\Html\FormFacade;
 use Illuminate\Support\ServiceProvider;
 use App\Bdi\Observers\ContatoObserver;
 use App\Site\Contato;
+use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use App\Tracker;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,6 +44,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Tracker Service
+        $this->app->singleton('\App\Tracker', function() {
+            $logger = new Logger('grep_tracker');
+            $output = "%datetime%|%level_name%|%message%|%context%|%extra%\n";
+            $formatter = new LineFormatter($output);
+            $stream = new StreamHandler(storage_path("/logs/grepdata.log"));
+            $stream->setFormatter($formatter);
+            $logger->pushHandler($stream);
+            return new Tracker($logger);
+        });
+
     }
 }

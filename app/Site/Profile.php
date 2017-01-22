@@ -3,6 +3,8 @@ namespace App\Site;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use App\Tracker;
+use App;
 
 /**
  * User profile preferences
@@ -56,11 +58,15 @@ class Profile {
 
         if (! isset($this->has_profile) || $this->has_profile == null) {
             $this->getProfileFromCookies();
+            if ($this->has_profile == false) {
+                $this->createProfile();
+                App::make('\App\Tracker')->register('Lander New');
+            } else {
+                App::make('\App\Tracker')->register('Lander Return');
+            }
+
         }
 
-        if ($this->has_profile == false) {
-            $this->createProfile();
-        }
 
 
     }

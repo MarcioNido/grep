@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Components\CHtml;
+use App\Tracker;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Site\Agencia;
@@ -40,6 +42,7 @@ class PesquisaController extends Controller
      * Show the search results - properties for sale
      *
      * @param Request $request
+     * @param Tracker $tracker
      * @return \Illuminate\Http\Response
      */
     public function venda(Request $request)
@@ -52,6 +55,7 @@ class PesquisaController extends Controller
      * Show the search results - properties for rent
      *
      * @param Request $request
+     * @param Tracker $tracker
      * @return \Illuminate\Http\Response
      */
     public function locacao(Request $request)
@@ -64,6 +68,7 @@ class PesquisaController extends Controller
     /**
      * Shows the property's details
      * @param Request $request
+     * @param Tracker $tracker
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function detalhe(Request $request)
@@ -71,6 +76,7 @@ class PesquisaController extends Controller
         $imovel = Imovel::find($request->imovel_id);
         $filter_desc = (new ImovelSearch($request))->getSessionFiltersDesc();
         $imoveisSimilares = $this->getImoveisSimilares($imovel, $filter_desc);
+        App::make('\App\Tracker')->register('Detalhe');
         return view('site.pesquisa.detalhe', ['imovel' => $imovel, 'filter_desc' => $filter_desc, 'imoveisSimilares' => $imoveisSimilares]);
     }
 
@@ -90,10 +96,8 @@ class PesquisaController extends Controller
         $filtros = array();
         if (in_array('Comprar', $filter_desc)) {
             $filtros['disponivel_venda'] = 1;
-            $valor = $imovel->valor_venda;
         } else {
             $filtros['disponivel_locacao'] = 1;
-            $valor = $imovel->valor_locacao;
         }
 
         $filtros['tipo_simplificado'] = $imovel->tipo_simplificado;

@@ -2,7 +2,9 @@
 
 namespace App\Site;
 
+use App\Tracker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cookie;
 use App\Http\Components\CHtml;
 
@@ -17,6 +19,8 @@ class ImovelSearch
      * @var Request
      */
     protected $request;
+
+    protected $tracker;
 
     /**
      * @var array filters
@@ -41,6 +45,7 @@ class ImovelSearch
     public function __construct(Request $request)
     {
         $this->request = $request;
+        $this->tracker = App::make('\App\Tracker');
     }
 
     /**
@@ -59,7 +64,7 @@ class ImovelSearch
         // retrieve rows
         $this->imoveis = Imovel::where($this->_condition)->orderBy($this->_order_fld, $this->_order_ad)->paginate(10);
 
-        $this->logAction($this->request);
+        $this->logAction();
         return $this;
 
     }
@@ -237,24 +242,7 @@ class ImovelSearch
 
     protected function logAction()
     {
-        $log = new \Monolog\Logger('test');
-
-        $formatter = new \Monolog\Formatter\JsonFormatter();
-
-        $stream = new \Monolog\Handler\StreamHandler(storage_path("/logs/testfile.log"));
-        $stream->setFormatter($formatter);
-
-        $log->pushHandler($stream);
-
-
-        $log->info("Pesquisa Teste", [
-            'ip' => isset($_SERVER['REMOTE_ADDR']) ?: '',
-            'url' => $this->request->getUri(),
-            'method' => $this->request->getMethod(),
-            'guest' => \Illuminate\Support\Facades\Auth::guest(),
-            'user' => \Illuminate\Support\Facades\Auth::user(),
-        ]);
-
+        $this->tracker->register('Pesquisa');
     }
 
     /**
