@@ -111,7 +111,6 @@ class ImovelSearch
     protected function setCondition()
     {
 
-
         $this->_condition = [];
         if ($this->filter['tipo_negocio'] == 'venda') {
             $this->_condition[] = ['disponivel_venda', 1];

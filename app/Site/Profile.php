@@ -1,9 +1,7 @@
 <?php
 namespace App\Site;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
-use App\Tracker;
 use App;
 
 /**
@@ -60,11 +58,7 @@ class Profile {
             $this->getProfileFromCookies();
             if ($this->has_profile == false) {
                 $this->createProfile();
-                App::make('\App\Tracker')->register('Lander New');
-            } else {
-                App::make('\App\Tracker')->register('Lander Return');
             }
-
         }
 
 
