@@ -38,6 +38,8 @@ class TrabalheConoscoController extends Controller
 
             $trabalhe->fill($request->all());
             $trabalhe->nascimento = CHtml::dateUs($trabalhe->nascimento);
+            $trabalhe->unidade = (int) $trabalhe->unidade;
+            $trabalhe->bloco = (int) $trabalhe->bloco;
             $trabalhe->saveOrFail();
             return redirect('/area-restrita/index');
         }

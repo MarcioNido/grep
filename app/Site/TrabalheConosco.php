@@ -16,7 +16,20 @@ class TrabalheConosco extends Model
     protected $guarded = ['id', 'nome', 'email'];
 
     // validation
-    protected $rules = [];
+    protected $rules = [
+        'nome' => 'required',
+        'email' => 'required',
+        'cep' => 'required',
+        'tipo_logradouro' => 'required',
+        'endereco' => 'required',
+        'numero' => 'required',
+        'estado' => 'required',
+        'codcidade' => 'required',
+        'codbairro' => 'required',
+        'ddd1' => 'required',
+        'telefone1' => 'required',
+        'cpf' => 'required',
+    ];
 
 
 }
