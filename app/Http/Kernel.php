@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Lander;
+use App\PageTracker;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -32,6 +33,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             Lander::class,
+            PageTracker::class,
         ],
 
         'api' => [
