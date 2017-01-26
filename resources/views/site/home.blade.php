@@ -18,26 +18,52 @@ use App\Site\Localidade;
                             <form id="form_home" class="form-group" method="post" action="#">
                                 
                                 {{ csrf_field() }}
-                                
-                                <div class="row">
 
-                                    <div class="col-sm-3 col-xs-6 guru-home-search">
-                                        <?php echo CHtml::dropDownList('tipo_negocio', $profile->tipo_negocio, ['venda'=>'Comprar', 'locacao'=>'Alugar'], ['class'=>'form-control guru-select', 'style' => 'width: 100%']); ?>
+                                <div id="ph_pesquisa" class="row">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-3 col-xs-6 guru-home-search">
+                                                <?php echo CHtml::dropDownList('tipo_negocio', $profile->tipo_negocio, ['venda'=>'Comprar', 'locacao'=>'Alugar'], ['class'=>'form-control guru-select', 'style' => 'width: 100%']); ?>
+                                            </div>
+                                            <div class="col-sm-3 col-xs-6 guru-home-search">
+                                                <?php echo CHtml::dropDownList('tipo_imovel', $profile->tipo_imovel, ['apartamento'=>'Apartamento', 'casa'=>'Casa', 'comercial'=>'Comercial', 'terreno'=>'Terreno', 'flat' => 'Flat', 'rural' => 'Rural'], ['class'=>'form-control guru-select', 'style' => 'width: 100%']); ?>
+                                            </div>
+                                            <div class="col-sm-5 col-xs-12 guru-home-search">
+                                                <?php //echo Html::dropDownList('localidade_id', $profile->localidade_id, Localidade::getList(), ['class'=>'form-control']); ?>
+                                                <?php echo Localidade::getDropDown($profile->localidade_url); ?>
+                                            </div>
+                                            <div class="col-sm-1 col-xs-12 guru-home-search">
+                                                <button id="bot_pesquisa" type="button" class="btn btn-warning guru-home-button" onclick="send_form()"><span class="fa fa-search"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-top: 5px;">
+                                            <div class="col-sm-12 guru-home-search">
+                                                <button id="bot_ref" type="button" class="btn btnprimary guru-home-button" onclick="trigger_referencia()">Pesquisar pela Referência do Imóvel</button>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                    
-                                    <div class="col-sm-3 col-xs-6 guru-home-search">
-                                        <?php echo CHtml::dropDownList('tipo_imovel', $profile->tipo_imovel, ['apartamento'=>'Apartamento', 'casa'=>'Casa', 'comercial'=>'Comercial', 'terreno'=>'Terreno', 'flat' => 'Flat', 'rural' => 'Rural'], ['class'=>'form-control guru-select', 'style' => 'width: 100%']); ?>
-                                    </div>
-                                    
-                                    <div class="col-sm-5 col-xs-12 guru-home-search">
-                                        <?php //echo Html::dropDownList('localidade_id', $profile->localidade_id, Localidade::getList(), ['class'=>'form-control']); ?>
-                                        <?php echo Localidade::getDropDown($profile->localidade_url); ?>
-                                    </div>
-                                    <div class="col-sm-1 col-xs-12 guru-home-search">
-                                        <button id="bot_pesquisa" type="button" class="btn btn-warning guru-home-button" onclick="send_form()"><span class="fa fa-search"></span></button>
-                                    </div>
-                  
                                 </div>
+
+                                <div id="ph_referencia" class="row" style="display:none;">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-11 guru-home-search">
+                                                {!! CHtml::textInput('referencia', "", ['placeholder' => 'Informe uma ou mais referências de imóveis separadas por vírgulas', 'class' => 'form-control']) !!}
+                                            </div>
+                                            <div class="col-sm-1 col-xs-12 guru-home-search">
+                                                <button id="bot_pesquisa" type="button" class="btn btn-warning guru-home-button" onclick="send_form_referencia()"><span class="fa fa-search"></span></button>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-top: 5px;">
+                                            <div class="col-sm-12 guru-home-search">
+                                                <button id="bot_ref" type="button" class="btn btnprimary guru-home-button" onclick="trigger_pesquisa()">Pesquisar pelas Características do Imóvel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                             </form>
                         </div>
                     </div>
@@ -141,19 +167,19 @@ use App\Site\Localidade;
             
             <div class="row" style="text-align: center;">
                 <div class="col-xs-3">
-                    <h1><a href="#" style="color: #286090"><span class="fa fa-facebook-square"></span></a></h1>
+                    <h1><a href="https://facebook.com/PauloRobertoLeardi" target="_blank" style="color: #286090"><span class="fa fa-facebook-square"></span></a></h1>
                     <h5 style="color: #286090">Facebook</h5>
                 </div>
                 <div class="col-xs-3">
-                    <h1><a href="#" style="color: #286090"><span class="fa fa-rss-square"></span></a></h1>
+                    <h1><a href="/blogleardi" style="color: #286090"><span class="fa fa-rss-square"></span></a></h1>
                     <h5 style="color: #286090">Blog</h5>
                 </div>                
                 <div class="col-xs-3">
-                    <h1><a href="#" style="color: #286090"><span class="fa fa-youtube-square"></span></a></h1>
+                    <h1><a href="https://www.youtube.com/embrai" target="_blank" style="color: #286090"><span class="fa fa-youtube-square"></span></a></h1>
                     <h5 style="color: #286090">Youtube</h5>
                 </div>   
                 <div class="col-xs-3">
-                    <h1><a href="#" style="color: #286090"><span class="fa fa-linkedin-square"></span></a></h1>
+                    <h1><a href="https://br.linkedin.com/in/leardi" target="_blank" style="color: #286090"><span class="fa fa-linkedin-square"></span></a></h1>
                     <h5 style="color: #286090">LinkedIn</h5>
                 </div>                
                 
@@ -189,5 +215,24 @@ function send_form()
     $('#form_home').submit();
     
 }
+
+function send_form_referencia()
+{
+    $('#form_home').attr('action', '/pesquisa/referencia');
+    $('#form_home').submit();
+}
+
+function trigger_referencia()
+{
+    $('#ph_pesquisa').slideUp('fast');
+    $('#ph_referencia').slideDown('fast');
+}
+
+function trigger_pesquisa()
+{
+    $('#ph_referencia').slideUp('fast');
+    $('#ph_pesquisa').slideDown('fast');
+}
+
 </script>
 @endpush  

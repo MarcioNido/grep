@@ -78,7 +78,7 @@ $subtitle = CHtml::subtitle($imoveis->total(), $filter);
                                     <?php
                                     // @todo remover isso daqui e colocar no controller ou melhor, criar uma classe para as fotos
                                     $foto = Foto::where('imovel_id', $imovel->id)->first();
-                                    if ($foto != null) { 
+                                    if ($foto != null) {
                                         $arquivo = "http://www.leardi.com.br/imagens/".$foto->arquivo;
                                     } else { 
                                         $arquivo = "/images/semfoto.png";
@@ -168,19 +168,15 @@ $subtitle = CHtml::subtitle($imoveis->total(), $filter);
                                                 <a href="/imovel/{{ $imovel->id }}" class="btn btn-warning" style="width: 100%; font-weight: 300"><span class="fa fa-search-plus"></span> Detalhes</a>
                                             </div>
                                         </div>
-                                        
 
                                     </div>
-                                    
-                                    
+
                                 </div>
-                                
-                                
-                                
+
                             </div>
-                            
-                                
+
                         </div>
+
                     </div>
                     <!-- fim linha imovel -->
                     @endforeach

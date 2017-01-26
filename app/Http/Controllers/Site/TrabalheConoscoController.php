@@ -37,7 +37,7 @@ class TrabalheConoscoController extends Controller
         if ($request->isMethod('post')) {
 
             $trabalhe->fill($request->all());
-            $trabalhe->nascimento = CHtml::dateUs($trabalhe->nascimento);
+            $trabalhe->nascimento = CHtml::dateUs($trabalhe->nascimento) ?: null;
             $trabalhe->unidade = (int) $trabalhe->unidade;
             $trabalhe->bloco = (int) $trabalhe->bloco;
             $trabalhe->saveOrFail();

@@ -23,10 +23,9 @@ Route::group(['namespace' => 'Site'], function() {
     Route::get('/home', 'HomeController@index');
 
     // lista de imoveis
-    Route::post('/venda/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@venda');    
-    Route::post('/locacao/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@locacao');
-    Route::get('/venda/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@venda');
-    Route::get('/locacao/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@locacao');
+    Route::any('/venda/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@venda');
+    Route::any('/locacao/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@locacao');
+    Route::any('/pesquisa/referencia', 'PesquisaController@referencia');
 
     // detalhes do imóvel
     Route::get('/imovel/{imovel_id}', 'PesquisaController@detalhe');

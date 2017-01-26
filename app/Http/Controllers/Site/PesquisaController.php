@@ -42,7 +42,6 @@ class PesquisaController extends Controller
      * Show the search results - properties for sale
      *
      * @param Request $request
-     * @param Tracker $tracker
      * @return \Illuminate\Http\Response
      */
     public function venda(Request $request)
@@ -55,7 +54,6 @@ class PesquisaController extends Controller
      * Show the search results - properties for rent
      *
      * @param Request $request
-     * @param Tracker $tracker
      * @return \Illuminate\Http\Response
      */
     public function locacao(Request $request)
@@ -64,11 +62,16 @@ class PesquisaController extends Controller
         return view('site.pesquisa.resultado', ['searchResult' => $searchResult]);
     }
 
+    public function referencia(Request $request)
+    {
+        $searchResult = (new ImovelSearch($request))->processSearchByRefRequest();
+        return view('site.pesquisa.resultado', ['searchResult' => $searchResult]);
+    }
+
 
     /**
      * Shows the property's details
      * @param Request $request
-     * @param Tracker $tracker
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function detalhe(Request $request)
@@ -76,7 +79,6 @@ class PesquisaController extends Controller
         $imovel = Imovel::find($request->imovel_id);
         $filter_desc = (new ImovelSearch($request))->getSessionFiltersDesc();
         $imoveisSimilares = $this->getImoveisSimilares($imovel, $filter_desc);
-        App::make('\App\Tracker')->register('Detalhe');
         return view('site.pesquisa.detalhe', ['imovel' => $imovel, 'filter_desc' => $filter_desc, 'imoveisSimilares' => $imoveisSimilares]);
     }
 

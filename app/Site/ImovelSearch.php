@@ -22,6 +22,8 @@ class ImovelSearch
 
     protected $tracker;
 
+    protected $_condition;
+
     /**
      * @var array filters
      */
@@ -29,6 +31,7 @@ class ImovelSearch
         'localidade_url' => 'sp/sao-paulo/todas-as-regioes',
         'estado' => 'SP',
         'cidade' => 'São Paulo',
+        'regiao' => 'Todas as Regiões',
         'tipo_negocio' => 'venda',
         'tipo_imovel' => 'apartamento',
         'valor_minimo' => '',
@@ -38,6 +41,7 @@ class ImovelSearch
         'dormitorios' => '',
         'vagas' => '',
         'order' => 'Mais Recentes',
+        'referencia' => '',
     ];
 
     public $imoveis;
@@ -69,13 +73,23 @@ class ImovelSearch
 
     }
 
+    public function processSearchByRefRequest()
+    {
+        $this->setFilter(true);
+        $this->imoveis = $this->imoveis = Imovel::wherein('id', $this->refToArray($this->request->referencia))->paginate(10);
+        return $this;
+    }
+
     /**
      * Sets the filter with the request values
+     *
+     * @throws \Exception
+     * @param boolean $force
      */
-    protected function setFilter()
+    protected function setFilter($force=false)
     {
 
-        if ($this->request->isMethod('get')) {
+        if ($this->request->isMethod('get') || $force) {
             $this->getSessionFilters();
         }
 
@@ -87,18 +101,20 @@ class ImovelSearch
 
         // check if we have the localidade_url in the request ...
         // otherwise it is a direct or external link (/venda/sp/sao-paulo/brooklin/casa)
-        if (! isset($this->request->localidade_url)) {
+        if (! isset($this->request->localidade_url) && !$force) {
             $this->filter['localidade_url'] = $this->request->estado.'/'.$this->request->cidade.'/'.$this->request->regiao;
         }
 
         // gets localidade record
         $localidade = Localidade::where('localidade_url', $this->filter['localidade_url'])->first();
-        if ($localidade == null) {
-            throw new \Exception("Localidade nao encontrada ...");
+//        if ($localidade == null) {
+//            throw new \Exception("Localidade nao encontrada ...");
+//        }
+        if ($localidade) {
+            $this->filter['estado']         = $localidade->estado;             // localidade
+            $this->filter['cidade']         = $localidade->cidade;             // localidade
+            $this->filter['regiao']         = $localidade->regiao;             // localidade
         }
-        $this->filter['estado']         = $localidade->estado;             // localidade
-        $this->filter['cidade']         = $localidade->cidade;             // localidade
-        $this->filter['regiao']         = $localidade->regiao;             // localidade
 
         $this->setSessionFilters();
         $this->setCookies();
@@ -170,6 +186,12 @@ class ImovelSearch
             }
         }
 
+        // REFERENCIAS ...
+        if (isset($this->filter['referencia']) && trim($this->filter['referencia']) != '') {
+            $this->_condition = [];
+            $this->_condition[] = ['id', $this->refToArray($this->filter['referencia'])];
+        }
+
 
         $this->_order_fld = "created_at";
         $this->_order_ad = "desc";
@@ -212,6 +234,26 @@ class ImovelSearch
 
     }
 
+    protected function refToArray($ref)
+    {
+        $refs = $ref;
+        $refs = str_replace(' ', '|', $refs);
+        $refs = str_replace(',', '|', $refs);
+        $refs = str_replace(';', '|', $refs);
+        $refs = str_replace('-', '|', $refs);
+        $refs = str_replace('/', '|', $refs);
+        $refs = str_replace("\n", '|', $refs);
+        $refs = str_replace("\r", '|', $refs);
+
+        while(strpos($refs, '||') !== false) {
+            $refs = str_replace('||', '|', $refs);
+        }
+
+        $a_refs = explode('|', $refs);
+        return $a_refs;
+
+    }
+
     /**
      * Saves filters in session
      */
@@ -226,7 +268,9 @@ class ImovelSearch
     public function getSessionFilters()
     {
         if ($this->request->session()->has('filter')) {
-            $this->filter = $this->request->session()->get('filter');
+            foreach($this->request->session()->get('filter') as $key => $value) {
+                $this->filter[$key] = $value;
+            }
         }
         return $this->filter;
     }

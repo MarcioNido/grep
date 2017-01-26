@@ -60,7 +60,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         
                         <li><a href="{{ url('/') }}">Home</a></li>
-                        <li><a href="{{ url('/contato') }}">Contato</a></li>
+                        <li><a href="{{ url('/area-restrita/cadastro-imovel') }}">Cadastre Seu Imóvel</a></li>
                         <li><a href="{{ url('/agencias') }}">Agencias</a></li>
                         <li><a href="{{ url('/blogleardi') }}">Blog</a></li>
                         

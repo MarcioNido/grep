@@ -67,12 +67,16 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
                                             <div class="col-xs-9 col-sm-9 col-md-10 col-lg-11">
                                                 
                                                 <div class="row">
-                                                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="col-lg-3 col-md-5 col-sm-5 col-xs-12">
                                                         <h3 style="font-weight: 300; margin-top: 0; margin-bottom: 0;">{{ $imovel->titleCase('tipo_imovel') }}</h3>
                                                     </div>
 
-                                                    <div class="col-lg-9 col-md-6 col-sm-6 col-xs-12">
+                                                    <div class="col-lg-7 col-md-5 col-sm-5 col-xs-9">
                                                         <h3 style="font-weight: 300; margin-top: 0; margin-bottom: 20px;">{{ trim($imovel->titleCase('regiao_mercadologica')) }}, {{ $imovel->titleCase('cidade') }}, {{ $imovel->estado }}</h3>
+                                                    </div>
+
+                                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3" style="text-align: right; margin-top: -5px;">
+                                                        <h5>Ref: {{ $imovel->id }}</h5>
                                                     </div>
                                                 </div>
                                                 

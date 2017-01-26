@@ -129,7 +129,11 @@ class CHtml
 
     public static function dateUs($date)
     {
-        return substr($date,6,4).'-'.substr($date,3,2).'-'.substr($date,0,2);
+        if ($date != null && $date != "") {
+            return substr($date,6,4).'-'.substr($date,3,2).'-'.substr($date,0,2);
+        } else {
+            return $date;
+        }
     }
 
     public static function dateBr($date)
