@@ -23,4 +23,9 @@ class Agencia extends Model
         return $this->hasMany('App\Site\Imovel', 'pub_agencia_id', 'id');
     }
 
+    public function enderecoCompleto()
+    {
+        return $this->endereco.", ".$this->numero." ".$this->complemento;
+    }
+
 }

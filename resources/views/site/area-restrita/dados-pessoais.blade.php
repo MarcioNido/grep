@@ -49,6 +49,28 @@ $breadcrumbs = [
                                         </div>
                                     </div>
 
+                                    <div class="panel">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    {{ Form::activeCheckBox('Receber e-mails sobre ofertas de imóveis', 'optin_oferta', $user->optin_oferta) }}
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    {{ Form::activeCheckBox('Receber e-mails sobre mercado imobiliário', 'optin_mercado', $user->optin_mercado) }}
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    {{ Form::activeCheckBox('Receber e-mails sobre franquias imobiliárias', 'optin_franquia', $user->optin_franquia) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="row">
                                         <div class="col-sm-6">
                                             {{ Form::activePassword('Senha', 'password') }}

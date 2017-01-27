@@ -66,6 +66,17 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="hidden" name="optin" value="0">
+                                        <input type="checkbox" name="optin" value="1" checked="checked"> Receber e-mails sobre o mercado imobiliário
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
                                     Entrar
                                 </button>

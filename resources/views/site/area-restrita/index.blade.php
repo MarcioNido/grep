@@ -106,7 +106,7 @@ $breadcrumbs = [
                     <div class="panel-heading">CORRETORES</div>
                     <div class="panel-body">
                         <p>Configure aqui o seu perfil</p>
-                        <?php echo  CHtml::a("Configurar Perfil", "/area-restrita/trabalhe-conosco/{$trabalhe->id}", ['class'=>'btn btn-warning']); ?>
+                        <?php echo  CHtml::a("Configurar Perfil", "/area-restrita/trabalhe-conosco/{$trabalhe->id}", ['class'=>'btn btn-primary']); ?>
                     </div>
                 </div>
             </div>

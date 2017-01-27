@@ -21,7 +21,7 @@ class AgenciaController extends Controller
      */
     public function lista(Request $request)
     {
-        $agencias = Agencia::where(['estagio'=>'1 - ATIVO'])->orderBy('nome')->get();
+        $agencias = Agencia::where(['estagio'=>'1 - ATIVO'])->orderByRaw('foto desc, nome')->get();
         return view('site.agencia.lista', ['agencias' => $agencias]);
     }
 

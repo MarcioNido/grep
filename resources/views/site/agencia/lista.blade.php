@@ -65,10 +65,17 @@ $title = "Agências Paulo Roberto Leardi";
                                 </div>
                                 <div class="caption">
                                     <h3>Unidade {{ mb_convert_case($agencia->nome, MB_CASE_TITLE) }}</h3>
-                                    <p><b>{{ mb_convert_case($agencia->bairro, MB_CASE_TITLE) }}</b></p>
-                                    <p>{{ mb_convert_case($agencia->endereco, MB_CASE_TITLE) }}</p>
-                                    <p>({{ $agencia->ddd1 }}) {{ $agencia->telefone1 }} <b>CRECI </b>{{ $agencia->creci }}</p>
-                                    <p style='text-align: right;'><a href='index.php?r=blog/page&page=post'>P&aacute;gina da Unidade</a></p>
+                                    <p>{{ mb_convert_case($agencia->enderecoCompleto(), MB_CASE_TITLE) }}</p>
+                                    <p>{{ mb_convert_case($agencia->cidade, MB_CASE_TITLE) }} - {{ $agencia->estado }}</p>
+                                    <p>{{ mb_convert_case($agencia->bairro, MB_CASE_TITLE) }}</p>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            ({{ $agencia->ddd1 }}) {{ $agencia->telefone1 }}
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <b>CRECI </b>{{ $agencia->creci }}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -101,31 +108,8 @@ $title = "Agências Paulo Roberto Leardi";
                                 <p>Cadastre-se e receba as novidades do mercado imobili&aacute;rio em seu email.</p>
 
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="fLocal">Nome</label>
-                                            <input type="text" class="form-control" id="fLocal" placeholder="Nome">
-
-                                        </div>
-
-
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="fLocal">Email</label>
-                                            <input type="email" class="form-control" id="fLocal" placeholder="Email">
-
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-xs-12">
-                                        <button class="btn btn-warning" style="font-weight: 300; width: 100%;"><span class="fa fa-mail-forward"></span> QUERO RECEBER!</button>
+                                        <a href="/area-restrita/dados-pessoais" class="btn btn-warning" style="font-weight: 300; width: 100%;"><span class="fa fa-mail-forward"></span> QUERO RECEBER!</a>
                                     </div>
                                 </div>
 

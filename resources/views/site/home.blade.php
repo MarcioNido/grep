@@ -175,7 +175,7 @@ use App\Site\Localidade;
                     <h5 style="color: #286090">Blog</h5>
                 </div>                
                 <div class="col-xs-3">
-                    <h1><a href="https://www.youtube.com/embrai" target="_blank" style="color: #286090"><span class="fa fa-youtube-square"></span></a></h1>
+                    <h1><a href="https://www.youtube.com/user/imobiliarialeardi" target="_blank" style="color: #286090"><span class="fa fa-youtube-square"></span></a></h1>
                     <h5 style="color: #286090">Youtube</h5>
                 </div>   
                 <div class="col-xs-3">

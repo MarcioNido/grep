@@ -66,6 +66,10 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'optin' => $data['optin'],
+            'optin_oferta' => $data['optin'],
+            'optin_mercado' => $data['optin'],
+            'optin_franquia' => $data['optin'],
         ]);
     }
 }
