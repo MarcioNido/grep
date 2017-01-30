@@ -101,4 +101,26 @@ class AreaRestritaController extends Controller
 
     }
 
+    public function ebook()
+    {
+        return view('site.area-restrita.ebook');
+    }
+
+    public function ebookDownload()
+    {
+        return view('site.area-restrita.ebook-download');
+    }
+
+    public function ebookCorretor()
+    {
+        return view('site.area-restrita.ebook-corretor');
+    }
+
+    public function ebookCorretorDownload()
+    {
+        return view('site.area-restrita.ebook-corretor-download');
+    }
+
+
+
 }

@@ -2,6 +2,7 @@
 use App\Http\Components\CHtml;
 use App\Site\Localidade;
 
+$pesquisasPopulares = \Illuminate\Support\Facades\DB::table("web_pesquisas_populares")->get();
 ?>
 
 @extends('layouts.app')
@@ -137,24 +138,11 @@ use App\Site\Localidade;
             </div>
             
             <div class="row">
+                @foreach ($pesquisasPopulares as $pesquisaPopular)
                 <div class="col-md-4">
-                    <h6 style="color: #286090"><a style="color: #286090">Apartamento a Venda no Morumbi</a></h6>
-                    <h6 style="color: #286090"><a style="color: #286090">Apartamento para Alugar no Brooklin</a></h6>
-                    <h6 style="color: #286090"><a style="color: #286090">Casa a Venda em Brasilia</a></h6>
-                    <h6 style="color: #286090"><a style="color: #286090">Apartamento a Venda em Aruja</a></h6>
+                    <h6 style="color: #286090"><a style="color: #286090" href="{{ $pesquisaPopular->url }}">{{ $pesquisaPopular->descricao }}</a></h6>
                 </div>
-                <div class="col-md-4">
-                    <h6 style="color: #286090"><a style="color: #286090">Terreno a Venda em Indaiatuba</a></h6>
-                    <h6 style="color: #286090"><a style="color: #286090">Casa a Venda em Cidade Jardim</a></h6>
-                    <h6 style="color: #286090"><a style="color: #286090">Imovel Comercial para Alugar na Paulista</a></h6>
-                    <h6 style="color: #286090"><a style="color: #286090">Flat para Alugar no Jardim America</a></h6>
-                </div>
-                <div class="col-md-4">
-                    <h6 style="color: #286090"><a style="color: #286090">Apartamento a Venda no Morumbi</a></h6>
-                    <h6 style="color: #286090"><a style="color: #286090">Apartamento para Alugar no Brooklin</a></h6>
-                    <h6 style="color: #286090"><a style="color: #286090">Casa a Venda em Brasilia</a></h6>
-                    <h6 style="color: #286090"><a style="color: #286090">Apartamento a Venda em Aruja</a></h6>
-                </div>
+                @endforeach
             </div>
             
             <br />

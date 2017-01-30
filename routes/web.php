@@ -34,6 +34,7 @@ Route::group(['namespace' => 'Site'], function() {
 
     // lista das agencias
     Route::get('/agencias', 'AgenciaController@lista');
+    Route::post('/agencias/search', 'AgenciaController@search');
 
     // mais informacoes
     Route::post('/pesquisa/contato', 'PesquisaController@storeContato');
@@ -64,6 +65,10 @@ Route::group(['namespace' => 'Site', 'middleware' => 'auth'], function() {
     Route::get('/area-restrita/fotos-enviadas', 'CadastroImovelController@fotosEnviadas');
     Route::any('/area-restrita/trabalhe-conosco/{id?}', 'TrabalheConoscoController@edita');
     Route::any('/area-restrita/dados-pessoais', 'UserController@edita');
+    Route::get('/area-restrita/ebook', 'AreaRestritaController@ebook');
+    Route::get('/area-restrita/ebook-download', 'AreaRestritaController@ebookDownload');
+    Route::get('/area-restrita/ebook-corretor', 'AreaRestritaController@ebookCorretor');
+    Route::get('/area-restrita/ebook-corretor-download', 'AreaRestritaController@ebookCorretorDownload');
 });
 
 // Blog Routes

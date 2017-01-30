@@ -1,6 +1,9 @@
 <?php
 use App\Http\Components\CHtml;
 $title = "Agências Paulo Roberto Leardi";
+if (! isset($term)) {
+    $term = "";
+}
 ?>
 
 @extends('layouts.app')
@@ -20,22 +23,22 @@ $title = "Agências Paulo Roberto Leardi";
     <div style="background-color: #6B88AE; width: 100%;">
         <div class="container">
 
-            <div class="row" style="padding: 10px 0 5px;">
-                <div class="col-md-9">
-                    <h4 style="color: #FAFAFA; font-weight: 300;">Nossas Agências</h4>
-                </div>
-                <div class="col-md-3" style="text-align: right; padding-right: 40px;">
-                    <form action="" class="form-inline">
-                        <div class="form-group">
-                            <div class='input-group'>
-                                <input type="text" class="form-control" placeholder="Procurar Ag&ecirc;ncias" />
+            <form action="/agencias/search" method="post">
+                {{ csrf_field() }}
+                <div class="row" style="padding: 10px 0 5px;">
+                    <div class="col-md-9">
+                        <h4 style="color: #FAFAFA; font-weight: 300;">Nossas Agências</h4>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group" style="width: 100%">
+                            <div class='input-group' style="width: 100%">
+                                <input name="term" value="{{ $term }}" type="text" class="form-control" placeholder="Procurar Ag&ecirc;ncias" style="width:100%" />
                                 <div class="input-group-btn"><button class='btn btn-primary'><span class="fa fa-search"></span></button></div>
                             </div>
                         </div>
-
-                    </form>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -90,7 +93,9 @@ $title = "Agências Paulo Roberto Leardi";
 
                     <div class='panel panel-default'>
                         <div class='panel-body'>
-                            <img class='img-responsive' src='http://www.leardi.com.br/blogleardi/wp-content/uploads/2014/10/Layout_Facebook.png' />
+                            <a href="/area-restrita/ebook">
+                                <img class='img-responsive' src='/images/Layout_Facebook.png' />
+                            </a>
                         </div>
                     </div>
 
@@ -121,7 +126,9 @@ $title = "Agências Paulo Roberto Leardi";
 
                     <div class='panel panel-default'>
                         <div class='panel-body'>
-                            <img class='img-responsive' src='http://www.leardi.com.br/blogleardi/wp-content/uploads/2016/10/Banner_Lateral.png' />
+                            <a href="/area-restrita/ebook-corretor">
+                                <img class='img-responsive' src='/images/Capa_Ebook-logo1.png' />
+                            </a>
                         </div>
                     </div>
 
