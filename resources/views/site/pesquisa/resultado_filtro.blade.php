@@ -28,14 +28,8 @@ use App\Site\Localidade;
         <div class="panel-body" style="border-bottom: 1px solid #CCCCCC;">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="form-group">
-                        
-                        <label for="localidade_url">Cidade ou Regi&atilde;o</label>
-                        <?php echo Localidade::getDropDown($filter['localidade_url'], 'false'); ?>
-                        
-                    </div>
-
-                </div>                                
+                    {{ Form::activeDropDownList('Localidade', 'localidade_url[]', $filter['localidade_url'], \App\DropDownTool::getLocalidade(), ['multiple'=>'multiple', 'class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'localidade_url']) }}
+                </div>
             </div>
         </div>
         <div class="panel-body" style="border-bottom: 1px solid #CCCCCC;">
@@ -176,11 +170,10 @@ function filtroVagas(vagas)
 
 function sendForm()
 {
-    
     $('#ph_resultado').css('opacity', '0.5');
-    
+
     var url = '/' + $('#tipo_negocio').val();
-    url = url + '/' + $('#localidade_url').val();
+    url = url + '/' + $('#localidade_url option:selected').val();
     url = url + '/' + $('#tipo_imovel').val();
     
     $('#form_filter').attr('action',  url);

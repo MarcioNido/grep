@@ -35,14 +35,15 @@ class Localidade extends Model
     }
     /**
      * Generates the dropdownlist for localidade
-     * @param type $selectedValue
+     * @param string $selectedValue
      * @param string $allowClear if it is allowed to clear the field ('true' for the home, 'false' for the filter)
+     * @param boolean $multiple
      * @return string
      */
-    public static function getDropDown($selectedValue='', $allowClear='true')
+    public static function getDropDown($selectedValue='', $allowClear='true', $multiple = false)
     {
         
-          $html  = "<select name='localidade_url' id='localidade_url' class='form-control guru-select filtro' data-placeholder='Selecione uma cidade ou região ...' data-allow-clear='{$allowClear}' style='width:100%'>";
+          $html  = "<select name='localidade_url[]' id='localidade_url' class='form-control guru-select filtro' data-placeholder='Selecione uma cidade ou região ...' data-allow-clear='{$allowClear}' style='width:100%' ". ($multiple ? "multiple='multiple'" : "") ." >";
           $html .= "<option></option>";
           // pega as cidades 
           $cidades = self::where('tipo', 1)->orderBy('estado')->orderBy('cidade')->get();

@@ -5,9 +5,11 @@ namespace App;
 use App\Site\Bairro;
 use App\Site\Cidade;
 use App\Site\Estado;
+use App\Site\Localidade;
 use App\Site\TipoLogradouro;
 use App\Site\TipoSimplificado;
 use App\Site\TipoImovel;
+use Illuminate\Support\Facades\DB;
 
 class DropDownTool
 {
@@ -61,6 +63,23 @@ class DropDownTool
             ->select('codbairro', 'descricao')
             ->orderBy('descricao')
             ->pluck('descricao', 'codbairro');
+    }
+
+    public static function getLocalidade()
+    {
+        $localidades['Cidades'] = Localidade::where(['tipo' => 1])->select('localidade_url', 'descricao')->orderBy('descricao')->pluck('descricao', 'localidade_url')->toArray();
+
+        $cidades = DB::table('localidades')->select('cidade')->distinct()->where(['tipo' => 2])->orderBy('cidade')->get();
+        foreach($cidades as $cidade) {
+            $localidades[$cidade->cidade] = Localidade::where(['cidade' => $cidade->cidade, 'tipo' => 2])
+                ->select('localidade_url', 'descricao')
+                ->orderBy('regiao')->get()
+                ->pluck('descricao', 'localidade_url')
+                ->toArray();
+        }
+
+        return $localidades;
+
     }
 
 }
