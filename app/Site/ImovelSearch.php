@@ -155,7 +155,7 @@ class ImovelSearch
         if ($this->filter['tipo_negocio'] == 'venda') {
            $qb->where(['disponivel_venda' => 1]);
         } else {
-            $qb->where(['disponivel_locacal' => 1]);
+            $qb->where(['disponivel_locacao' => 1]);
         }
 
         $qb->where(['tipo_simplificado' => $this->filter['tipo_imovel']]);
