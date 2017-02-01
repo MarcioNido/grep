@@ -63,10 +63,10 @@ class ImovelSearch
     {
 
         $this->setFilter();
-        $this->setCondition();
+        $qb = $this->getQueryBuilder();
 
         // retrieve rows
-        $this->imoveis = Imovel::where($this->_condition)->orderBy($this->_order_fld, $this->_order_ad)->paginate(10);
+        $this->imoveis = $qb->paginate(10);
 
         $this->logAction();
         return $this;
@@ -101,19 +101,33 @@ class ImovelSearch
 
         // check if we have the localidade_url in the request ...
         // otherwise it is a direct or external link (/venda/sp/sao-paulo/brooklin/casa)
-        if (! isset($this->request->localidade_url) && !$force) {
-            $this->filter['localidade_url'] = $this->request->estado.'/'.$this->request->cidade.'/'.$this->request->regiao;
+        if (! isset($this->request->localidade_url) && !$force && !isset($this->request->page)) {
+            $this->filter['localidade_url'][0] = $this->request->estado.'/'.$this->request->cidade.'/'.$this->request->regiao;
         }
 
         // gets localidade record
-        $localidade = Localidade::where('localidade_url', $this->filter['localidade_url'])->first();
-//        if ($localidade == null) {
-//            throw new \Exception("Localidade nao encontrada ...");
-//        }
-        if ($localidade) {
-            $this->filter['estado']         = $localidade->estado;             // localidade
-            $this->filter['cidade']         = $localidade->cidade;             // localidade
-            $this->filter['regiao']         = $localidade->regiao;             // localidade
+        if (is_array($this->filter['localidade_url'])) {
+            $this->filter['localidade'] = [];
+            foreach($this->filter['localidade_url'] as $localidade_url) {
+                $localidade = Localidade::where('localidade_url', $localidade_url)->first();
+                if ($localidade) {
+                    $this->filter['localidade'][] = [
+                        'estado' => $localidade->estado,
+                        'cidade' => $localidade->cidade,
+                        'regiao' => $localidade->regiao,
+                    ];
+                }
+            }
+        } else {
+            $localidade = Localidade::where('localidade_url', $this->filter['localidade_url'])->first();
+            if ($localidade) {
+                $this->filter['localidade'] = [];
+                $this->filter['localidade'][] = [
+                    'estado' => $localidade->estado,
+                    'cidade' => $localidade->cidade,
+                    'regiao' => $localidade->regiao,
+                ];
+            }
         }
 
         $this->setSessionFilters();
@@ -124,114 +138,99 @@ class ImovelSearch
     /**
      * Sets the condition to retrieve rows from properties
      */
-    protected function setCondition()
+    protected function getQueryBuilder()
     {
+        $qb = Imovel::where(function($query) {
+            foreach($this->filter['localidade'] as $localidade) {
+                if ($localidade['regiao'] != null) {
+                    $query->orWhere(['estado' => $localidade['estado'], 'cidade' => $localidade['cidade'], 'regiao_mercadologica' => $localidade['regiao']]);
+                } else {
+                    $query->orWhere(['estado' => $localidade['estado'], 'cidade' => $localidade['cidade']]);
+                }
+            }
+        });
 
-        $this->_condition = [];
+        $qb->whereNotNull('pub_agencia_id');
+
         if ($this->filter['tipo_negocio'] == 'venda') {
-            $this->_condition[] = ['disponivel_venda', 1];
+           $qb->where(['disponivel_venda' => 1]);
         } else {
-            $this->_condition[] = ['disponivel_locacao', 1];
-        }
-        $this->_condition[] = ['tipo_simplificado', $this->filter['tipo_imovel']];
-        $this->_condition[] = ['estado', $this->filter['estado']];
-        $this->_condition[] = ['cidade', $this->filter['cidade']];
-        if ($this->filter['regiao'] !== NULL) {
-            $this->_condition[] = ['regiao_mercadologica', ($this->filter['regiao'])];
+            $qb->where(['disponivel_locacal' => 1]);
         }
 
-        // DORMITORIOS
+        $qb->where(['tipo_simplificado' => $this->filter['tipo_imovel']]);
         if (isset($this->filter['dormitorios']) && (int) $this->filter['dormitorios'] != 0) {
-            $this->_condition[] = ['dormitorio', '>=', $this->filter['dormitorios']];
+            $qb->where('dormitorio', '>=', $this->filter['dormitorios']);
         }
-
-        // VAGAS
         if (isset($this->filter['vagas']) && (int) $this->filter['vagas'] != 0) {
-            $this->_condition[] = ['vaga', '>=', $this->filter['vagas']];
+            $qb->where('vaga', '>=', $this->filter['vagas']);
         }
-
-        // VALOR MINIMO
         if (isset($this->filter['valor_minimo']) && (float) $this->filter['valor_minimo'] != 0.00) {
             if ($this->filter['tipo_negocio'] == 'venda') {
-                $this->_condition[] = ['valor_venda', '>=', CHtml::removeMask($this->filter['valor_minimo'])];
+                $qb->where('valor_venda', '>=', CHtml::removeMask($this->filter['valor_minimo']));
             } else {
-                $this->_condition[] = ['valor_locacao', '>=', CHtml::removeMask($this->filter['valor_minimo'])];
+                $qb->where('valor_locacao', '>=', CHtml::removeMask($this->filter['valor_minimo']));
             }
         }
-
-        // VALOR MAXIMO
         if (isset($this->filter['valor_maximo']) && (float) $this->filter['valor_maximo'] != 0.00) {
             if ($this->filter['tipo_negocio'] == 'venda') {
-                $this->_condition[] = ['valor_venda', '<=', CHtml::removeMask($this->filter['valor_maximo'])];
+                $qb->where('valor_venda', '<=', CHtml::removeMask($this->filter['valor_maximo']));
             } else {
-                $this->_condition[] = ['valor_locacao', '<=', CHtml::removeMask($this->filter['valor_maximo'])];
+                $qb->where('valor_locacao', '<=', CHtml::removeMask($this->filter['valor_maximo']));
             }
         }
 
         // AREA MINIMA
         if (isset($this->filter['area_minima']) && (float) $this->filter['area_minima'] != 0.00) {
             if (in_array($this->filter['tipo_imovel'], ['terreno', 'rural']) !== false) {
-                $this->_condition[] = ['area_total_terreno', '>=', (float) $this->filter['area_minima']];
+                $qb->where('area_total_terreno', '>=', (float) $this->filter['area_minima']);
             } else {
-                $this->_condition[] = ['area_util_construida', '>=', (float) $this->filter['area_minima']];
+                $qb->where('area_util_construida', '>=', (float) $this->filter['area_minima']);
             }
         }
 
         // AREA MAXIMA
         if (isset($this->filter['area_maxima']) && (float) $this->filter['area_maxima'] != 0.00) {
             if (in_array($this->filter['tipo_imovel'], ['terreno', 'rural']) !== false) {
-                $this->_condition[] = ['area_total_terreno', '<=', (float) $this->filter['area_maxima']];
+                $qb->where('area_total_terreno', '<=', (float) $this->filter['area_maxima']);
             } else {
-                $this->_condition[] = ['area_util_construida', '<=', (float) $this->filter['area_maxima']];
+                $qb->where('area_util_construida', '<=', (float) $this->filter['area_maxima']);
             }
         }
 
         // REFERENCIAS ...
         if (isset($this->filter['referencia']) && trim($this->filter['referencia']) != '') {
-            $this->_condition = [];
-            $this->_condition[] = ['id', $this->refToArray($this->filter['referencia'])];
+            $qb = Imovel::whereIn('id', $this->refToArray($this->filter['referencia']));
         }
-
-
-        $this->_order_fld = "created_at";
-        $this->_order_ad = "desc";
-
 
         if (isset($this->filter['order']) && $this->filter['order'] != '') {
 
             if ($this->filter['order'] == "Mais Recentes") {
 
-                $this->_order_fld = "created_at";
-                $this->_order_ad = "desc";
+                $qb->orderBy('created_at', 'desc');
 
             } elseif ($this->filter['order'] == "Menor Valor") {
 
                 if ($this->filter['tipo_negocio'] == 'venda') {
-                    $this->_order_fld = "valor_venda";
-                    $this->_order_ad = "asc";
+                    $qb->orderBy('valor_venda');
                 } else {
-                    $this->_order_fld = "valor_locacao";
-                    $this->_order_ad = "asc";
+                    $qb->orderBy('valor_locacao');
                 }
 
             } elseif ($this->filter['order'] = "Maior Valor") {
 
                 if ($this->filter['tipo_negocio'] == 'venda') {
-                    $this->_order_fld = "valor_venda";
-                    $this->_order_ad = "desc";
+                    $qb->orderBy('valor_venda', 'desc');
                 } else {
-                    $this->_order_fld = "valor_locacao";
-                    $this->_order_ad = "desc";
+                    $qb->orderBy('valor_locacao', 'desc');
                 }
 
+            } else {
+                $qb->orderBy('created_at', 'desc');
             }
 
-
-
         }
-
-
-
+        return $qb;
     }
 
     protected function refToArray($ref)

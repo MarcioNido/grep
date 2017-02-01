@@ -31,7 +31,7 @@ $pesquisasPopulares = \Illuminate\Support\Facades\DB::table("web_pesquisas_popul
                                             </div>
                                             <div class="col-sm-5 col-xs-12 guru-home-search">
                                                 <?php //echo Html::dropDownList('localidade_id', $profile->localidade_id, Localidade::getList(), ['class'=>'form-control']); ?>
-                                                <?php echo Localidade::getDropDown($profile->localidade_url); ?>
+                                                <?php echo Localidade::getDropDown($profile->localidade_url[0]); ?>
                                             </div>
                                             <div class="col-sm-1 col-xs-12 guru-home-search">
                                                 <button id="bot_pesquisa" type="button" class="btn btn-warning guru-home-button" onclick="send_form()"><span class="fa fa-search"></span></button>
