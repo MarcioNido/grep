@@ -24,14 +24,14 @@ $pesquisasPopulares = \Illuminate\Support\Facades\DB::table("web_pesquisas_popul
                                     <div class="col-sm-12">
                                         <div class="row">
                                             <div class="col-sm-3 col-xs-6 guru-home-search">
-                                                <?php echo CHtml::dropDownList('tipo_negocio', $profile->tipo_negocio, ['venda'=>'Comprar', 'locacao'=>'Alugar'], ['class'=>'form-control guru-select', 'style' => 'width: 100%']); ?>
+                                                <?php echo CHtml::dropDownList('tipo_negocio', $filter['tipo_negocio'], ['venda'=>'Comprar', 'locacao'=>'Alugar'], ['class'=>'form-control guru-select', 'style' => 'width: 100%']); ?>
                                             </div>
                                             <div class="col-sm-3 col-xs-6 guru-home-search">
-                                                <?php echo CHtml::dropDownList('tipo_imovel', $profile->tipo_imovel, ['apartamento'=>'Apartamento', 'casa'=>'Casa', 'comercial'=>'Comercial', 'terreno'=>'Terreno', 'flat' => 'Flat', 'rural' => 'Rural'], ['class'=>'form-control guru-select', 'style' => 'width: 100%']); ?>
+                                                <?php echo CHtml::dropDownList('tipo_imovel', $filter['tipo_imovel'], ['apartamento'=>'Apartamento', 'casa'=>'Casa', 'comercial'=>'Comercial', 'terreno'=>'Terreno', 'flat' => 'Flat', 'rural' => 'Rural'], ['class'=>'form-control guru-select', 'style' => 'width: 100%']); ?>
                                             </div>
                                             <div class="col-sm-5 col-xs-12 guru-home-search">
                                                 <?php //echo Html::dropDownList('localidade_id', $profile->localidade_id, Localidade::getList(), ['class'=>'form-control']); ?>
-                                                <?php echo Localidade::getDropDown($profile->localidade_url[0]); ?>
+                                                <?php echo Localidade::getDropDown($filter['localidade_url'][0]); ?>
                                             </div>
                                             <div class="col-sm-1 col-xs-12 guru-home-search">
                                                 <button id="bot_pesquisa" type="button" class="btn btn-warning guru-home-button" onclick="send_form()"><span class="fa fa-search"></span></button>

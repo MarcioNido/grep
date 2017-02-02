@@ -173,7 +173,11 @@ function sendForm()
     $('#ph_resultado').css('opacity', '0.5');
 
     var url = '/' + $('#tipo_negocio').val();
-    url = url + '/' + $('#localidade_url option:selected').val();
+    if ($('#localidade_url option:selected').val() != undefined) {
+        url = url + '/' + $('#localidade_url option:selected').val();
+    } else {
+        url = url + '/sp/sao-paulo/todas-as-regioes';''
+    }
     url = url + '/' + $('#tipo_imovel').val();
     
     $('#form_filter').attr('action',  url);

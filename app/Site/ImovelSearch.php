@@ -93,10 +93,15 @@ class ImovelSearch
             $this->getSessionFilters();
         }
 
+
         foreach($this->filter as $field => $value) {
             if (isset($this->request->$field)) {
                 $this->filter[$field] = $this->request->$field;
             }
+        }
+
+        if ($this->request->isMethod('post')) {
+            $this->sanitizeLocalidade();
         }
 
         // check if we have the localidade_url in the request ...
@@ -133,6 +138,24 @@ class ImovelSearch
         $this->setSessionFilters();
         $this->setCookies();
 
+    }
+
+    protected function sanitizeLocalidade()
+    {
+        if ($this->filter['localidade_url'] && is_array($this->filter['localidade_url'])) {
+            foreach($this->filter['localidade_url'] as $key => $localidade) {
+                $parts = explode('/', $localidade);
+                if (isset($parts[2]) && $parts[2] == 'todas-as-regioes') {
+                    // check if there is another localidade with a specific neighborhood ... if so, remove the general one
+                    foreach($this->filter['localidade_url'] as $dupli) {
+                        $parts_dupli = explode('/', $dupli);
+                        if ($parts[0] == $parts_dupli[0] && $parts[1] == $parts_dupli[1] && $parts[2] != $parts_dupli[2]) {
+                            unset($this->filter['localidade_url'][$key]);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
