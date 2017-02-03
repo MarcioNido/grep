@@ -96,7 +96,12 @@ class CHtml
             $text .= " para Alugar";
         }
         
-        $text .= ' em '. ($filter['regiao'] != null ? mb_convert_case($filter['regiao'], MB_CASE_TITLE). ', ' : '') . mb_convert_case($filter['cidade'], MB_CASE_TITLE) . ', ' . $filter['estado'];
+        $text .= ' em '. ($filter['localidade'][0]['regiao'] != null ? mb_convert_case($filter['localidade'][0]['regiao'], MB_CASE_TITLE). ', ' : '') . mb_convert_case($filter['localidade'][0]['cidade'], MB_CASE_TITLE) . ', ' . $filter['localidade'][0]['estado'];
+        if (count($filter['localidade']) > 2) {
+            $text .= ' e mais ' . (count($filter['localidade']) - 1) . ' Regiões';
+        } elseif (count($filter['localidade']) > 1) {
+            $text .= ' e mais ' . (count($filter['localidade']) - 1) . ' Região';
+        }
 
         return $text;
         

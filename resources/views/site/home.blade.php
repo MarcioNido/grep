@@ -14,7 +14,9 @@ $pesquisasPopulares = \Illuminate\Support\Facades\DB::table("web_pesquisas_popul
             <div class="row">
                 <div class="col-lg-8 guru-home-panel-container" style="">
                     <div class="panel panel-info guru-home-panel" style="">
+
                         <div class="panel-heading guru-home-panel-heading">Encontre aqui o seu futuro im&oacute;vel</div>
+
                         <div class="panel-body guru-home-panel-body">
                             <form id="form_home" class="form-group" method="post" action="#">
                                 

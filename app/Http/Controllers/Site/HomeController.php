@@ -1,25 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\Site;
+
 use App\Http\Controllers\Controller;
 use App\Site\Profile;
-
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //$this->middleware('auth');
-    }
-
     /**
      * Show the application dashboard.
      *
@@ -27,8 +16,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $filter = $this->getFilter();
-        return view('site.home', ['cookie' => request()->cookie(), 'filter'=>$filter] );
+        $filter = Profile::getInstance()->getFilter();
+//        $filter = $this->getFilter();
+        return view('site.home', ['filter'=>$filter]);
     }
 
     protected function getFilter()
@@ -47,8 +37,8 @@ class HomeController extends Controller
         }
 
         return [
-            'tipo_negocio' => 'venda',
-            'tipo_imovel' => 'apartamento',
+            'tipo_negocio'   => 'venda',
+            'tipo_imovel'    => 'apartamento',
             'localidade_url' => ['sp/sao-paulo/todas-as-regioes'],
         ];
 

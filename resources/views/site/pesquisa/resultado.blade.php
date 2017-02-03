@@ -7,7 +7,11 @@ $filter = $searchResult->filter;
 $imoveis = $searchResult->imoveis;
 $filter_desc = $searchResult->getSessionFiltersDesc();
 
-$title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter['regiao'] != null ? $filter['regiao']. ' - ' : '') . $filter['cidade'] . ' - ' . $filter['estado'] . ' - Paulo Roberto Leardi';
+//if (isset($filter['localidade'][0])) {
+    $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter['localidade'][0]['regiao'] != null ? $filter['localidade'][0]['regiao']. ' - ' : '') . $filter['localidade'][0]['cidade'] . ' - ' . $filter['localidade'][0]['estado'] . ' - Paulo Roberto Leardi';
+//} else {
+//    $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter['regiao'] != null ? $filter['regiao']. ' - ' : '') . $filter['cidade'] . ' - ' . $filter['estado'] . ' - Paulo Roberto Leardi';
+//}
 $subtitle = CHtml::subtitle($imoveis->total(), $filter);
 
 ?>
@@ -22,9 +26,9 @@ $subtitle = CHtml::subtitle($imoveis->total(), $filter);
         <ol class="breadcrumb">
             <li><a href="/">Home</a></li>
             <li class="active">{{ $filter['tipo_negocio'] == 'venda' ? 'Venda' : 'Locação' }}</li>
-            <li class="active">{{ $filter['estado'] }}</li>
-            <li class="active">{{ $filter['cidade'] }}</li>
-            <li class="active">{{ $filter['regiao'] != null ? $filter['regiao'] : 'Todas as Regiões' }}</li>
+            <li class="active">{{ $filter['localidade'][0]['estado'] }}</li>
+            <li class="active">{{ $filter['localidade'][0]['cidade'] }}</li>
+            <li class="active">{{ $filter['localidade'][0]['regiao'] != null ? $filter['localidade'][0]['regiao'] : 'Todas as Regiões' }}</li>
             <li class="active">{{ title_case($filter['tipo_imovel']) }}</li>
         </ol>
     </div>

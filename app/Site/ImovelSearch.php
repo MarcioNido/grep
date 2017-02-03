@@ -327,12 +327,16 @@ class ImovelSearch
                 $perfil[] = "Alugar";
             }
             $perfil[] = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE);
-            $localidade = "";
-            if (isset($filter['regiao']) && $filter['regiao'] != '') {
-                $localidade .= $filter['regiao'] . ", ";
+
+            foreach($filter['localidade'] as $a_localidade) {
+                $localidade = "";
+                if (isset($a_localidade['regiao']) && $a_localidade['regiao'] != '') {
+                    $localidade .= $a_localidade['regiao'] . ", ";
+                }
+                $localidade .= $a_localidade['cidade'] . ", " . $a_localidade['estado'];
+                $perfil[] = $localidade;
             }
-            $localidade .= $filter['cidade'] . ", " . $filter['estado'];
-            $perfil[] = $localidade;
+
 
             if ($filter['dormitorios'] != '') {
                 $perfil[] = $filter['dormitorios'] . " dormitórios";
