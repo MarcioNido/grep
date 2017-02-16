@@ -93,7 +93,7 @@ use App\Site\Localidade;
         </div>
         @endif
 
-        @if ( $filter['tipo_imovel'] != 'terreno' )        
+        @if ( $filter['tipo_imovel'] != 'terreno' )
         <div class="panel-body" style="border-bottom: 1px solid #CCCCCC;">
             <div class="row">
                 <div class="col-md-12">

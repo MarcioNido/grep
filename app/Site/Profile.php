@@ -58,6 +58,32 @@ class Profile {
 
     protected function createProfile()
     {
+        $localidade_url = $this->getLocalidadeUrl();
+        $filter = [
+            'tipo_negocio' => 'venda',
+            'tipo_imovel' => 'apartamento',
+            'localidade_url' => [$localidade_url],
+            'valor_minimo' => '',
+            'valor_maximo' => '',
+            'dormitorios' => '',
+            'vagas' => '',
+            'area_minima' => '',
+            'area_maxima' => '',
+            'order' => 'Mais Recentes',
+        ];
+
+        $this->setProfile($filter);
+        return $filter;
+    }
+
+    public function setProfile($filter)
+    {
+        session('filter', $filter);
+        Cookie::queue('filter', $filter);
+    }
+
+    protected function getLocalidadeUrl()
+    {
         try {
             $json = file_get_contents('http://ip-api.com/json');
             $obj = json_decode($json);
@@ -75,20 +101,7 @@ class Profile {
             $localidade_url = 'sp/sao-paulo/todas-as-regioes';
         }
 
-        $filter = [
-            'tipo_negocio' => 'venda',
-            'tipo_imovel' => 'apartamento',
-            'localidade_url' => [$localidade_url],
-        ];
-
-        $this->setProfile($filter);
-        return $filter;
-    }
-
-    public function setProfile($filter)
-    {
-        session('filter', $filter);
-        cookie('filter', $filter);
+        return $localidade_url;
     }
     
 }

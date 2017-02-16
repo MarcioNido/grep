@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Components\CHtml;
+use App\Site\Profile;
 use App\Tracker;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ use App\Site\Contato;
 use App\Site\NotificacaoImovel;
 use Illuminate\Http\Request;
 use App\Site\Imovel;
-//use App\Site\Localidade;
+use App\Site\Localidade;
 //use App\Http\Components\Html;
 use App\Site\ImovelSearch;
 
@@ -46,7 +47,8 @@ class PesquisaController extends Controller
      */
     public function venda(Request $request)
     {
-        $searchResult = (new ImovelSearch($request))->processSearchRequest();
+//        $searchResult = (new ImovelSearch($request))->processSearchRequest();
+        $searchResult = $this->processSearchRequest($request);
         return view('site.pesquisa.resultado', ['searchResult' => $searchResult]);
     }
 
@@ -68,6 +70,218 @@ class PesquisaController extends Controller
         return view('site.pesquisa.resultado', ['searchResult' => $searchResult]);
     }
 
+    protected function processSearchRequest(Request $request)
+    {
+        // check the type of request (post, get, pagination, reference)
+        // $requestType = $this->getRequestType($request);
+
+        $profile = Profile::getInstance();
+        $filter = $profile->getFilter();
+        $filter = array_merge($filter, $request->all());
+        $profile->setProfile($filter);
+
+        $qb = $this->getQueryBuilder($filter);
+        $imoveis = $qb->paginate(10);
+
+        $titles = $this->setTitles($filter, $imoveis->total());
+
+        return [
+            'imoveis' => $imoveis,
+            'filter' => $filter,
+            'titles' => $titles,
+        ];
+
+    }
+
+    /**
+     * Sets the condition to retrieve rows from properties
+     */
+    protected function getQueryBuilder($filter)
+    {
+        $qb = Imovel::where(function($query) use ($filter) {
+            foreach($filter['localidade_url'] as $localidade_url) {
+                $localidade = Localidade::where('localidade_url', $localidade_url)->first();
+                if ($localidade) {
+                    if ($localidade['regiao'] != null) {
+                        $query->orWhere(['estado' => $localidade['estado'], 'cidade' => $localidade['cidade'], 'regiao_mercadologica' => $localidade['regiao']]);
+                    } else {
+                        $query->orWhere(['estado' => $localidade['estado'], 'cidade' => $localidade['cidade']]);
+                    }
+                }
+            }
+        });
+
+        $qb->whereNotNull('pub_agencia_id');
+
+        if ($filter['tipo_negocio'] == 'venda') {
+            $qb->where(['disponivel_venda' => 1]);
+        } else {
+            $qb->where(['disponivel_locacao' => 1]);
+        }
+
+        $qb->where(['tipo_simplificado' => $filter['tipo_imovel']]);
+        if (isset($filter['dormitorios']) && (int) $filter['dormitorios'] != 0) {
+            $qb->where('dormitorio', '>=', $filter['dormitorios']);
+        }
+        if (isset($filter['vagas']) && (int) $filter['vagas'] != 0) {
+            $qb->where('vaga', '>=', $filter['vagas']);
+        }
+        if (isset($filter['valor_minimo']) && (float) $filter['valor_minimo'] != 0.00) {
+            if ($filter['tipo_negocio'] == 'venda') {
+                $qb->where('valor_venda', '>=', CHtml::removeMask($filter['valor_minimo']));
+            } else {
+                $qb->where('valor_locacao', '>=', CHtml::removeMask($filter['valor_minimo']));
+            }
+        }
+        if (isset($filter['valor_maximo']) && (float) $filter['valor_maximo'] != 0.00) {
+            if ($filter['tipo_negocio'] == 'venda') {
+                $qb->where('valor_venda', '<=', CHtml::removeMask($filter['valor_maximo']));
+            } else {
+                $qb->where('valor_locacao', '<=', CHtml::removeMask($filter['valor_maximo']));
+            }
+        }
+
+        // AREA MINIMA
+        if (isset($filter['area_minima']) && (float) $filter['area_minima'] != 0.00) {
+            if (in_array($filter['tipo_imovel'], ['terreno', 'rural']) !== false) {
+                $qb->where('area_total_terreno', '>=', (float) $filter['area_minima']);
+            } else {
+                $qb->where('area_util_construida', '>=', (float) $filter['area_minima']);
+            }
+        }
+
+        // AREA MAXIMA
+        if (isset($filter['area_maxima']) && (float) $filter['area_maxima'] != 0.00) {
+            if (in_array($filter['tipo_imovel'], ['terreno', 'rural']) !== false) {
+                $qb->where('area_total_terreno', '<=', (float) $filter['area_maxima']);
+            } else {
+                $qb->where('area_util_construida', '<=', (float) $filter['area_maxima']);
+            }
+        }
+
+        // REFERENCIAS ...
+        if (isset($filter['referencia']) && trim($filter['referencia']) != '') {
+            $qb = Imovel::whereIn('id', $this->refToArray($filter['referencia']));
+        }
+
+        if (isset($filter['order']) && $filter['order'] != '') {
+
+            if ($filter['order'] == "Mais Recentes") {
+
+                $qb->orderBy('created_at', 'desc');
+
+            } elseif ($filter['order'] == "Menor Valor") {
+
+                if ($filter['tipo_negocio'] == 'venda') {
+                    $qb->orderBy('valor_venda');
+                } else {
+                    $qb->orderBy('valor_locacao');
+                }
+
+            } elseif ($filter['order'] = "Maior Valor") {
+
+                if ($filter['tipo_negocio'] == 'venda') {
+                    $qb->orderBy('valor_venda', 'desc');
+                } else {
+                    $qb->orderBy('valor_locacao', 'desc');
+                }
+
+            } else {
+                $qb->orderBy('created_at', 'desc');
+            }
+
+        }
+        return $qb;
+    }
+
+
+    protected function setTitles($filter, $quant)
+    {
+        $plural = [
+            'apartamento' => 'Apartamentos',
+            'casa' => 'Casas',
+            'comercial' => 'Imóveis Comerciais',
+            'rural' => 'Propriedades Rurais',
+            'terreno' => 'Terrenos',
+            'flat' => 'Flats',
+        ];
+
+        $filter_desc = [];
+
+        $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE);
+
+        $subtitle  = "<b>".$quant . "</b> ";
+
+        $subtitle .= $plural[$filter['tipo_imovel']];
+        if ($filter['tipo_negocio'] == 'venda') {
+            $subtitle .= ' à Venda';
+            $filter_desc[] = 'Comprar';
+        } else {
+            $subtitle .= " para Alugar";
+            $filter_desc[] = 'Alugar';
+        }
+
+        $filter_desc[] = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE);
+
+        $first = true;
+        foreach($filter['localidade_url'] as $localidade_url) {
+            $localidade = Localidade::where('localidade_url', $filter['localidade_url'][0])->first();
+            if ($localidade) {
+                if ($first) {
+                    $subtitle .= ' em '. ($localidade->regiao != null ? mb_convert_case($localidade->regiao, MB_CASE_TITLE). ', ' : '')
+                        . mb_convert_case($localidade->cidade, MB_CASE_TITLE) . ', ' . $localidade->estado;
+                    $title .= $subtitle;
+
+                    $breadcrumbs = [
+                        'tipo_negocio' => $filter['tipo_negocio'] == 'venda' ? 'Venda' : 'Locação',
+                        'estado' => $localidade->estado,
+                        'cidade' => $localidade->cidade,
+                        'regiao' => $localidade->regiao != null ? mb_convert_case($localidade->regiao, MB_CASE_TITLE) : 'Todas as Regiões',
+                        'tipo_imovel' => title_case($filter['tipo_imovel']),
+                    ];
+                    $first = false;
+                }
+                if ($localidade->regiao != null) {
+                    $filter_desc[] = $localidade->regiao.", ".$localidade->cidade.", ".$localidade->estado;
+                } else {
+                    $filter_desc[] = $localidade->cidade.", ".$localidade->estado;
+                }
+            }
+        }
+
+        if (count($filter['localidade_url']) > 2) {
+            $subtitle .= ' e mais ' . (count($filter['localidade_url']) - 1) . ' Regiões';
+        } elseif (count($filter['localidade_url']) > 1) {
+            $subtitle .= ' e mais ' . (count($filter['localidade_url']) - 1) . ' Região';
+        }
+
+        $title .= " - Paulo Roberto Leardi";
+
+        if ($filter['dormitorios'] != '') {
+            $filter_desc[] = $filter['dormitorios']." dormitório(s)";
+        }
+
+        if ($filter['vagas'] != '') {
+            $filter_desc[] = $filter['vagas']." vaga(s)";
+        }
+
+        if ($filter['valor_minimo'] != '' && $filter['valor_minimo'] != 0) {
+            $filter_desc[] = "Mín R$ ".CHtml::moneyMask($filter['valor_minimo']);
+        }
+
+        if ($filter['valor_maximo'] != ''  && $filter['valor_maximo'] != 0) {
+            $filter_desc[] = "Máx R$ ".CHtml::moneyMask($filter['valor_maximo']);
+        }
+
+        return [
+            'title' => $title,
+            'subtitle' => $subtitle,
+            'breadcrumbs' => $breadcrumbs,
+            'filter_desc' => $filter_desc,
+        ];
+
+    }
+
 
     /**
      * Shows the property's details
@@ -77,7 +291,9 @@ class PesquisaController extends Controller
     public function detalhe(Request $request)
     {
         $imovel = Imovel::find($request->imovel_id);
-        $filter_desc = (new ImovelSearch($request))->getSessionFiltersDesc();
+        $filter = Profile::getInstance()->getFilter();
+        $titles = $this->setTitles($filter, 1);
+        $filter_desc = $titles['filter_desc'];
         $imoveisSimilares = $this->getImoveisSimilares($imovel, $filter_desc);
         return view('site.pesquisa.detalhe', ['imovel' => $imovel, 'filter_desc' => $filter_desc, 'imoveisSimilares' => $imoveisSimilares]);
     }
@@ -150,7 +366,6 @@ class PesquisaController extends Controller
 
     }
 
-
     /**
      * Returns the agency phone
      * @param $agencia_id
@@ -161,9 +376,6 @@ class PesquisaController extends Controller
         $agencia = Agencia::find($agencia_id);
         echo $agencia->ddd1." ".$agencia->telefone1;
     }
-
-
-
 
     /**
      * @param $id
@@ -195,16 +407,15 @@ class PesquisaController extends Controller
     {
 
         // try to create or update a notification
-        $filter = (new ImovelSearch($request))->getSessionFilters();
+        $filter = Profile::getInstance()->getFilter();
+//        $filter = (new ImovelSearch($request))->getSessionFilters();
         if (! $filter) {
             throw new \HttpException("Configurações não encontradas", 404);
         }
 
         $notificacao = new NotificacaoImovel();
         $notificacao->user_id       = Auth::id();
-        $notificacao->estado        = $filter['estado'];
-        $notificacao->cidade        = $filter['cidade'];
-        $notificacao->regiao        = $filter['regiao'];
+        $notificacao->localidade_url = serialize($filter['localidade_url']);
         $notificacao->tipo_negocio  = $filter['tipo_negocio'];
         $notificacao->tipo_imovel   = $filter['tipo_imovel'];
         $notificacao->valor_minimo  = CHtml::removeMask($filter['valor_minimo']);

@@ -3,17 +3,13 @@ use App\Http\Components\CHtml;
 use App\Site\Foto;
 
 /** @var $searchResult \App\Site\ImovelSearch */
-$filter = $searchResult->filter;
-$imoveis = $searchResult->imoveis;
-$filter_desc = $searchResult->getSessionFiltersDesc();
+$filter = $searchResult['filter'];
+$imoveis = $searchResult['imoveis'];
+$filter_desc = $searchResult['titles']['filter_desc'];
 
-//if (isset($filter['localidade'][0])) {
-    $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter['localidade'][0]['regiao'] != null ? $filter['localidade'][0]['regiao']. ' - ' : '') . $filter['localidade'][0]['cidade'] . ' - ' . $filter['localidade'][0]['estado'] . ' - Paulo Roberto Leardi';
-//} else {
-//    $title = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE).' em '. ($filter['regiao'] != null ? $filter['regiao']. ' - ' : '') . $filter['cidade'] . ' - ' . $filter['estado'] . ' - Paulo Roberto Leardi';
-//}
-$subtitle = CHtml::subtitle($imoveis->total(), $filter);
-
+$title = $searchResult['titles']['title'];
+$subtitle = $searchResult['titles']['subtitle'];
+$bc = $searchResult['titles']['breadcrumbs'];
 ?>
 
 @extends('layouts.app')
@@ -25,15 +21,14 @@ $subtitle = CHtml::subtitle($imoveis->total(), $filter);
     <div class="container">
         <ol class="breadcrumb">
             <li><a href="/">Home</a></li>
-            <li class="active">{{ $filter['tipo_negocio'] == 'venda' ? 'Venda' : 'Locação' }}</li>
-            <li class="active">{{ $filter['localidade'][0]['estado'] }}</li>
-            <li class="active">{{ $filter['localidade'][0]['cidade'] }}</li>
-            <li class="active">{{ $filter['localidade'][0]['regiao'] != null ? $filter['localidade'][0]['regiao'] : 'Todas as Regiões' }}</li>
-            <li class="active">{{ title_case($filter['tipo_imovel']) }}</li>
+            <li class="active">{{ $bc['tipo_negocio'] }}</li>
+            <li class="active">{{ $bc['estado'] }}</li>
+            <li class="active">{{ $bc['cidade'] }}</li>
+            <li class="active">{{ $bc['regiao'] }}</li>
+            <li class="active">{{ $bc['tipo_imovel'] }}</li>
         </ol>
     </div>
 </div>
-      
 
 <div style="background-color: #6B88AE; width: 100%;">
     <div class="container">

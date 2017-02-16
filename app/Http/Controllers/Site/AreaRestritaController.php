@@ -55,9 +55,7 @@ class AreaRestritaController extends Controller
 
         $alerta->tipo_negocio = $request->tipo_negocio;
         $alerta->tipo_imovel = $request->tipo_imovel;
-        $alerta->estado = $localidade->estado;
-        $alerta->cidade = $localidade->cidade;
-        $alerta->regiao = $localidade->regiao;
+        $alerta->localidade_url = serialize($request->localidade_url);
         $alerta->dormitorios = (int) $request->dormitorios;
         $alerta->vagas = (int) $request->vagas;
         $alerta->valor_minimo = (float) CHtml::removeMask($request->valor_minimo);

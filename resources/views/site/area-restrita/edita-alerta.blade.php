@@ -3,7 +3,6 @@
 use App\Http\Components\CHtml as CHtml;
 use App\Site\Localidade;
 $title = "Alerta por E-mail";
-$localidade_url = Localidade::where(['estado'=>$alerta->estado, 'cidade' => $alerta->cidade, 'regiao' => $alerta->regiao])->first();
 $breadcrumbs = [
     'Home' => url('/'),
     'Área Restrita' => url('/area-restrita/index'),
@@ -49,7 +48,7 @@ $breadcrumbs = [
 
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        {{ Form::activeDropDownList('Localização', 'localidade_url', $localidade_url['localidade_url'], \App\Site\Localidade::getDropDownData(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%']) }}
+                                        {{ Form::activeDropDownList('Localização', 'localidade_url[]', unserialize($alerta->localidade_url), \App\Site\Localidade::getDropDownData(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'multiple' => 'multiple']) }}
                                     </div>
                                 </div>
 
