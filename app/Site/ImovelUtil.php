@@ -24,7 +24,7 @@ class ImovelUtil
             $title .= "Comprar ";
         }
         if (isset($vars['tipo_negocio']) && $vars['tipo_negocio'] == 'locacao') {
-            $title .= "Aluguar";
+            $title .= "Alugar ";
         }
 
         if (isset($vars['tipo_imovel'])) {

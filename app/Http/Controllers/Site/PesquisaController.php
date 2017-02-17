@@ -60,7 +60,8 @@ class PesquisaController extends Controller
      */
     public function locacao(Request $request)
     {
-        $searchResult = (new ImovelSearch($request))->processSearchRequest();
+//        $searchResult = (new ImovelSearch($request))->processSearchRequest();
+        $searchResult = $this->processSearchRequest($request);
         return view('site.pesquisa.resultado', ['searchResult' => $searchResult]);
     }
 
@@ -225,7 +226,7 @@ class PesquisaController extends Controller
 
         $first = true;
         foreach($filter['localidade_url'] as $localidade_url) {
-            $localidade = Localidade::where('localidade_url', $filter['localidade_url'][0])->first();
+            $localidade = Localidade::where('localidade_url', $localidade_url)->first();
             if ($localidade) {
                 if ($first) {
                     $subtitle .= ' em '. ($localidade->regiao != null ? mb_convert_case($localidade->regiao, MB_CASE_TITLE). ', ' : '')
