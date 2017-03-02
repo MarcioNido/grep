@@ -48,7 +48,7 @@ $title = $post->titulo;
 
                                     @push('header')
                                     <meta property="og:image" content="{{ url($post->imagem->arquivo) }}" />
-                                    <link rel="image_src" href="/wp-content/uploads/{{ url($post->imagem->arquivo) }}" />
+                                    <link rel="image_src" href="{{ url($post->imagem->arquivo) }}" />
                                     @endpush
 
                                     <div class="thumbnail" style="max-width: 400px; float: right; margin: 2px 2px 10px 10px;">
