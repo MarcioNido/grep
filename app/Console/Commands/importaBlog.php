@@ -57,7 +57,13 @@ class importaBlog extends Command
             $post->ativo = 1;
             $post->saveOrFail();
 
-            $wpostImage = DB::table('blogleardi.wp_postmeta')->where(['post_id' => $wpost->meta_value, 'meta_key' => '_wp_attachment_metadata'])->first();
+            $thumb_id = DB::table('blogleardi.wp_postmeta')->where(['post_id' => $wpost->ID, 'meta_key' => '_thumbnail_id'])->first();
+            if (! $thumb_id) {
+                echo "No ThumbId ... \n"
+                continue;
+            }
+
+            $wpostImage = DB::table('blogleardi.wp_postmeta')->where(['post_id' => $thumb_id->ID, 'meta_key' => '_wp_attachment_metadata'])->first();
             if ($wpostImage) {
 
                 $meta_value = null;
