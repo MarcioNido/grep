@@ -59,11 +59,17 @@ $title = "Agências Paulo Roberto Leardi";
                                     echo '</div>';
                                     echo '<div class="row">';
                                 }
+                                if ($post->imagem) {
+                                    $arquvo = $post->imagem->arquivo;
+                                } else {
+                                    $arquivo = "";
+                                }
+
                             ?>
                             <div class="col-sm-4">
                                 <div class="thumbnail">
                                     <a href="/blogleardi/{{$post->key}}">
-                                        <img class="img-responsive" style="width: 100%" src="/wp-content/uploads/{{ $post->imagem->arquivo ?: ''}}" />
+                                        <img class="img-responsive" style="width: 100%" src="/wp-content/uploads/{{ $arquivo }}" />
                                     </a>
                                     <div class="caption">
                                         <h3><a href="/blogleardi/{{$post->key}}">{{ $post->titulo }}</a></h3>
