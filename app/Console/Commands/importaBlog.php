@@ -59,7 +59,7 @@ class importaBlog extends Command
 
             $thumb_id = DB::table('blogleardi.wp_postmeta')->where(['post_id' => $wpost->ID, 'meta_key' => '_thumbnail_id'])->first();
             if (! $thumb_id) {
-                echo "No ThumbId ... \n"
+                echo "No ThumbId ... \n";
                 continue;
             }
 
