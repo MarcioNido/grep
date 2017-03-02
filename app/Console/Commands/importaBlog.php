@@ -58,7 +58,7 @@ class importaBlog extends Command
             $post->saveOrFail();
 
             $wpostImage = DB::table('blogleardi.wp_postmeta')->where(['post_id' => $wpost->ID, 'meta_key' => '_wp_attachment_metadata'])->first();
-            //if ($wpostImage) {
+            if ($wpostImage) {
 
                 $meta_value = null;
                 var_dump($wpostImage);
@@ -80,7 +80,7 @@ class importaBlog extends Command
                 }
 
 
-            //}
+            }
 
             var_dump($wpostImage);
 
