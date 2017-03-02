@@ -75,53 +75,7 @@ if ($post->imagem) {
 
                     </div>
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <h3>Veja tamb&eacute;m:</h3>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="thumbnail">
-                                <img class="img-responsive" style="width: 100%" src="http://www.leardi.com.br/blogleardi/wp-content/uploads/2016/10/Veja-como-se-tornar-um-corretor-de-im%C3%B3veis-e-as-vantagens-da-profiss%C3%A3o.-700x397.jpg" />
-                                <div class="caption">
-                                    <h3>Veja como se tornar um corretor de imóveis e as vantagens da profissão</h3>
-                                    <p>Para ser corretor de imóveis o primeiro passo é obter sua qualificação profissional, pois para poder exercer a profissão você precisa ter um curso que lhe permita obter seu registro profissional no CRECI (Conselho Regional de Corretores de Imóveis).</p>
-                                    <p style='text-align: right;'><a href=''>Continuar lendo</a></p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-4">
-                            <div class="thumbnail">
-                                <a style='text-decoration: none;' href='#'>
-                                    <img class="img-responsive img-rounded" style="width: 100%" src="http://www.leardi.com.br/blogleardi/wp-content/uploads/2016/10/Veja-porque-agora-%C3%A9-o-momento-de-investir-em-im%C3%B3veis-700x437.jpg" />
-                                </a>
-                                <div class="caption">
-                                    <a style='text-decoration: none;' href=''><h3 style='text-decoration: none;'>Veja porque agora é o momento de investir em imóveis</a></h3>
-                                    <a style='text-decoration: none; color: #333;' href=''><p>Agora é o momento mais favorável para obter um investimento bastante lucrativo, pois o mercado imobiliário sofreu varias oscilações, e isso gerou uma baixa nos preços dos imóveis, o que torna o imóvel um excelente investimento para quem pode esperar para vender.</p></a>
-                                    <p style='text-align: right;'><a href=''>Continuar lendo</a></p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-4">
-                            <div class="thumbnail">
-                                <img class="img-responsive" style="width: 100%" src="http://www.leardi.com.br/blogleardi/wp-content/uploads/2016/09/A-mudan%C3%A7a-no-processo-de-compra-de-im%C3%B3veis-700x459.png" />
-                                <div class="caption">
-                                    <h3>A mudança no processo de compra de imóveis</h3>
-                                    <p>As novas tecnologias digitais geram mudanças de comportamento em todos os setores, cada um a sua maneira. A comercialização e locação de imóveis passa por momentos de mudanças, pois a forma com a qual o cliente busca imóveis vem mudando com muita velocidade e cerca de 80% das compras de imóveis começam com uma pesquisa online.</p>
-                                    <p style='text-align: right;'><a href=''>Continuar lendo</a></p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
                 </div>
-
-
                 <div class='col-lg-3'>
 
                     <div class="panel panel-primary">
@@ -180,6 +134,13 @@ if ($post->imagem) {
 
 
                 </div>
+
+            </div>
+
+
+            <div style="background-color: #6B88AE; width: 100%; padding: 40px 0;">
+
+                @include('blog.public.destaques')
 
             </div>
 
