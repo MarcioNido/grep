@@ -66,6 +66,7 @@ class importaBlog extends Command
                     $meta_value = unserialize($wpostImage->meta_value);
                     var_dump($meta_value);
                 } else {
+                    echo $wpostImage->meta_value."\n";
                     continue;
                 }
 
