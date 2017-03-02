@@ -60,7 +60,7 @@ $title = "Agências Paulo Roberto Leardi";
                                     echo '<div class="row">';
                                 }
                                 if ($post->imagem) {
-                                    $arquvo = $post->imagem->arquivo;
+                                    $arquivo = $post->imagem->arquivo;
                                 } else {
                                     $arquivo = "";
                                 }
