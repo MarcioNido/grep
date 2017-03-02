@@ -49,7 +49,7 @@ class importaBlog extends Command
         $wposts = DB::table('blogleardi.wp_posts')->where(['post_type' => 'post', 'post_status' => 'publish'])->get();
         foreach($wposts as $wpost) {
 
-            echo $wpost->post_title."\n";
+            echo  $wpost->ID." - ".$wpost->post_title."\n";
             $post = new Post();
             $post->key = $wpost->post_name;
             $post->titulo = $wpost->post_title;
