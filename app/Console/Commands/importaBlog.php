@@ -64,6 +64,9 @@ class importaBlog extends Command
 //                $wpostImageRow = DB::table('blogleardi.wp_posts')->where(['ID' => $wpostImage->meta_value])->first();
 //                if ($wpostImageRow) {
                     $meta_value = unserialize($wpostImage->meta_value);
+
+                    var_dump($meta_value);
+                
                     $arquivo = $meta_value['sizes']['big-1col']['file'];
                     $postImage = new Imagem();
                     $postImage->post_id = $post->id;
