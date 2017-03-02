@@ -138,17 +138,17 @@ if ($post->imagem) {
             </div>
 
 
-            <div style="background-color: #6B88AE; width: 100%; padding: 40px 0;">
-
-                @include('blog.public.destaques')
-
-            </div>
 
         </div>
 
     </div>
 
 
+    <div style="background-color: #6B88AE; width: 100%; padding: 40px 0;">
+
+        @include('blog.public.destaques')
+
+    </div>
 
 
 
