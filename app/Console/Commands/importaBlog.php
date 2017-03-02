@@ -46,7 +46,7 @@ class importaBlog extends Command
         DB::table('blog_post_imagem')->truncate();
         DB::table('blog_post')->truncate();
 
-        $wposts = DB::table('wp_posts')->where(['post_type' => 'post', 'post_status' => 'publish'])->get();
+        $wposts = DB::table('blogleardi.wp_posts')->where(['post_type' => 'post', 'post_status' => 'publish'])->get();
         foreach($wposts as $wpost) {
 
             echo $wpost->post_title."\n";
@@ -57,13 +57,15 @@ class importaBlog extends Command
             $post->ativo = 1;
             $post->saveOrFail();
 
-            $wpostImage = DB::table('wp_postmeta')->where(['post_id' => $wpost->ID, 'meta_key' => '_thumbnail_id'])->first();
+            $wpostImage = DB::table('blogleardi.wp_postmeta')->where(['post_id' => $wpost->ID, 'meta_key' => '_thumbnail_id'])->first();
             if ($wpostImage) {
                 $wpostImageRow = DB::table('wp_posts')->where(['ID' => $wpostImage->meta_value])->first();
                 if ($wpostImageRow) {
+                    $meta_value = unserialize($wpostImageRow->meta_value);
+                    $arquivo = $meta_value['sizes']['big-1col']['file'];
                     $postImage = new Imagem();
                     $postImage->post_id = $post->id;
-                    $postImage->arquivo = $wpostImageRow->guid;
+                    $postImage->arquivo = $arquivo;
                     $postImage->saveOrFail();
                 }
 
