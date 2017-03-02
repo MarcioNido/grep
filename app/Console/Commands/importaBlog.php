@@ -63,7 +63,7 @@ class importaBlog extends Command
                 continue;
             }
 
-            $wpostImage = DB::table('blogleardi.wp_postmeta')->where(['post_id' => $thumb_id->ID, 'meta_key' => '_wp_attachment_metadata'])->first();
+            $wpostImage = DB::table('blogleardi.wp_postmeta')->where(['post_id' => $thumb_id->meta_value, 'meta_key' => '_wp_attachment_metadata'])->first();
             if ($wpostImage) {
 
                 $meta_value = null;
