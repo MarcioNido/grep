@@ -52,7 +52,7 @@ $title = $post->titulo;
                                     @endpush
 
                                     <div class="thumbnail" style="max-width: 400px; float: right; margin: 2px 2px 10px 10px;">
-                                        <img class="img-responsive" src="/wp-content/uploads/{{ $post->imagem->arquivo }}" />
+                                        <img class="img-responsive" src="{{ $post->imagem->arquivo }}" />
                                     </div>
 
 
