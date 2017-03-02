@@ -2,7 +2,7 @@
 use App\Http\Components\CHtml;
 $title = $post->titulo;
 if ($post->imagem) {
-    $arquivo = $post->imagem->arquivo;
+    $arquivo = '/wp-content/uploads/'. $post->imagem->arquivo;
 } else {
     $arquivo = "";
 }
