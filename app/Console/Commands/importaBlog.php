@@ -78,7 +78,7 @@ class importaBlog extends Command
                 }
 
                 if (isset($meta_value['sizes']['featured-image'])) {
-                    $arquivo = substr($meta['file'], 0, 8) . $meta_value['sizes']['featured-image']['file'];
+                    $arquivo = substr($meta_value['file'], 0, 8) . $meta_value['sizes']['featured-image']['file'];
                     $postImage = new Imagem();
                     $postImage->post_id = $post->id;
                     $postImage->arquivo = $arquivo;
