@@ -62,7 +62,7 @@ class importaBlog extends Command
 
                 $meta_value = null;
                 var_dump($wpostImage);
-                
+
                 if (strlen($wpostImage->meta_value) > 10) {
                     $meta_value = unserialize($wpostImage->meta_value);
                     var_dump($meta_value);
@@ -81,6 +81,8 @@ class importaBlog extends Command
 
 
             }
+
+            var_dump($wpostImage);
 
         }
 
