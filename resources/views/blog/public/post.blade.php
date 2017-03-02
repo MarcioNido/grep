@@ -1,6 +1,11 @@
 <?php
 use App\Http\Components\CHtml;
 $title = $post->titulo;
+if ($post->imagem) {
+    $arquivo = $post->imagem->arquivo;
+} else {
+    $arquivo = "";
+}
 ?>
 
 @extends('layouts.app')
@@ -47,12 +52,12 @@ $title = $post->titulo;
                                     </div>
 
                                     @push('header')
-                                    <meta property="og:image" content="{{ url($post->imagem->arquivo) }}" />
-                                    <link rel="image_src" href="{{ url($post->imagem->arquivo) }}" />
+                                    <meta property="og:image" content="{{ url($arquivo) }}" />
+                                    <link rel="image_src" href="{{ url($arquivo) }}" />
                                     @endpush
 
                                     <div class="thumbnail" style="max-width: 400px; float: right; margin: 2px 2px 10px 10px;">
-                                        <img class="img-responsive" src="{{ $post->imagem->arquivo }}" />
+                                        <img class="img-responsive" src="{{ $arquivo }}" />
                                     </div>
 
 
