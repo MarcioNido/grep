@@ -60,12 +60,10 @@ class importaBlog extends Command
             $wpostImage = DB::table('blogleardi.wp_postmeta')->where(['post_id' => $wpost->ID, 'meta_key' => '_thumbnail_id'])->first();
             if ($wpostImage) {
 
-                var_dump($wpostImage);
-                try {
+                $meta_value = null;
+                
+                if (strlen($wpostImage->meta_value) > 10) {
                     $meta_value = unserialize($wpostImage->meta_value);
-                } catch (\RuntimeException $e) {
-                    echo $e->getMessage();
-                    continue;
                 }
 
                 if (isset($meta_value['sizes'])) {
