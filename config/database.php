@@ -67,6 +67,21 @@ return [
             'engine' => null,
         ],
 
+        'bdi' => [
+            'driver' => 'mysql',
+            'host' => '200.155.6.227',
+            'port' => '3306',
+            'database' => 'NI4_Leardi',
+            'username' => 'bdiadmin3',
+            'password' => 'bdi@leardi#bdweb',
+            'charset' => 'utf8',
+            'collation' => 'utf8_general_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
+
         'mysql_testing' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', 'localhost'),

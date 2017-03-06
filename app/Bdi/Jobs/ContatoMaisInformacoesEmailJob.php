@@ -18,6 +18,7 @@ class ContatoMaisInformacoesEmailJob implements ShouldQueue
 
     /**
      * Create a new job instance.
+     * @param Contato $contato
      */
     public function __construct(Contato $contato)
     {
@@ -33,7 +34,7 @@ class ContatoMaisInformacoesEmailJob implements ShouldQueue
     {
         $dest = $this->contato->agencia->email;
         if ($dest == null || $dest == '') {
-            $dest = 'marcio.nido@leardi.com.br';
+            $dest = 'site@leardi.com.br';
         }
         // @TODO: remove this
         $dest = 'marcio.nido@leardi.com.br';

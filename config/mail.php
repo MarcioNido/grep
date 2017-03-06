@@ -1,5 +1,22 @@
 <?php
+/*
+ *                 'Smtpmail'=>array(
+                           'class'=>'application.extensions.smtpmail.PHPMailer',
+                           'Host'=>"smtp.leardi.com.br",
+                           'Username'=>'site@leardi.com.br',
+                           'Password'=>'si901673',
+                           'Mailer'=>'smtp',
+                           'Port'=>587,
+                           'SMTPAuth'=>true,
+                           'SMTPSecure'=>"tls",
+                           'ssl' => array(
+                                'verify_peer' => false,
+                                'verify_peer_name' => false,
+                                'allow_self_signed' => true
+                           ),
+                ),
 
+ */
 return [
 
     /*
@@ -29,7 +46,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.gmail.com'),
+    'host' => env('MAIL_HOST', 'smtp.leardi.com.br'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +59,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 465),
+    'port' => env('MAIL_PORT', 587),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,8 +73,8 @@ return [
     */
 
     'from' => [
-        'address' => 'marcionido2@gmail.com',
-        'name' => 'Marcio Nido',
+        'address' => 'site@leardi.com.br',
+        'name' => 'Site Leardi',
     ],
 
     /*
@@ -71,7 +88,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
+    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
 
     /*
     |--------------------------------------------------------------------------
@@ -84,7 +101,7 @@ return [
     |
     */
 
-    'username' => env('MAIL_USERNAME', 'marcionido2@gmail.com'),
+    'username' => env('MAIL_USERNAME', 'site@leardi.com.br'),
 
     /*
     |--------------------------------------------------------------------------
@@ -97,7 +114,7 @@ return [
     |
     */
 
-    'password' => env('MAIL_PASSWORD', 'oicram2013'),
+    'password' => env('MAIL_PASSWORD', 'si901673'),
 
     /*
     |--------------------------------------------------------------------------
@@ -112,4 +129,11 @@ return [
 
     'sendmail' => '/usr/sbin/sendmail -bs',
 
+    'stream' => [
+        'ssl' => [
+            'allow_self_signed' => true,
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+        ],
+    ],
 ];
