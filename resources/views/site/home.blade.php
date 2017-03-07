@@ -52,7 +52,7 @@ $pesquisasPopulares = \Illuminate\Support\Facades\DB::table("web_pesquisas_popul
                                     <div class="col-sm-12">
                                         <div class="row">
                                             <div class="col-sm-11 guru-home-search">
-                                                {!! CHtml::textInput('referencia', "", ['placeholder' => 'Informe uma ou mais referências de imóveis separadas por vírgulas', 'class' => 'form-control']) !!}
+                                                {!! CHtml::textInput('imovel_id', "", ['placeholder' => 'Informe a referência do imóvel', 'class' => 'form-control']) !!}
                                             </div>
                                             <div class="col-sm-1 col-xs-12 guru-home-search">
                                                 <button id="bot_pesquisa" type="button" class="btn btn-warning guru-home-button" onclick="send_form_referencia()"><span class="fa fa-search"></span></button>

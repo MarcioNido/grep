@@ -67,8 +67,9 @@ class PesquisaController extends Controller
 
     public function referencia(Request $request)
     {
-        $searchResult = (new ImovelSearch($request))->processSearchByRefRequest();
-        return view('site.pesquisa.resultado', ['searchResult' => $searchResult]);
+        return redirect('imovel/'.$request->imovel_id);
+//        $searchResult = (new ImovelSearch($request))->processSearchByRefRequest();
+//        return view('site.pesquisa.resultado', ['searchResult' => $searchResult]);
     }
 
     protected function processSearchRequest(Request $request)
