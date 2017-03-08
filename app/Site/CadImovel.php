@@ -51,4 +51,29 @@ class CadImovel extends Model
 
     }
 
+    public function tipoImovel()
+    {
+        return $this->belongsTo('App\Site\TipoImovel', 'codtipoimovel', 'codtipoimovel');
+    }
+
+    public function tipoSimplificado()
+    {
+        return $this->belongsTo('\App\Site\TipoSimplificado', 'codtiposimplificado', 'codtiposimplificado');
+    }
+
+    public function bairro()
+    {
+        return $this->belongsTo('\App\Site\Bairro', 'codbairro', 'codbairro');
+    }
+
+    public function cidade()
+    {
+        return $this->belongsTo('\App\Site\Cidade', 'codcidade', 'codcidade');
+    }
+
+    public function agencia()
+    {
+        return $this->belongsTo('App\Site\Agencia');
+    }
+
 }

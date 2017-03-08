@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use App\Site\ImovelSearch;
+use App\Bdi\Observers\CadastroImovelObserver;
+use App\Site\CadImovel;
 use Collective\Html\FormFacade;
 use Illuminate\Support\ServiceProvider;
 use App\Bdi\Observers\ContatoObserver;
@@ -23,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
     {
         // observer for the contato model
         Contato::observe(ContatoObserver::class);
+
+        // observer for the cadimovel model
+        CadImovel::observe(CadastroImovelObserver::class);
 
         // form components
         FormFacade::component('activeText', 'components.form.activeText', ['label', 'name', 'value'=>null, 'attributes'=>[]]);
