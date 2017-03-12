@@ -37,7 +37,7 @@ class ContatoMaisInformacoesEmailJob implements ShouldQueue
             $dest = 'site@leardi.com.br';
         }
         // @TODO: remove this
-        $dest = 'marcio.nido@leardi.com.br';
+        $dest = 'site@leardi.com.br';
 
         Mail::to($dest)->send(new ContatoMaisInformacoesEmail($this->contato));
     }
