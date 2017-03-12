@@ -36,14 +36,14 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-3">
+                    <div class="col-xs-3" style="padding-right: 1px;">
                         <div class="form-group{{ $errors->has('ddd') ? ' has-error' : '' }}">
                             <label for="ddd">DDD</label>
                             <input name="ddd" type="tel" class="form-control" id="ddd" placeholder="DDD">
                             <span class="help-block"><strong>{{ $errors->first('ddd') }}</strong></span>
                         </div>
                     </div>
-                    <div class="col-xs-9">
+                    <div class="col-xs-9" style="padding-left: 1px;">
                         <div class="form-group{{ $errors->has('telefone') ? ' has-error' : '' }}">
                             <label for="telefone">Telefone</label>
                             <input name="telefone" type="tel" class="form-control" id="telefone" placeholder="Telefone">

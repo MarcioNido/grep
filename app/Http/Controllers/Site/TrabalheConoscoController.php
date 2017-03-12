@@ -21,17 +21,19 @@ class TrabalheConoscoController extends Controller
 
     public function edita(Request $request)
     {
-
         if (isset($request->id) && $request->id != 0) {
             $trabalhe = TrabalheConosco::where(['id'=>$request->id, 'user_id'=>Auth::id()])->first();
             if (! $trabalhe) {
                 throw new \Exception("Profissional não encontrado ...", 404);
             }
         } else {
-            $trabalhe = new TrabalheConosco();
-            $trabalhe->user_id = Auth::id();
-            $trabalhe->nome = Auth::user()->name;
-            $trabalhe->email = Auth::user()->email;
+            $trabalhe = TrabalheConosco::where(['email' => Auth::user()->email])->first();
+            if (! $trabalhe) {
+                $trabalhe = new TrabalheConosco();
+                $trabalhe->user_id = Auth::id();
+                $trabalhe->nome = Auth::user()->name;
+                $trabalhe->email = Auth::user()->email;
+            }
         }
 
         if ($request->isMethod('post')) {

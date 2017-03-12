@@ -208,6 +208,10 @@ function send_form()
 
 function send_form_referencia()
 {
+    if ($('#imovel_id').val() == "") {
+        window.alert('Favor informar a referência do imóvel');
+        return false;
+    }
     $('#form_home').attr('action', '/pesquisa/referencia');
     $('#form_home').submit();
 }

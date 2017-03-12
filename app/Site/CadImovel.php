@@ -24,6 +24,7 @@ class CadImovel extends Model
         'cep' => 'required',
         'endereco' => 'required',
         'numero' => 'required',
+        'unidade' => 'integer|nullable',
         'codbairro' => 'required',
         'codcidade' => 'required',
         'estado' => 'required',

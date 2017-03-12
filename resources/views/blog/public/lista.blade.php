@@ -1,6 +1,12 @@
 <?php
 use App\Http\Components\CHtml;
 $title = "Agências Paulo Roberto Leardi";
+if (! isset($tag)) {
+    $tag = '';
+}
+if (! isset($term)) {
+    $term = '';
+}
 ?>
 
 @extends('layouts.app')
@@ -22,17 +28,18 @@ $title = "Agências Paulo Roberto Leardi";
             <div class="row" style="padding: 20px 0;">
                 <div class="col-sm-9">
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-default active">Geral</button>
-                        <button type="button" class="btn btn-default">Franquias</button>
-                        <button type="button" class="btn btn-default">Imobili&aacute;rias</button>
-                        <button type="button" class="btn btn-default">Corretores</button>
+                        <button type="button" class="btn btn-default {{ $tag=='' ? 'active' : '' }}" onclick="tag('');">Geral</button>
+                        <button type="button" class="btn btn-default {{ $tag=='Franquias' ? 'active' : '' }}" onclick="tag('');">Franquias</button>
+                        <button type="button" class="btn btn-default {{ $tag=='Imobiliáris' ? 'active' : '' }}" onclick="tag('');">Imobili&aacute;rias</button>
+                        <button type="button" class="btn btn-default {{ $tag=='Corretores' ? 'active' : '' }}" onclick="tag('');">Corretores</button>
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    <form action="" class="form-inline">
+                    <form method="get" class="form-inline" id="formblog">
                         <div class="form-group">
                             <div class='input-group'>
-                                <input type="text" class="form-control" placeholder="Procurar" />
+                                <input type="hidden" id="tag" name="tag" value="{{ $tag }}">
+                                <input name="term" type="text" class="form-control" placeholder="Procurar" value="{{ $term }}" />
                                 <div class="input-group-btn"><button class='btn btn-primary'><span class="fa fa-search"></span></button></div>
                             </div>
                         </div>
@@ -144,7 +151,14 @@ $title = "Agências Paulo Roberto Leardi";
 
     </div>
 
-
-
-
 @endsection
+
+@push('scripts')
+<script language="javascript">
+    function tag(tagname)
+    {
+        $('#tag').value=tagname;
+        $('#formblog').submit();
+    }
+</script>
+@endpush

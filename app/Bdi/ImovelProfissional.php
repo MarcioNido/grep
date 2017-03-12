@@ -5,19 +5,17 @@ namespace App\Bdi;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Eloquent Model for table facbdi_id in bdi database
+ * Class ImovelProvisorio
+ * Eloquent Model for table imovel in production database
  * @package App\Site
  */
-class FacBdi extends Model
+class ImovelProfissional extends Model
 {
-    // primary key
-    protected $primaryKey = "facbdi_id";
-
     // connection
     protected $connection = "bdi";
 
     // table name
-    protected $table = "facbdi";
+    protected $table = "imovelprofissional";
 
     // timestamps
     public $timestamps=false;

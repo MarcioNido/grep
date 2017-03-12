@@ -23,8 +23,8 @@ class CadastroImovelObserver
         $jobEmail = (new CadastroImovelEmailJob($cadImovel))->onQueue('main');
         dispatch($jobEmail);
 
-//        $jobFac = (new CadastroImovelFacJob($cadImovel))->onQueue('main');
-//        dispatch($jobFac);
+        $jobFac = (new CadastroImovelFacJob($cadImovel))->onQueue('main');
+        dispatch($jobFac);
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Site;
 
+use App\Crypto;
 use App\Http\Components\CHtml;
 use App\Http\Controllers\Controller;
 use App\Site\CadImovel;
@@ -17,6 +18,12 @@ use Illuminate\Support\Facades\Response;
 
 class CadastroImovelController extends Controller
 {
+    protected $crypto;
+
+    public function __construct()
+    {
+        $this->crypto = new Crypto();
+    }
 
     public function edita(Request $request)
     {
@@ -46,13 +53,18 @@ class CadastroImovelController extends Controller
             $imovel->telefone1 = CHtml::phoneRemoveMask($imovel->telefone1);
             $imovel->telefone2 = CHtml::phoneRemoveMask($imovel->telefone2);
             $imovel->bloco = (int) $imovel->bloco;
+            $imovel->unidade = (int) $imovel->unidade;
+            $imovel->dormitorio = (int) $imovel->dormitorio;
+            $imovel->suite = (int) $imovel->suite;
+            $imovel->vaga = (int) $imovel->vaga;
             $imovel->saveOrFail();
             return redirect('/area-restrita/index');
         }
 
         $imovel->nascimento = CHtml::dateBr($imovel->nascimento);
+        $crypto_email = $this->crypto->encrypt($imovel->email);
 
-        return view('site.area-restrita.cadastro-imovel', ['imovel' => $imovel]);
+        return view('site.area-restrita.cadastro-imovel', ['imovel' => $imovel, 'crypto_email' => $crypto_email]);
 
     }
 

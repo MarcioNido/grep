@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Site;
 use App\Http\Components\CHtml;
 use App\Site\Profile;
 use App\Tracker;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -18,6 +19,7 @@ use App\Site\Imovel;
 use App\Site\Localidade;
 //use App\Http\Components\Html;
 use App\Site\ImovelSearch;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 //use Illuminate\Http\Request;
 
@@ -80,6 +82,16 @@ class PesquisaController extends Controller
         $profile = Profile::getInstance();
         $filter = $profile->getFilter();
         $filter = array_merge($filter, $request->all());
+        if ($request->isMethod('get')) {
+            $filter['localidade_url'][0] = $request->estado."/".$request->cidade."/".$request->regiao;
+            if (strpos($request->getUri(), '/venda/') !== false) {
+                $filter['tipo_negocio'] = 'venda';
+            } else {
+                $filter['tipo_negocio'] = 'locacao';
+            }
+            $filter['tipo_imovel'] = $request->tipo_imovel;
+        }
+        $filter = $this->sanitizeLocalidade($filter);
         $profile->setProfile($filter);
 
         $qb = $this->getQueryBuilder($filter);
@@ -293,6 +305,9 @@ class PesquisaController extends Controller
     public function detalhe(Request $request)
     {
         $imovel = Imovel::find($request->imovel_id);
+        if ($imovel == null) {
+            throw new ModelNotFoundException("Imóvel não encontrado");
+        }
         $filter = Profile::getInstance()->getFilter();
         $titles = $this->setTitles($filter, 1);
         $filter_desc = $titles['filter_desc'];
@@ -431,5 +446,26 @@ class PesquisaController extends Controller
         return redirect('area-restrita/index');
 
     }
+
+    protected function sanitizeLocalidade($filter)
+    {
+        if ($filter['localidade_url'] && is_array($filter['localidade_url'])) {
+            foreach($filter['localidade_url'] as $key => $localidade) {
+                $parts = explode('/', $localidade);
+                if (isset($parts[2]) && $parts[2] == 'todas-as-regioes') {
+                    // check if there is another localidade with a specific neighborhood ... if so, remove the general one
+                    foreach($filter['localidade_url'] as $dupli) {
+                        $parts_dupli = explode('/', $dupli);
+                        if ($parts[0] == $parts_dupli[0] && $parts[1] == $parts_dupli[1] && $parts[2] != $parts_dupli[2]) {
+                            unset($filter['localidade_url'][$key]);
+                        }
+                    }
+                }
+            }
+        }
+        $filter['localidade_url'] = array_values($filter['localidade_url']);
+        return $filter;
+    }
+
 
 }

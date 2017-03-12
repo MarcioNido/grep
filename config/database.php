@@ -69,11 +69,11 @@ return [
 
         'bdi' => [
             'driver' => 'mysql',
-            'host' => '200.155.6.227',
+            'host' => env('DB_HOST_BDI', '200.155.6.227'),
             'port' => '3306',
-            'database' => 'NI4_Leardi',
-            'username' => 'bdiadmin3',
-            'password' => 'bdi@leardi#bdweb',
+            'database' => env('DB_DATABASE_BDI','NI4_Leardi'),
+            'username' => env('DB_USERNAME_BDI','bdiadmin3'),
+            'password' => env('DB_PASSWORD_BDI','bdi@leardi#bdweb'),
             'charset' => 'utf8',
             'collation' => 'utf8_general_ci',
             'prefix' => '',
