@@ -19,14 +19,14 @@ class TrabalheConosco extends Model
     protected $rules = [
         'nome' => 'required',
         'email' => 'required',
-        'cep' => 'required',
+        'cep' => 'required|max:8',
         'tipo_logradouro' => 'required',
         'endereco' => 'required',
         'numero' => 'required',
         'estado' => 'required',
         'codcidade' => 'required',
         'codbairro' => 'required',
-        'ddd1' => 'required',
+        'ddd1' => 'required|max:2',
         'telefone1' => 'required',
         'cpf' => 'required',
     ];

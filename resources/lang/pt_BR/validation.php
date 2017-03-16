@@ -47,9 +47,9 @@ return [
     'ip'                   => 'The :attribute must be a valid IP address.',
     'json'                 => 'The :attribute must be a valid JSON string.',
     'max'                  => [
-        'numeric' => 'The :attribute may not be greater than :max.',
+        'numeric' => 'O campo :attribute não pode ser maior do que :max.',
         'file'    => 'The :attribute may not be greater than :max kilobytes.',
-        'string'  => 'The :attribute may not be greater than :max characters.',
+        'string'  => 'O campo :attribute não pode ter mais do que :max caracteres.',
         'array'   => 'The :attribute may not have more than :max items.',
     ],
     'mimes'                => 'The :attribute must be a file of type: :values.',

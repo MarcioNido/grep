@@ -26,6 +26,7 @@ if (! isset($term)) {
     <div style="background-color: #6B88AE; width: 100%">
         <div class="container">
             <div class="row" style="padding: 20px 0;">
+                <!--
                 <div class="col-sm-9">
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-default {{ $tag=='' ? 'active' : '' }}" onclick="tag('');">Geral</button>
@@ -34,7 +35,8 @@ if (! isset($term)) {
                         <button type="button" class="btn btn-default {{ $tag=='Corretores' ? 'active' : '' }}" onclick="tag('');">Corretores</button>
                     </div>
                 </div>
-                <div class="col-sm-3">
+                -->
+                <div class="col-sm-12 text-right">
                     <form method="get" class="form-inline" id="formblog">
                         <div class="form-group">
                             <div class='input-group'>

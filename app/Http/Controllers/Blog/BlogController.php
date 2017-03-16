@@ -18,9 +18,12 @@ class BlogController extends Controller
     public function lista(Request $request)
     {
         if (isset($request->term) && $request->term != '') {
-            $posts = Post::where(['ativo'=>1])->where('titulo', 'like', "%{$request->term}%")->orderBy('id', 'desc')->paginate(12);
+            $posts = Post::where(['ativo'=>1])->where(function($qb) use ($request) {
+                $qb->orwhere('titulo', 'like', "%{$request->term}%");
+                $qb->orWhere('texto', 'like', "%{$request->term}%");
+            })->orderBy('id', 'desc')->paginate(12);
         } else {
-            $posts = Post::where(['ativo' => 1])->orderBy('id', 'desc')->paginate(12);
+            $posts = Post::where(['ativo'=>1])->orderBy('id', 'desc')->paginate(12);
         }
         return view('blog.public.lista', ['posts' => $posts, 'term' => $request->term]);
     }
