@@ -252,7 +252,6 @@ class CadastroImovelFacJob implements ShouldQueue
         $imovel->alertafollowup = 0;
         $imovel->nomebairro = "";
         $imovel->nomelocalidade = "";
-        $imovel->logradouro = "";
         $imovel->quadralote = "";
         $imovel->lote = "";
         $imovel->df_quadra = "";
