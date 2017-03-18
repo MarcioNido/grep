@@ -102,7 +102,9 @@
     <footer class="footer" style="background-color: #345C8C;">
         <div class="container">
             <p class="pull-left" style="color: #FFFFFF;">&copy; Paulo Roberto Leardi <?= date('Y') ?></p>
+            <!--
             <p class="pull-right"><a href="#" style="color: #E7E7E7;"><?= "by <b>GREP</b>" ?></a></p>
+            -->
         </div>
     </footer>    
     

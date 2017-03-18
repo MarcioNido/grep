@@ -9,7 +9,8 @@ use App\Http\Components\CHtml;
         <tr><td colspan="2">DADOS DO PROPRITÁRIO</td></tr>
         <tr><td width="20%">Nome:</td><td>{{ $cadImovel->nome }}</td></tr>
         <tr><td>E-mail:</td><td>{{ $cadImovel->email }}</td></tr>
-        <tr><td>Telefone:</td><td>{{ $cadImovel->ddd }} {{ $cadImovel->telefone }}</td></tr>
+        <tr><td>Telefone 1:</td><td>{{ $cadImovel->ddd1 }} {{ $cadImovel->telefone1 }}</td></tr>
+        <tr><td>Telefone 2:</td><td>{{ $cadImovel->ddd2 }} {{ $cadImovel->telefone2 }}</td></tr>
         <tr><td>CPF:</td><td>{{ $cadImovel->cpf }}</td></tr>
         <tr><td>Nascimento:</td><td>{{ CHtml::dateBr($cadImovel->nascimento) }}</td></tr>
         <tr><td>Nacionalidade:</td><td>{{ $cadImovel->nacionalidade }}</td></tr>

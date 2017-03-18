@@ -217,7 +217,7 @@ class CadastroImovelFacJob implements ShouldQueue
         $imovel->codcidade = $this->cadImovel->codcidade;
         $imovel->codbairro = $this->cadImovel->codbairro;
         $imovel->codbairrorm = $this->cadImovel->codbairro;
-        $imovel->logradouro = $this->cadImovel->tipo_logradouro;
+        $imovel->codtipologradouro = $this->cadImovel->tipo_logradouro;
         $imovel->endereco = mb_convert_case($this->cadImovel->endereco, MB_CASE_UPPER);
         $imovel->numero = $this->cadImovel->numero;
         $imovel->unidade = $this->cadImovel->unidade;
@@ -231,9 +231,9 @@ class CadastroImovelFacJob implements ShouldQueue
         $imovel->suite = $this->cadImovel->suite;
         $imovel->vaga = $this->cadImovel->vaga;
 
-        $imovel->disponivelvenda = $this->cadImovel->valor_venda != '0,00' ? 1 : 0;
+        $imovel->disponivelvenda = (float) $this->cadImovel->valor_venda != 0 ? 1 : 0;
         $imovel->valorvenda = $this->cadImovel->valor_venda;
-        $imovel->disponivellocacao = $this->cadImovel->valor_locacao != '0,00' ? 1 : 0;
+        $imovel->disponivellocacao = (float) $this->cadImovel->valor_locacao != 0 ? 1 : 0;
         $imovel->valorlocacao = $this->cadImovel->valor_locacao;
 
         $imovel->valorcondominio = $this->cadImovel->valor_condominio;
