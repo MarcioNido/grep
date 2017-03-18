@@ -217,7 +217,7 @@ class CadastroImovelFacJob implements ShouldQueue
         $imovel->codcidade = $this->cadImovel->codcidade;
         $imovel->codbairro = $this->cadImovel->codbairro;
         $imovel->codbairrorm = $this->cadImovel->codbairro;
-        $imovel->codtipologradouro = $this->cadImovel->tipo_logradouro;
+        $imovel->logradouro = $this->cadImovel->tipo_logradouro;
         $imovel->endereco = mb_convert_case($this->cadImovel->endereco, MB_CASE_UPPER);
         $imovel->numero = $this->cadImovel->numero;
         $imovel->unidade = $this->cadImovel->unidade;
