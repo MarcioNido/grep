@@ -81,6 +81,9 @@ class PesquisaController extends Controller
 
         $profile = Profile::getInstance();
         $filter = $profile->getFilter();
+        if (! isset($filter['subtipo_imovel'])) {
+            $filter['subtipo_imovel'] = "";
+        }
         $filter = array_merge($filter, $request->all());
         if ($request->isMethod('get')) {
             $filter['localidade_url'][0] = $request->estado."/".$request->cidade."/".$request->regiao;
@@ -134,6 +137,11 @@ class PesquisaController extends Controller
         }
 
         $qb->where(['tipo_simplificado' => $filter['tipo_imovel']]);
+
+        if (isset($filter['subtipo_imovel']) && $filter['subtipo_imovel'] != '') {
+            $qb->where(['tipo_imovel' => $filter['subtipo_imovel']]);
+        }
+
         if (isset($filter['dormitorios']) && (int) $filter['dormitorios'] != 0) {
             $qb->where('dormitorio', '>=', $filter['dormitorios']);
         }
@@ -244,7 +252,8 @@ class PesquisaController extends Controller
                 if ($first) {
                     $subtitle .= ' em '. ($localidade->regiao != null ? mb_convert_case($localidade->regiao, MB_CASE_TITLE). ', ' : '')
                         . mb_convert_case($localidade->cidade, MB_CASE_TITLE) . ', ' . $localidade->estado;
-                    $title .= $subtitle;
+                    $title .= ' em '. ($localidade->regiao != null ? mb_convert_case($localidade->regiao, MB_CASE_TITLE). ', ' : '')
+                        . mb_convert_case($localidade->cidade, MB_CASE_TITLE) . ', ' . $localidade->estado;
 
                     $breadcrumbs = [
                         'tipo_negocio' => $filter['tipo_negocio'] == 'venda' ? 'Venda' : 'Locação',
@@ -285,6 +294,14 @@ class PesquisaController extends Controller
 
         if ($filter['valor_maximo'] != ''  && $filter['valor_maximo'] != 0) {
             $filter_desc[] = "Máx R$ ".CHtml::moneyMask($filter['valor_maximo']);
+        }
+
+        if ($filter['area_minima'] != '' && $filter['area_minima'] != 0) {
+            $filter_desc[] = "Mín ".$filter['area_minima']." ㎡";
+        }
+
+        if ($filter['area_maxima'] != '' && $filter['area_maxima'] != 0) {
+            $filter_desc[] = "Máx ".$filter['area_maxima']." ㎡";
         }
 
         return [

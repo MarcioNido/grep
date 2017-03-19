@@ -186,7 +186,8 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
                                         $first = true;
                                         foreach($fotos as $foto) {
 
-                                            $arquivo = "http://www.leardi.com.br/imagens/".$foto->arquivo;
+                                            $arquivo = "/imagens001/".$foto->arquivo;
+
                                             if ($first) {
                                                 ?>
                                                 @push('header')

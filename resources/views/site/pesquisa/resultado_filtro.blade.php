@@ -37,9 +37,14 @@ use App\Site\Localidade;
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="tipo_imovel">Tipo de Im&oacute;vel</label>
-                        <?php echo CHtml::dropDownList('tipo_imovel', $filter['tipo_imovel'], ['apartamento'=>'Apartamento', 'casa'=>'Casa', 'comercial'=>'Comercial', 'terreno'=>'Terreno', 'flat' => 'Flat', 'rural' => 'Rural'], ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%']); ?>
+                        <?php echo CHtml::dropDownList('tipo_imovel', $filter['tipo_imovel'], ['apartamento'=>'Apartamento', 'casa'=>'Casa', 'comercial'=>'Comercial', 'terreno'=>'Terreno', 'flat' => 'Flat', 'rural' => 'Rural'], ['class'=>'form-control guru-select', 'style' => 'width: 100%', 'id' => 'tipo_imovel']); ?>
                     </div>
                 </div>                                
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    {{ Form::activeDropDownList('Subtipo de Imóvel', 'subtipo_imovel', $filter['subtipo_imovel'], \App\DropDownTool::getTipoImovelDesc($filter['tipo_imovel']), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'placeholder' => 'Selecione ...', 'id' => 'subtipo_imovel']) }}
+                </div>
             </div>
         </div>
 
@@ -185,6 +190,12 @@ function sendForm()
 }
 
 $(document).ready(function() {
+
+    $('#tipo_imovel').change(function() {
+        $('#subtipo_imovel').val("");
+        sendForm();
+    })
+
     $('.filtro').change(function() {
         sendForm();
     });

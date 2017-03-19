@@ -62,6 +62,7 @@ class Profile {
         $filter = [
             'tipo_negocio' => 'venda',
             'tipo_imovel' => 'apartamento',
+            'subtipo_imovel' => '',
             'localidade_url' => [$localidade_url],
             'valor_minimo' => '',
             'valor_maximo' => '',

@@ -92,31 +92,8 @@ if ($post->imagem) {
                                 <p>Cadastre-se e receba as novidades do mercado imobili&aacute;rio em seu email.</p>
 
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="fLocal">Nome</label>
-                                            <input type="text" class="form-control" id="fLocal" placeholder="Nome">
-
-                                        </div>
-
-
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="fLocal">Email</label>
-                                            <input type="email" class="form-control" id="fLocal" placeholder="Email">
-
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-xs-12">
-                                        <button class="btn btn-warning" style="font-weight: 300; width: 100%;"><span class="fa fa-mail-forward"></span> QUERO RECEBER!</button>
+                                        <a href="/area-restrita/dados-pessoais" class="btn btn-warning" style="font-weight: 300; width: 100%;"><span class="fa fa-mail-forward"></span> QUERO RECEBER!</a>
                                     </div>
                                 </div>
 
@@ -128,7 +105,9 @@ if ($post->imagem) {
 
                     <div class='panel panel-default'>
                         <div class='panel-body'>
-                            <img class='img-responsive' src='http://www.leardi.com.br/blogleardi/wp-content/uploads/2016/10/Banner_Lateral.png' />
+                            <a href="/area-restrita/ebook-corretor">
+                                <img class='img-responsive' src='/images/Capa_Ebook-logo1.png' />
+                            </a>
                         </div>
                     </div>
 

@@ -33,6 +33,23 @@ class DropDownTool
             ->pluck('descricao', 'codtipoimovel');
     }
 
+    public static function getTipoImovelDesc($tipo_simplificado)
+    {
+        $codtiposimplificado = TipoSimplificado::where(['descricao' => $tipo_simplificado])->value('codtiposimplificado');
+        if (! $codtiposimplificado) {
+            return [];
+        }
+        $result = TipoImovel::where(['situacao'=>'Ativo', 'codtiposimplificado'=>$codtiposimplificado])
+            ->select('descricao')
+            ->orderBy('descricao')
+            ->pluck('descricao', 'descricao');
+
+        foreach ($result as $key => $value) {
+            $result[$key] = mb_convert_case($value, MB_CASE_TITLE);
+        }
+        return $result;
+    }
+
     public static function getTipoLogradouro()
     {
         return TipoLogradouro::where(['situacao' => 'Ativo'])
