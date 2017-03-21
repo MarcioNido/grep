@@ -16,6 +16,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        shell_exec('chown -R bdiadmin:www-data /var/www/grep/storage/framework/');
         $filter = Profile::getInstance()->getFilter();
 //        $filter = $this->getFilter();
         return view('site.home', ['filter'=>$filter]);
