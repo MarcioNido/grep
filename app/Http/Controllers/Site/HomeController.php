@@ -16,7 +16,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        shell_exec('rm -f /var/www/grep/storage/framework/views/*');
         $filter = Profile::getInstance()->getFilter();
 //        $filter = $this->getFilter();
         return view('site.home', ['filter'=>$filter]);
