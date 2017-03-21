@@ -64,6 +64,7 @@ class CHtml
     
     public static function moneyMask($value, $decimals=2)
     {
+        $value = (float) $value;
          if (is_numeric($value)) { 
             if ($value == "") {
                 $value = 0;

@@ -289,11 +289,11 @@ class PesquisaController extends Controller
         }
 
         if ($filter['valor_minimo'] != '' && $filter['valor_minimo'] != 0) {
-            $filter_desc[] = "Mín R$ ".CHtml::moneyMask($filter['valor_minimo']);
+            $filter_desc[] = "Mín R$ ".$filter['valor_minimo'];
         }
 
         if ($filter['valor_maximo'] != ''  && $filter['valor_maximo'] != 0) {
-            $filter_desc[] = "Máx R$ ".CHtml::moneyMask($filter['valor_maximo']);
+            $filter_desc[] = "Máx R$ ".$filter['valor_maximo'];
         }
 
         if ($filter['area_minima'] != '' && $filter['area_minima'] != 0) {
