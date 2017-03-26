@@ -76,7 +76,7 @@ class CadImovel extends Model
 
     public function agencia()
     {
-        return $this->belongsTo('App\Site\Agencia');
+        return $this->belongsTo('App\Site\Agencia', 'agencia_id', 'id');
     }
 
 }
