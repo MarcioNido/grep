@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Site;
 use App\Crypto;
 use App\Http\Components\CHtml;
 use App\Http\Controllers\Controller;
+use App\Site\Agencia;
 use App\Site\CadImovel;
 use App\Site\Localidade;
 use App\Site\NotificacaoImovel;
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\DropDownTool;
 use App\Site\Cep;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 
@@ -36,6 +38,7 @@ class CadastroImovelController extends Controller
         } else {
             $imovel = new CadImovel();
             $imovel->user_id = Auth::id();
+            $imovel->agencia_id = $this->getAgenciaId($request->latitude, $request->longitude);
         }
 
         if ($request->isMethod('post')) {
@@ -65,6 +68,32 @@ class CadastroImovelController extends Controller
         $crypto_email = $this->crypto->encrypt($imovel->email);
 
         return view('site.area-restrita.cadastro-imovel', ['imovel' => $imovel, 'crypto_email' => $crypto_email]);
+
+    }
+
+    public function getAgenciaId($latitude='', $longitude='') {
+
+        if ($latitude == '' || $longitude == '') {
+            return 24; // agencia central place (coordenadas não identificadas)
+        }
+
+        $latitude = (float) $latitude;
+        $longitude = (float) $longitude;
+
+        // pega a unidade mais próxima utilizando cálculo de distância linear
+        $agencia = DB::table("web_agencia")
+                    ->where(['estagio' => '1 - ATIVO'])
+                    ->whereNotNull('latitude')
+                    ->where('latitude', '<>', '')
+                    ->orderBy(DB::raw("SQRT( POW(".$latitude." - CAST(latitude AS DECIMAL(10,8)), 2) + POW(".$longitude." - CAST(longitude AS DECIMAL(10,8)), 2) )"))
+                    ->select('id')
+                    ->first('id');
+
+        if ($agencia == null) {
+            return 24; // central place
+        }
+
+        return $agencia->id;
 
     }
 

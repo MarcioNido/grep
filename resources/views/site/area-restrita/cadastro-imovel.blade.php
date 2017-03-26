@@ -12,6 +12,10 @@ $breadcrumbs = [
 
 @section('title', $title)
 
+@push('header')
+<script src="http://maps.google.com/maps/api/js?key=AIzaSyAJ8BsJjsKc94EoWJE-SdAvXL9-IsEytHQ"></script>
+@endpush
+
 @section('content')
 
 <div style="width: 100%; background-color: #E1ECF8;">
@@ -49,16 +53,16 @@ $breadcrumbs = [
 
                                 <div class="row" style="margin-top: 40px;">
                                     <div class="col-md-2">
-                                        {{ Form::activeText('CEP', 'cep', $imovel->cep, ['onchange' => 'trigger_cep()', 'id' => 'cep']) }}
+                                        {{ Form::activeText('CEP', 'cep', $imovel->cep, ['onchange' => 'trigger_cep()', 'id' => 'cep', 'class'=>'form-control localidade']) }}
                                     </div>
                                     <div class="col-md-2">
                                         {{ Form::activeDropDownList('Tipo', 'tipo_logradouro', $imovel->tipo_logradouro, \App\DropDownTool::getTipoLogradouro(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'placeholder' => 'Selecione ...', 'id' => 'tipo_logradouro']) }}
                                     </div>
                                     <div class="col-md-6">
-                                        {{ Form::activeText('Endereço', 'endereco', $imovel->endereco, ['id' => 'endereco']) }}
+                                        {{ Form::activeText('Endereço', 'endereco', $imovel->endereco, ['id' => 'endereco', 'class'=>'form-control localidade']) }}
                                     </div>
                                     <div class="col-md-2">
-                                        {{ Form::activeText('Número', 'numero', $imovel->numero, ['id' => 'numero']) }}
+                                        {{ Form::activeText('Número', 'numero', $imovel->numero, ['id' => 'numero', 'class'=>'form-control localidade']) }}
                                     </div>
                                 </div>
 
@@ -77,12 +81,12 @@ $breadcrumbs = [
                                 <div class="row">
                                     <div class="col-md-2">
                                         <span id="ph_estado">
-                                            {{ Form::activeDropDownList('Estado', 'estado', $imovel->estado, \App\DropDownTool::getEstado(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'placeholder' => '...', 'onchange' => 'trigger_estado()', 'id'=>'estado']) }}
+                                            {{ Form::activeDropDownList('Estado', 'estado', $imovel->estado, \App\DropDownTool::getEstado(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'placeholder' => '...', 'onchange' => 'trigger_estado()', 'id'=>'estado', 'class'=>'form-control localidade']) }}
                                         </span>
                                     </div>
                                     <div class="col-md-4">
                                         <span id="ph_codcidade">
-                                            {{ Form::activeDropDownList('Cidade', 'codcidade', $imovel->codcidade, \App\DropDownTool::getCidade(old('estado') ?: $imovel->estado), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'placeholder' => '...', 'onchange' => 'trigger_codcidade()', 'id' => 'codcidade']) }}
+                                            {{ Form::activeDropDownList('Cidade', 'codcidade', $imovel->codcidade, \App\DropDownTool::getCidade(old('estado') ?: $imovel->estado), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'placeholder' => '...', 'onchange' => 'trigger_codcidade()', 'id' => 'codcidade', 'class'=>'form-control localidade']) }}
                                         </span>
                                     </div>
                                     <div class="col-md-6">
@@ -178,6 +182,8 @@ $breadcrumbs = [
                                 <div class="row">
                                     <div class="col-md-12">
                                         {{ Form::activeTextArea('Observações do Proprietário', 'mensagem', $imovel->mensagem) }}
+                                        {{ Form::hidden('latitude', '', ['id' => 'latitude']) }}
+                                        {{ Form::hidden('longitude', '', ['id' => 'longitude']) }}
                                     </div>
                                 </div>
 
@@ -288,6 +294,36 @@ $breadcrumbs = [
     {
 
     }
+
+    function busca_coordenadas() {
+
+        if ($('#endereco').val() != '' && $('#numero').val() != '' && $('#codcidade') != '' && $('#estado') != '') {
+
+            var addr= $('#tipo_logradouro').val()+" "+$('#endereco').val()+", "+$('#numero').val()+" - "+$('#codcidade option:selected').text()+", "+$('#estado').val();
+            var geocoder = new google.maps.Geocoder();
+
+            geocoder.geocode({address: addr, region: 'no' },
+                function(results, status) {
+                    if (status.toLowerCase() == 'ok') {
+                        var coords = new google.maps.LatLng(
+                            results[0]['geometry']['location'].lat(),
+                            results[0]['geometry']['location'].lng()
+                        );
+                        $('#latitude').val(results[0]['geometry']['location'].lat());
+                        $('#longitude').val(results[0]['geometry']['location'].lng());
+                    }
+                }
+            );
+        }
+
+    }
+
+    $('document').ready(function() {
+        $('.localidade').change(function() {
+            busca_coordenadas();
+        });
+    })
+
 
 </script>
 @endpush

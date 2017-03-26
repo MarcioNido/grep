@@ -120,22 +120,6 @@ class CadastroImovelFacJob implements ShouldQueue
         $pfj->ddi1 = "";
         $pfj->ddd1 = $this->cadImovel->ddd1;
 
-        fwrite(STDOUT, "TELEFONE1: ");
-        fwrite(STDOUT, "\n");
-        fwrite(STDOUT, $this->cadImovel->telefone1);
-        fwrite(STDOUT, "\n");
-        fwrite(STDOUT, $this->crypto->encrypt($this->cadImovel->telefone1));
-        fwrite(STDOUT, "\n");
-        fwrite(STDOUT, "\n");
-
-        fwrite(STDOUT, "EMAIL: ");
-        fwrite(STDOUT, "\n");
-        fwrite(STDOUT, $this->cadImovel->email);
-        fwrite(STDOUT, "\n");
-        fwrite(STDOUT, $this->crypto->encrypt($this->cadImovel->email));
-        fwrite(STDOUT, "\n");
-        fwrite(STDOUT, "\n");
-
         $pfj->crypt_telefone1 = $this->crypto->encrypt($this->cadImovel->telefone1);
         $pfj->ramal1 = "";
         $pfj->descricao1 = "";
