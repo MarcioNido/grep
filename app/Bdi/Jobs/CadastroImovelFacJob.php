@@ -101,7 +101,7 @@ class CadastroImovelFacJob implements ShouldQueue
         $this->crypto = new Crypto();
 
         // INCLUI O PROPRIETARIO
-        $codagencia = $this->cadImovel->agencia()->codagencia;
+        $codagencia = $this->cadImovel->agencia->codagencia;
         $codpfj = Pfj::where('codagencia', $codagencia)->max('codpfj');
 
         if ($codpfj == null) $codpfj = 0;
