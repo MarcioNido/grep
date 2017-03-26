@@ -44,7 +44,6 @@ class CadastroImovelController extends Controller
         if ($request->isMethod('post')) {
 
             $imovel->fill($request->all());
-            $imovel->agencia_id = 24;
             $imovel->data_hora_cadastro = (new \DateTime())->format('Y-m-d H:i:s');
             $imovel->valor_venda = CHtml::removeMask($imovel->valor_venda);
             $imovel->valor_locacao = CHtml::removeMask($imovel->valor_locacao);
