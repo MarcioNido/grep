@@ -6,6 +6,7 @@ use App\Bdi\FacBdiPreCadastro;
 use App\Bdi\ImovelProfissional;
 use App\Bdi\ImovelProvisorio;
 use App\Bdi\Pfj;
+use App\Bdi\Profissional;
 use App\Crypto;
 use App\Site\CadImovel;
 use Illuminate\Bus\Queueable;
@@ -55,10 +56,10 @@ class CadastroImovelFacJob implements ShouldQueue
     private function createFacBDI()
     {
         $fac = new FacBdi();
-        $fac->agencia_id = 24; // @todo: $this->cadImovel->agencia_id
+        $fac->agencia_id = $this->cadImovel->agencia_id;
         $fac->dh_criacao = date('Y-m-d H:i:s');
         $fac->dh_pre_cadastro = date('Y-m-d H:i:s');
-        $fac->profissional_pre_cadastro_id = 2991; //@todo 2654; // PRODUCAO
+        $fac->profissional_pre_cadastro_id = 2654; // PRODUCAO
         $fac->cli_nome = $this->cadImovel->nome;
         $fac->cli_ddd1 = $this->cadImovel->ddd1;
         $fac->cli_telefone1 = $this->cadImovel->telefone1;
@@ -100,7 +101,7 @@ class CadastroImovelFacJob implements ShouldQueue
         $this->crypto = new Crypto();
 
         // INCLUI O PROPRIETARIO
-        $codagencia = 'CP';
+        $codagencia = $this->cadImovel->agencia()->codagencia;
         $codpfj = Pfj::where('codagencia', $codagencia)->max('codpfj');
 
         if ($codpfj == null) $codpfj = 0;
@@ -164,7 +165,7 @@ class CadastroImovelFacJob implements ShouldQueue
             'codpfj'=>$pfj->codpfj
         );
 
-        $agencia_id = 24; // $this->cadImovel->agencia_id;
+        $agencia_id = $this->cadImovel->agencia_id;
         $codimovel = ImovelProvisorio::where('codagencia', $codagencia)->max('codimovel');
         if ($codimovel == null) $codimovel = 0;
         $codimovel = $codimovel + 1;
@@ -289,20 +290,22 @@ class CadastroImovelFacJob implements ShouldQueue
         $imovel->possuirenda = 0;
 
         // pega o profissional
-//        $profissional = Yii::app()->db->createCommand("SELECT profissional_id, codprofissional FROM profissional WHERE situacao = 'Ativo' AND agencia_id = {$this->cadImovel->agencia_id} AND codnivel = 34")->queryRow();
-//        if ($profissional == null) {
-//            // se nao conseguir pega o profissional franqueado
-//            $profissional = Yii::app()->db->createCommand("SELECT profissional_id, codprofissional FROM profissional WHERE situacao = 'Ativo' AND agencia_id = {$this->cadImovel->agencia_id} AND codnivel = 42")->queryRow();
-//        }
-//
-//        if ($profissional == null) {
-//            $profissional = array('codprofissional'=>'CP0002');
-//        }
+        $profissional = Profissional::where('situacao', 'Ativo')
+            ->where('agencia_id', $this->cadImovel->agencia_id)
+            ->where('codnivel', 34)->first();
 
+        if (! $profissional) {
+            $profissional =Profissional::where('situacao', 'Ativo')
+                ->where('agencia_id', $this->cadImovel->agencia_id)
+                ->where('codnivel', 42)->first();
+        }
 
-        //$profissional = Yii::app()->db->createCommand("SELECT codprofissional FROM profissional WHERE profissional_id = ".Yii::app()->params['profissional_homologacao_auto_id'])->queryScalar();
-        $imovel->indicador1 = 'CP0008'; // $profissional['codprofissional'];
-        $imovel->promotor1 = 'CP0008'; // $profissional['codprofissional'];
+        if (! $profissional) {
+            $profissional = Profissional::where('codprofissional', 'CP0002')->first();
+        }
+
+        $imovel->indicador1 = $profissional->codprofissional;
+        $imovel->promotor1 = $profissional->codprofissional;
 
         $imovel->saveOrFail();
 
@@ -314,14 +317,14 @@ class CadastroImovelFacJob implements ShouldQueue
             'codimovel'=>$codimovel,
             'ordem'=>1,
             'codrelacao'=>1,
-            'codprofissional'=>'CP0008',
+            'codprofissional'=>$profissional->codprofissional,
         ]);
         ImovelProfissional::insert([
             'codagencia'=>$codagencia,
             'codimovel'=>$codimovel,
             'ordem'=>2,
             'codrelacao'=>2,
-            'codprofissional'=>'CP0008',
+            'codprofissional'=>$profissional->codprofissional,
         ]);
 
         // inclui imovel na lista de imoveis selecionados da FAC de avaliacao

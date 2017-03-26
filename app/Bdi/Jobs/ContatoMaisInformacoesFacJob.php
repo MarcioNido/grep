@@ -38,10 +38,10 @@ class ContatoMaisInformacoesFacJob implements ShouldQueue
     public function handle()
     {
         $fac = new FacBdi();
-        $fac->agencia_id = 24; // @todo: $this->contat->agencia_id
+        $fac->agencia_id = $this->contato->agencia_id;
         $fac->dh_criacao = date('Y-m-d H:i:s');
         $fac->dh_pre_cadastro = date('Y-m-d H:i:s');
-        $fac->profissional_pre_cadastro_id = 2991; //@todo 2654; // PRODUÇÃO
+        $fac->profissional_pre_cadastro_id = 2654; // HOMOLOGAÇÃO 2991
         $fac->cli_nome = $this->contato->nome;
         $fac->cli_ddd1 = $this->contato->ddd;
         $fac->cli_telefone1 = $this->contato->telefone;

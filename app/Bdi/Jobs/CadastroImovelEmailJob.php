@@ -36,9 +36,6 @@ class CadastroImovelEmailJob implements ShouldQueue
         if ($dest == null || $dest == '') {
             $dest = 'site@leardi.com.br';
         }
-        // @TODO: remove this
-        $dest = 'site@leardi.com.br';
-
         Mail::to($dest)->send(new CadastroImovelEmail($this->cadImovel));
     }
 }
