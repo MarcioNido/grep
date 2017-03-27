@@ -63,8 +63,8 @@ if (! isset($term)) {
                         <div class="col-sm-4">
                             <div class="thumbnail">
                                 <div class="guru-image-wrapper" style='background: transparent;'>
-                                    <div class="guru-image-background" style="background-image: url('http://www.leardi.com.br/imagens/agencias/{{ $agencia->foto_agencia }}')"></div>
-                                    <img class="img-responsive guru-image" style="width: 100%" src="http://www.leardi.com.br/imagens/agencias/{{ $agencia->foto_agencia }}" />
+                                    <div class="guru-image-background" style="background-image: url('http://www.leardi.com.br/imagens001/agencias/{{ $agencia->foto_agencia }}')"></div>
+                                    <img class="img-responsive guru-image" style="width: 100%" src="http://www.leardi.com.br/imagens001/agencias/{{ $agencia->foto_agencia }}" />
                                 </div>
                                 <div class="caption">
                                     <h3>Unidade {{ mb_convert_case($agencia->nome, MB_CASE_TITLE) }}</h3>

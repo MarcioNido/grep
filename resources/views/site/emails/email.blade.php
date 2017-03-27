@@ -9,7 +9,7 @@
 <table width="580" align="center" border="0" cellspacing="0" cellpadding="0" bgcolor="#125697" style="background-color: #125697;">
     <tr>
         <td bgcolor="#125697" align="left" style="background-color: #125697; height: 76px; color: #ffffff;" height="76" color="#ffffff">
-            <img alt="Paulo Roberto Leardi" src="http://www.leardi.com.br/emkt/imagens/email_header_logo_mini.jpg" />
+            <img alt="Paulo Roberto Leardi" src="http://www.leardi.com.br/emkt/imagens001/email_header_logo_mini.jpg" />
         </td>
     </tr>
 </table>
