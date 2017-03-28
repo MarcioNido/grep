@@ -78,7 +78,7 @@ $bc = $searchResult['titles']['breadcrumbs'];
                                     // @todo remover isso daqui e colocar no controller ou melhor, criar uma classe para as fotos
                                     $foto = Foto::where('imovel_id', $imovel->id)->first();
                                     if ($foto != null) {
-                                        $arquivo = "/imagens001/".$foto->arquivo;
+                                        $arquivo = "/imagens/".$foto->arquivo;
                                     } else { 
                                         $arquivo = "/images/semfoto.png";
                                     }

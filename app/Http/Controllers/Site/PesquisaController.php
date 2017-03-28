@@ -128,7 +128,7 @@ class PesquisaController extends Controller
             }
         });
 
-        $qb->whereNotNull('pub_agencia_id');
+        $qb->where(['active' => 1]);
 
         if ($filter['tipo_negocio'] == 'venda') {
             $qb->where(['disponivel_venda' => 1]);

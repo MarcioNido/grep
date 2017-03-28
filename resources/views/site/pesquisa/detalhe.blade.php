@@ -186,7 +186,7 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
                                         $first = true;
                                         foreach($fotos as $foto) {
 
-                                            $arquivo = "/imagens001/".$foto->arquivo;
+                                            $arquivo = "/imagens/".$foto->arquivo;
 
                                             if ($first) {
                                                 ?>
@@ -376,7 +376,7 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
                     // @todo remover isso daqui e colocar no controller ou melhor, criar uma classe para as fotos
                     $foto = Foto::where('imovel_id', $similar->id)->first();
                     if ($foto != null) {
-                    $arquivo = "http://www.leardi.com.br/imagens001/".$foto->arquivo;
+                    $arquivo = "http://www.leardi.com.br/imagens/".$foto->arquivo;
                     } else {
                     $arquivo = "/images/semfoto.png";
                     }
@@ -423,8 +423,8 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
             if ($fotos != null) {
                 foreach($fotos as $foto) {
                     $arquivos .= '{
-                        "src": "http://www.leardi.com.br/imagens001/'.$foto->arquivo.'",
-                        "thumb": "http://www.leardi.com.br/imagens001/'.$foto->arquivo.'"
+                        "src": "http://www.leardi.com.br/imagens/'.$foto->arquivo.'",
+                        "thumb": "http://www.leardi.com.br/imagens/'.$foto->arquivo.'"
                     },';
                 }
             }
