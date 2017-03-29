@@ -40,7 +40,7 @@ class importaLocalidade extends Command
     public function handle()
     {
 
-        \Illuminate\Support\Facades\DB::table('localidades')->truncate();
+//        \Illuminate\Support\Facades\DB::table('localidades')->truncate();
         
         // importa cidades 
         $cidades = Imovel::where('active', 1)->select('estado', 'cidade')->distinct()->get();
@@ -70,7 +70,7 @@ class importaLocalidade extends Command
         
 
         // importa regioes 
-        $regioes = Imovel::whereIn('cidade', ['Sao Paulo', 'Brasilia', 'Aruja'])->where('active', 1)->select('estado', 'cidade', 'regiao_mercadologica')->distinct()->get();
+        $regioes = Imovel::whereIn('cidade', ['Sao Paulo', 'Brasilia', 'Aruja', 'Florianopolis'])->where('active', 1)->select('estado', 'cidade', 'regiao_mercadologica')->distinct()->get();
         foreach($regioes as $regiao) {
             
             if (trim($regiao->regiao_mercadologica) == '') continue;
