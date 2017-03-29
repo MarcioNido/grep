@@ -63,7 +63,6 @@ class importaLocalidade extends Command
                 echo "Erro ao inserir ... \n";
                     
             } catch (\PDOException $e) {
-                dd($e->getMessage());
                 echo "Erro PDO ... \n";
             }
         }
@@ -94,7 +93,6 @@ class importaLocalidade extends Command
                 echo "Erro ao inserir ... \n";
                     
             } catch (\PDOException $e) {
-                dd($e->getMessage());
                 echo "Erro PDO ... \n";
             }
         }
