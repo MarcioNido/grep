@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Site\Imovel;
 use App\Site\Localidade;
+use Illuminate\Support\Facades\DB;
 
 class importaLocalidade extends Command
 {
@@ -69,7 +70,7 @@ class importaLocalidade extends Command
         
 
         // importa regioes 
-        $regioes = Imovel::whereIn('cidade', ['Sao Paulo', 'Brasilia', 'Aruja', 'Florianopolis'])->where('active', 1)->select('estado', 'cidade', 'regiao_mercadologica')->distinct()->get();
+        $regioes = Imovel::where('active', 1)->select('estado', 'cidade', 'regiao_mercadologica')->distinct()->get();
         foreach($regioes as $regiao) {
             
             if (trim($regiao->regiao_mercadologica) == '') continue;
@@ -96,9 +97,6 @@ class importaLocalidade extends Command
                 echo "Erro PDO ... \n";
             }
         }
-        
-        
-        
     }
     
     public function toUrl($termo) {
