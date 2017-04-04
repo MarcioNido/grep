@@ -137,7 +137,7 @@ $pesquisasPopulares = \Illuminate\Support\Facades\DB::table("web_pesquisas_popul
 
                 <div class="col-sm-8">
                     <a href="http://miamileardi.com/" target="_blank">
-                        <h3>Conheça nossos imóveis em Miami.</h3>
+                        <h3>Procurando imóveis em Miami? Encontre aqui os melhores.</h3>
                     </a>
                     <a href="http://miamileardi.com/" target="_blank" class="btn btn-warning">IMÓVEIS EM MIAMI</a>
                 </div>
