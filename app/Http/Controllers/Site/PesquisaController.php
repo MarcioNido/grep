@@ -92,7 +92,7 @@ class PesquisaController extends Controller
             } else {
                 $filter['tipo_negocio'] = 'locacao';
             }
-            $filter['tipo_imovel'] = $request->tipo_imovel;
+            $filter['tipo_imovel'] = $this->sanitizeTipoImovel($request->tipo_imovel);
         }
         $filter = $this->sanitizeLocalidade($filter);
         $profile->setProfile($filter);
@@ -484,5 +484,27 @@ class PesquisaController extends Controller
         return $filter;
     }
 
+    protected function sanitizeTipoImovel($tipo_imovel)
+    {
+        if ($tipo_imovel == 'apartamentos') {
+            $tipo_imovel = 'apartamento';
+        }
+        if ($tipo_imovel == 'casas') {
+            $tipo_imovel = 'casa';
+        }
+        if ($tipo_imovel == 'comerciais') {
+            $tipo_imovel = 'comercial';
+        }
+        if ($tipo_imovel == 'flats') {
+            $tipo_imovel = 'flat';
+        }
+        if ($tipo_imovel == 'terrenos') {
+            $tipo_imovel = 'terreno';
+        }
+        if ($tipo_imovel == 'rurais') {
+            $tipo_imovel = 'rural';
+        }
+        return $tipo_imovel;
+    }
 
 }
