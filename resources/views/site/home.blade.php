@@ -121,7 +121,32 @@ $pesquisasPopulares = \Illuminate\Support\Facades\DB::table("web_pesquisas_popul
         </div>
         
     </div>
-    
+
+    <div style="background-color: #FFFFFF; width: 100%; padding: 40px 0;">
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-sm-4" style="text-align: right;">
+                    <div class="thumbnail">
+                        <a href="http://miamileardi.com/" target="_blank">
+                            <img class="img-responsive" src="images/imoveis-em-miami.jpg" />
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-8">
+                    <a href="http://miamileardi.com/" target="_blank">
+                        <h3>Conheça nossos imóveis em Miami.</h3>
+                    </a>
+                    <a href="http://miamileardi.com/" target="_blank" class="btn btn-warning">IMÓVEIS EM MIAMI</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
     
     <div style="background-color: #6B88AE; width: 100%; padding: 40px 0;">
 
