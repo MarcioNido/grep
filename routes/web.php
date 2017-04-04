@@ -74,5 +74,6 @@ Route::group(['namespace' => 'Site', 'middleware' => 'auth'], function() {
 // Blog Routes
 Route::group(['namespace' => 'Blog'], function() {
     Route::get('/blogleardi', 'BlogController@lista');
+    Route::get('/blogleardi/index.php/{key}', 'BlogController@viewPost');
     Route::get('/blogleardi/{key}', 'BlogController@viewPost');
 });
