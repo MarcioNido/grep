@@ -42,7 +42,9 @@ class Localidade extends Model
      */
     public static function getDropDown($selectedValue='', $allowClear='true', $multiple = false)
     {
-        
+          // hack to clear field
+          $selectedValue = "";
+
           $html  = "<select name='localidade_url[]' id='localidade_url' class='form-control guru-select filtro' data-placeholder='Selecione uma cidade ou região ...' data-allow-clear='{$allowClear}' style='width:100%' ". ($multiple ? "multiple='multiple'" : "") ." >";
           $html .= "<option></option>";
           // pega as cidades 

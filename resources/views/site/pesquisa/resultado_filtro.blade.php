@@ -29,6 +29,7 @@ use App\Site\Localidade;
             <div class="row">
                 <div class="col-md-12">
                     {{ Form::activeDropDownList('Localidade', 'localidade_url[]', $filter['localidade_url'], \App\DropDownTool::getLocalidade(), ['multiple'=>'multiple', 'class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'localidade_url']) }}
+                    <h6 style="color: #286090">* filtre regiões ou adicione escrevendo acima</h6>
                 </div>
             </div>
         </div>
