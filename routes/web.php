@@ -46,6 +46,8 @@ Route::group(['namespace' => 'Site'], function() {
     Route::get('/seja-um-franqueado', 'FranqueadoController@index');
     Route::post('/seja-um-franqueado/contato', 'FranqueadoController@storeContato');
 
+    Route::get('/pesquisa/{expression1?}/{expression2?}/{expression3?}/{expression4?}/{expression5?}/{expression6?}/{expression7?}/{expression8?}/{expression9?}/{expression10?}', 'InteracaoController@index');
+
 });
 
 // area restrita
