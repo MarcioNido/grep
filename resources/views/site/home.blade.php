@@ -11,12 +11,12 @@ $title = "Paulo Roberto Leardi";
 @section('title', $title)
 
 @section('content')
-    <div id="banner" class="container-fluid" style="background: #ddd url('/images/imobiliaria-paulo-roberto-leardi-miami.jpg') center no-repeat; height: 490px;">
+    <div id="banner" class="container-fluid" style="background: #ddd url('/images/bannerhomeleardi2.jpg') center no-repeat; height: 490px;">
         <div class="">
             <div class="row" style="height: 100px;">
                 <div class="col-lg-12" style="text-align: center;">
-                    <h2 style="color: #FFFFFF" class="miami">Miami is here.</h2>
-                    <h4 style="color: #FAFAFA" class="miami">Centenas de imóveis na cidade dos brasileiros nos EUA.</h4>
+                    <h2 style="color: #FFFFFF; display:none;" class="miami">Miami is here.</h2>
+                    <h4 style="color: #FAFAFA; display:none;" class="miami">Centenas de imóveis na cidade dos brasileiros nos EUA.</h4>
                 </div>
             </div>
             <div class="row">
