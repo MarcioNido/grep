@@ -81,6 +81,20 @@ return [
             'engine' => null,
         ],
 
+        'crm' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST_CRM', '10.1.97.119'),
+            'port' => '3306',
+            'database' => env('DB_DATABASE_CRM','leardi_crm'),
+            'username' => env('DB_USERNAME_CRM','leardi_user'),
+            'password' => env('DB_PASSWORD_CRM','bdi@leardi2013'),
+            'charset' => 'latin1',
+            'collation' => 'latin1_swedish_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
 
         'mysql_testing' => [
             'driver' => 'mysql',

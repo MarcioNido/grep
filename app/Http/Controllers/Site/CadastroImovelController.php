@@ -72,6 +72,12 @@ class CadastroImovelController extends Controller
 
     public function getAgenciaId($latitude='', $longitude='') {
 
+        // se for um subdomínio direciona para a unidade
+        $unidade = session('unidade');
+        if ($unidade != null) {
+            return $unidade->id;
+        }
+
         if ($latitude == '' || $longitude == '') {
             return 24; // agencia central place (coordenadas não identificadas)
         }

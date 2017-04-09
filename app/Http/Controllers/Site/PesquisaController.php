@@ -49,7 +49,6 @@ class PesquisaController extends Controller
      */
     public function venda(Request $request)
     {
-//        $searchResult = (new ImovelSearch($request))->processSearchRequest();
         $searchResult = $this->processSearchRequest($request);
         return view('site.pesquisa.resultado', ['searchResult' => $searchResult]);
     }
@@ -62,7 +61,6 @@ class PesquisaController extends Controller
      */
     public function locacao(Request $request)
     {
-//        $searchResult = (new ImovelSearch($request))->processSearchRequest();
         $searchResult = $this->processSearchRequest($request);
         return view('site.pesquisa.resultado', ['searchResult' => $searchResult]);
     }
@@ -70,8 +68,6 @@ class PesquisaController extends Controller
     public function referencia(Request $request)
     {
         return redirect('imovel/'.$request->imovel_id);
-//        $searchResult = (new ImovelSearch($request))->processSearchByRefRequest();
-//        return view('site.pesquisa.resultado', ['searchResult' => $searchResult]);
     }
 
     protected function processSearchRequest(Request $request)
@@ -81,6 +77,12 @@ class PesquisaController extends Controller
 
         $profile = Profile::getInstance();
         $filter = $profile->getFilter();
+
+        $unidade = session('unidade');
+        if ($unidade != null) {
+            $filter['pub_agencia_id_exp'] = $unidade->id;
+        }
+
         if (! isset($filter['subtipo_imovel'])) {
             $filter['subtipo_imovel'] = "";
         }
@@ -129,6 +131,10 @@ class PesquisaController extends Controller
         });
 
         $qb->where(['active' => 1]);
+
+        if (isset($filter['pub_agencia_id_exp']) && $filter['pub_agencia_id_exp'] != 0) {
+            $qb->where(['pub_agencia_id_exp' => $filter['pub_agencia_id_exp']]);
+        }
 
         if ($filter['tipo_negocio'] == 'venda') {
             $qb->where(['disponivel_venda' => 1]);
@@ -352,6 +358,11 @@ class PesquisaController extends Controller
             $filtros['disponivel_locacao'] = 1;
         }
 
+        $unidade = session('unidade');
+        if ($unidade != null) {
+            $filtros['pub_agencia_id_exp'] = $unidade->id;
+        }
+
         $filtros['tipo_simplificado'] = $imovel->tipo_simplificado;
         $filtros['tipo_imovel'] = $imovel->tipo_imovel;
         $filtros['estado'] = $imovel->estado;
@@ -405,18 +416,18 @@ class PesquisaController extends Controller
      * @param $agencia_id
      * @return string agency phone
      */
-    public function fone($agencia_id)
+    public function fone(Request $request)
     {
-        $agencia = Agencia::find($agencia_id);
+        $agencia = Agencia::find($request->agencia_id);
         echo $agencia->ddd1." ".$agencia->telefone1;
     }
 
     /**
      * @param $id
      */
-    public function getCoordinates($id)
+    public function getCoordinates(Request $request)
     {
-        $address = Imovel::find($id)->enderecoGoogle();
+        $address = Imovel::find($request->id)->enderecoGoogle();
         echo \GoogleMaps::load('geocoding')->setParam(['address' => $address])->get();
     }
 
@@ -440,9 +451,7 @@ class PesquisaController extends Controller
     public function notificacaoImovel(Request $request)
     {
 
-        // try to create or update a notification
         $filter = Profile::getInstance()->getFilter();
-//        $filter = (new ImovelSearch($request))->getSessionFilters();
         if (! $filter) {
             throw new \HttpException("Configurações não encontradas", 404);
         }

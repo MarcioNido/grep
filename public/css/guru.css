@@ -46,7 +46,7 @@ a.guru-brand {max-height: 70px; padding: 0 15px;}
 img.guru-brand {max-height: 70px;}
 
 .guru-home-panel-heading {font-family: 'Open Sans', sans-serif; color: #F7F7F7; font-size: 22px; text-align: center;}
-.guru-home-panel-container {float: none; margin: 0 auto; margin-top: 150px;}
+.guru-home-panel-container {float: none; margin: 0 auto; margin-top: 50px;}
 .guru-home-panel {background-color: transparent;}
 
 .panel-info > .panel-heading {color: #FFFFFF; background: rgba(107,136,174,0.7); border-color: #999999; }
@@ -102,8 +102,20 @@ h6.guru-label {margin-bottom: 2px;}
     -webkit-filter: blur(3px);
     position: absolute;
     background-size: cover;
-    
 }
+
+
+.background-banner {
+    height: 490px;
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+}
+
+.background-banner img {
+    margin: auto;
+}
+
 
 /*.guru-image {height: 120px;}*/
 .guru-image-wrapper {

@@ -17,8 +17,14 @@
 
 Auth::routes();
 
+// redirect rules
+Route::get('{agencia_sigla}/imoveis', function($agencia_sigla) {
+    $agencia = \App\Site\Agencia::where('agencia_sigla', $agencia_sigla)->first();
+    return redirect('http://'.$agencia->subdomain.'.grep.dev');
+});
+
 // Site Routes
-Route::group(['namespace' => 'Site'], function() {
+Route::group(['namespace' => 'Site', 'domain' => '{unidade}.grep.dev'], function() {
     Route::get('/', 'HomeController@index');
     Route::get('/home', 'HomeController@index');
 
@@ -47,11 +53,12 @@ Route::group(['namespace' => 'Site'], function() {
     Route::post('/seja-um-franqueado/contato', 'FranqueadoController@storeContato');
 
     Route::get('/pesquisa/{expression1?}/{expression2?}/{expression3?}/{expression4?}/{expression5?}/{expression6?}/{expression7?}/{expression8?}/{expression9?}/{expression10?}', 'InteracaoController@index');
+//'<agencia_sigla:([0-9]+)>/imoveis'=>'unidade/imoveis',
 
 });
 
 // area restrita
-Route::group(['namespace' => 'Site', 'middleware' => 'auth'], function() {
+Route::group(['namespace' => 'Site', 'middleware' => 'auth', 'domain' => '{unidade}.grep.dev'], function() {
     Route::get('/area-restrita/index', 'AreaRestritaController@index');
     Route::get('/area-restrita/edita-alerta/{id}', 'AreaRestritaController@editaAlerta');
     Route::post('/area-restrita/edita-alerta/{id}', 'AreaRestritaController@storeAlerta');

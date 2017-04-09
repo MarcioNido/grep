@@ -1,3 +1,9 @@
+<?php
+$unidade = session('unidade');
+if ($unidade == null) {
+    $unidade = $imovel->agenciaPublicidade;
+}
+?>
 <div class="panel panel-primary">
 
     <div class="panel-heading">
@@ -8,16 +14,16 @@
 
         {{ csrf_field() }}
         <input type="hidden" name="imovel_id" id="imovel_id" value="{{ $imovel->id }}" />
-        <input type="hidden" name="agencia_id" id="agencia_id" value="{{ $imovel->pub_agencia_id }}" />
+        <input type="hidden" name="agencia_id" id="agencia_id" value="{{ $unidade->id }}" />
 
         <div class="panel-body" style="background-color: #FFFFFF;">
             <div class="row">
                 <div class="col-xs-12">
 
                     <h4 style="font-weight: 300; margin-top: 0; margin-bottom: 0; color: #666666;">Unidade </h4>
-                    <h3 style="font-weight: 300; margin-top: 0;">{{ mb_convert_case($imovel->agenciaPublicacao->nome, MB_CASE_TITLE) }}</h3>
+                    <h3 style="font-weight: 300; margin-top: 0;">{{ mb_convert_case($unidade->nome, MB_CASE_TITLE) }}</h3>
 
-                    <button role="button" id="ph_fone" class="btn btn-primary" style="font-weight: 300; width: 100%;" onclick="return trigger_fone({{ $imovel->pub_agencia_id }})"><span class="fa fa-phone"></span> VER TELEFONE</button>
+                    <button role="button" id="ph_fone" class="btn btn-primary" style="font-weight: 300; width: 100%;" onclick="return trigger_fone({{ $unidade->id }})"><span class="fa fa-phone"></span> VER TELEFONE</button>
 
                 </div>
 
@@ -108,7 +114,7 @@
 <script language="javascript">
     function trigger_fone(agencia_id)
     {
-        $.ajax('{{url('pesquisa/fone', ['agencia_id'=>$imovel->pub_agencia_id]) }}')
+        $.ajax('{{url('pesquisa/fone', ['agencia_id'=>$unidade->id]) }}')
                 .done(function(response) {
                     $('#ph_fone').html(response);
                 })

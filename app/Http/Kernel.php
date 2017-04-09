@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Lander;
 use App\PageTracker;
+use App\SubDomain;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -34,6 +35,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             Lander::class,
             PageTracker::class,
+            SubDomain::class,
         ],
 
         'api' => [

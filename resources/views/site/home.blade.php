@@ -3,14 +3,22 @@ use App\Http\Components\CHtml;
 use App\Site\Localidade;
 
 $pesquisasPopulares = \Illuminate\Support\Facades\DB::table("web_pesquisas_populares")->get();
+$title = "Paulo Roberto Leardi";
 ?>
 
 @extends('layouts.app')
 
-@section('content')
+@section('title', $title)
 
-    <div class="container-fluid" style="background: #ddd url('/images/bannerhomeleardi2.jpg') center no-repeat; height: 490px;">
+@section('content')
+    <div id="banner" class="container-fluid" style="background: #ddd url('/images/imobiliaria-paulo-roberto-leardi-miami.jpg') center no-repeat; height: 490px;">
         <div class="">
+            <div class="row" style="height: 100px;">
+                <div class="col-lg-12" style="text-align: center;">
+                    <h2 style="color: #FFFFFF" class="miami">Miami is here.</h2>
+                    <h4 style="color: #FAFAFA" class="miami">Centenas de imóveis na cidade dos brasileiros nos EUA.</h4>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-8 guru-home-panel-container" style="">
                     <div class="panel panel-info guru-home-panel" style="">
@@ -80,74 +88,70 @@ $pesquisasPopulares = \Illuminate\Support\Facades\DB::table("web_pesquisas_popul
         <div class="container">
             
             <div class="row">
-                
-                <div class="col-sm-4" style="text-align: right;">
+
+                <div class="col-md-3">
                     <div class="thumbnail">
                         <a href="/seja-um-franqueado">
                             <img class="img-responsive" src="images/home-seja-um-franqueado.jpg" />
                         </a>
+                        <div class="caption">
+                            <a href="/seja-um-franqueado" class="btn btn-warning" style="width: 100%">SEJA UM FRANQUEADO!</a>
+                            <p style="margin-top: 15px; color:#286090">Empreenda montando a sua imobiliária e sendo líder mesmo antes de iniciar a operação, baixo investimento com alta rentabilidade, saiba mais.</p>
+                        </div>
                     </div>
+
                 </div>
-                
-                <div class="col-sm-8">
-                    <a href="/seja-um-franqueado">
-                        <h3>Empreenda montando a sua imobiliária e sendo líder mesmo antes de iniciar a operação, baixo investimento com alta rentabilidade, saiba mais.</h3>
-                    </a>
-                    <a href="/seja-um-franqueado" class="btn btn-warning">SEJA UM FRANQUEADO!</a>
-               </div>
-                
-            </div>
-            
-        </div>
-        
-    </div>
-    
-    <div style="background-color: #E1ECF8; width: 100%; padding: 40px 0;">
-        <div class="container">
-            
-            <div class="row">
-                <div class="col-sm-8" style="text-align: right;">
-                    <h3>Seja um corretor LEARDI, descubra como fazer parte da nossa família e as vantagens.</h3>
-                    <a class="btn btn-warning" href="/area-restrita/trabalhe-conosco" style="margin-bottom: 20px;">TRABALHE CONOSCO!</a>
-                </div>
-                <div class="col-sm-4">
+
+                <div class="col-md-3">
                     <div class="thumbnail">
-                        <img class="img-responsive" src="images/home-trabalhe-conosco.jpg" />
+                        <a href="/area-restrita/trabalhe-conosco">
+                            <img class="img-responsive" src="images/home-trabalhe-conosco.jpg" />
+                        </a>
+                        <div class="caption">
+                            <a class="btn btn-warning" href="/area-restrita/trabalhe-conosco" style="width: 100%">TRABALHE CONOSCO!</a>
+                            <p style="margin-top: 15px; color:#286090">Seja um corretor LEARDI, descubra como fazer parte da nossa família e as vantagens.</p>
+                        </div>
                     </div>
+
                 </div>
-            </div>
-            
 
-        </div>
-        
-    </div>
 
-    <div style="background-color: #FFFFFF; width: 100%; padding: 40px 0;">
-        <div class="container">
 
-            <div class="row">
-
-                <div class="col-sm-4" style="text-align: right;">
+                <div class="col-md-3">
                     <div class="thumbnail">
                         <a href="http://miamileardi.com/" target="_blank">
                             <img class="img-responsive" src="images/imoveis-em-miami.jpg" />
                         </a>
+                        <div class="caption">
+                            <a href="http://miamileardi.com/" target="_blank" class="btn btn-warning" style="width: 100%">IMÓVEIS EM MIAMI</a>
+                            <p style="margin-top: 15px; color:#286090">Procurando imóveis em Miami? Encontre aqui os melhores.</p>
+                        </div>
                     </div>
+
                 </div>
 
-                <div class="col-sm-8">
-                    <a href="http://miamileardi.com/" target="_blank">
-                        <h3>Procurando imóveis em Miami? Encontre aqui os melhores.</h3>
-                    </a>
-                    <a href="http://miamileardi.com/" target="_blank" class="btn btn-warning">IMÓVEIS EM MIAMI</a>
+                <div class="col-md-3">
+                    <div class="thumbnail">
+                        <a href="/images/Revista.pdf" target="_blank">
+                            <img class="img-responsive" src="images/revistas-leardi.jpg" />
+                        </a>
+                        <div class="caption">
+                            <a href="/images/Revista.pdf" target="_blank" class="btn btn-warning" style="width: 100%">REVISTA LEARDI</a>
+                            <p style="margin-top: 15px; color:#286090">Baixe já a última edição da Revista Leardi</p>
+                        </div>
+                    </div>
+
                 </div>
+
+
 
             </div>
-
+            
         </div>
-
+        
     </div>
     
+
     <div style="background-color: #6B88AE; width: 100%; padding: 40px 0;">
 
         @include('blog.public.destaques')
@@ -252,6 +256,19 @@ function trigger_pesquisa()
     $('#ph_referencia').slideUp('fast');
     $('#ph_pesquisa').slideDown('fast');
 }
+
+$(document).ready(function() {
+    window.setInterval(function() {
+        var isMiami = $(".miami").is(":visible");
+        if (isMiami) {
+            $('#banner').css('background-image', "url('/images/bannerhomeleardi2.jpg')");
+            $('.miami').hide();
+        } else {
+            $('#banner').css('background-image', "url('/images/imobiliaria-paulo-roberto-leardi-miami.jpg')");
+            $('.miami').show();
+        }
+    }, 10000)
+})
 
 </script>
 @endpush  

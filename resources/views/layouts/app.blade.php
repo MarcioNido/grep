@@ -94,7 +94,9 @@
                 </div>
             </div>
         </nav>
-
+        @if(session('unidade') != null)
+            <div class="container-fluid"><div class="container"><div class="row"><div class="col-lg-12">Unidade {{ mb_convert_case(session('unidade')->nome, MB_CASE_TITLE) }}</div></div></div></div>
+        @endif
         {{ Form::breadcrumbs(isset($breadcrumbs) ? $breadcrumbs : []) }}
         @yield('content')
     </div>
