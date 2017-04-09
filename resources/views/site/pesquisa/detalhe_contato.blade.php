@@ -1,8 +1,8 @@
 <?php
-//$unidade = session('unidade');
-//if ($unidade == null) {
-    $unidade = $imovel->agenciaPublicidade;
-//}
+$unidade = session('unidade');
+if ($unidade == null) {
+    $unidade = $imovel->agenciaPublicacao;
+}
 ?>
 <div class="panel panel-primary">
 
