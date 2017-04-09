@@ -92,7 +92,7 @@ $title = "Paulo Roberto Leardi";
                 <div class="col-md-3">
                     <div class="thumbnail">
                         <a href="/seja-um-franqueado">
-                            <img class="img-responsive" src="images/home-seja-um-franqueado.jpg" />
+                            <img class="img-responsive" src="images/95-anos-tradicao.jpg" />
                         </a>
                         <div class="caption">
                             <a href="/seja-um-franqueado" class="btn btn-warning" style="width: 100%">SEJA UM FRANQUEADO!</a>
@@ -267,7 +267,7 @@ $(document).ready(function() {
             $('#banner').css('background-image', "url('/images/imobiliaria-paulo-roberto-leardi-miami.jpg')");
             $('.miami').show();
         }
-    }, 10000)
+    }, 15000)
 })
 
 </script>
