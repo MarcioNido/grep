@@ -24,7 +24,7 @@ $title = "Seja um Franqueado Paulo Roberto Leardi";
                     <div class="row">
                         <div class="col-sm-3">
                             <div class="thumbnail">
-                                <img class="img-responsive" style="width: 100%" src="http://leardi.com.br/images/90-bilhoes.jpg" />
+                                <img class="img-responsive" style="width: 100%" src="/images/90-bilhoes.jpg" />
                                 <div class="caption">
                                     <p><b>R$ 90 bilh&otilde;es</b> foi o faturamento do setor em 2013</p>
                                 </div>
@@ -33,7 +33,7 @@ $title = "Seja um Franqueado Paulo Roberto Leardi";
 
                         <div class="col-sm-3">
                             <div class="thumbnail">
-                                <img class="img-responsive" style="width: 100%" src="http://leardi.com.br/images/taxa-crescimento.jpg" />
+                                <img class="img-responsive" style="width: 100%" src="/images/taxa-crescimento.jpg" />
                                 <div class="caption">
                                     <p><b>13%</b> foi a taxa de crescimento no mesmo ano</p>
                                 </div>
@@ -42,7 +42,7 @@ $title = "Seja um Franqueado Paulo Roberto Leardi";
 
                         <div class="col-sm-3">
                             <div class="thumbnail">
-                                <img class="img-responsive" style="width: 100%" src="http://leardi.com.br/images/deficit-habitacional.jpg" />
+                                <img class="img-responsive" style="width: 100%" src="/images/deficit-habitacional.jpg" />
                                 <div class="caption">
                                     <p><b>6 milhões</b> de residências é o tamanho do déficit habitacional no Brasil</p>
                                 </div>
@@ -51,7 +51,7 @@ $title = "Seja um Franqueado Paulo Roberto Leardi";
 
                         <div class="col-sm-3">
                             <div class="thumbnail">
-                                <img class="img-responsive" style="width: 100%" src="http://leardi.com.br/images/imobiliarias-franqueadas.jpg" />
+                                <img class="img-responsive" style="width: 100%" src="/images/imobiliarias-franqueadas.jpg" />
                                 <div class="caption">
                                     <p><b>89% das imobiliárias</b> americanas são franqueadas</p>
                                 </div>
@@ -72,7 +72,7 @@ $title = "Seja um Franqueado Paulo Roberto Leardi";
                     <div class="row">
                         <div class="col-sm-3">
                             <div class="thumbnail">
-                                <img class="img-responsive" style="width: 100%" src="http://leardi.com.br/images/95-anos-tradicao.jpg" />
+                                <img class="img-responsive" style="width: 100%" src="/images/95-anos-tradicao.jpg" />
                                 <div class="caption">
                                     <p><b>95 anos</b> de tradição no mercado imobiliário</p>
                                 </div>
@@ -81,7 +81,7 @@ $title = "Seja um Franqueado Paulo Roberto Leardi";
 
                         <div class="col-sm-3">
                             <div class="thumbnail">
-                                <img class="img-responsive" style="width: 100%" src="http://leardi.com.br/images/2000-unidades-franqueadas.jpg" />
+                                <img class="img-responsive" style="width: 100%" src="/images/2000-unidades-franqueadas.jpg" />
                                 <div class="caption">
                                     <p>Serão mais de <b>2.000 unidades franqueadas</b></p>
                                 </div>
@@ -90,7 +90,7 @@ $title = "Seja um Franqueado Paulo Roberto Leardi";
 
                         <div class="col-sm-3">
                             <div class="thumbnail">
-                                <img class="img-responsive" style="width: 100%" src="http://leardi.com.br/images/400-mil-imoveis.jpg" />
+                                <img class="img-responsive" style="width: 100%" src="/images/400-mil-imoveis.jpg" />
                                 <div class="caption">
                                     <p>Mais de <b>400 mil imóveis</b> cadastrados na base</p>
                                 </div>
@@ -99,7 +99,7 @@ $title = "Seja um Franqueado Paulo Roberto Leardi";
 
                         <div class="col-sm-3">
                             <div class="thumbnail">
-                                <img class="img-responsive" style="width: 100%" src="http://leardi.com.br/images/banco-de-dados-compartilhado.jpg" />
+                                <img class="img-responsive" style="width: 100%" src="/images/banco-de-dados-compartilhado.jpg" />
                                 <div class="caption">
                                     <p>Banco de dados de imóveis compartilhado</p>
                                 </div>
