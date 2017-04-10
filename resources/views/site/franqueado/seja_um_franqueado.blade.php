@@ -140,7 +140,7 @@ $title = "Seja um Franqueado Paulo Roberto Leardi";
                 <div class="col-lg-3">
                     <div class="media" style="margin-bottom:30px">
                         <div class="media-left media-middle">
-                            <img class="media-object" src="http://leardi.com.br/images/metodologia-consolidada.jpg" />
+                            <img class="media-object" src="/images/metodologia-consolidada.jpg" />
                         </div>
                         <div class="media-body">
                             <h4>Metodologia de trabalho consolidada</h4>
@@ -150,7 +150,7 @@ $title = "Seja um Franqueado Paulo Roberto Leardi";
                 <div class="col-lg-3">
                     <div class="media" style="margin-bottom:30px">
                         <div class="media-left">
-                            <img class="media-object" src="http://leardi.com.br/images/investimento-publicidade-online.jpg" />
+                            <img class="media-object" src="/images/investimento-publicidade-online.jpg" />
                         </div>
                         <div class="media-body">
                             <h4>Investimentos em publicidade online</h4>
@@ -160,7 +160,7 @@ $title = "Seja um Franqueado Paulo Roberto Leardi";
                 <div class="col-lg-3">
                     <div class="media" style="margin-bottom:30px">
                         <div class="media-left">
-                            <img class="media-object" src="http://leardi.com.br/images/site-e-redes-sociais.jpg" />
+                            <img class="media-object" src="/images/site-e-redes-sociais.jpg" />
                         </div>
                         <div class="media-body">
                             <h4>Sites e redes sociais com ampla audi&ecirc;ncia</h4>
@@ -170,7 +170,7 @@ $title = "Seja um Franqueado Paulo Roberto Leardi";
                 <div class="col-lg-3">
                     <div class="media" style="margin-bottom:30px">
                         <div class="media-left">
-                            <img class="media-object" src="http://leardi.com.br/images/revista-80-mil.jpg" />
+                            <img class="media-object" src="/images/revista-80-mil.jpg" />
                         </div>
                         <div class="media-body">
                             <h4>Revista com tiragem de mais de 80 mil</h4>
@@ -185,7 +185,7 @@ $title = "Seja um Franqueado Paulo Roberto Leardi";
                 <div class="col-lg-3">
                     <div class="media" style="margin-bottom:30px">
                         <div class="media-left media-middle">
-                            <img class="media-object" src="http://leardi.com.br/images/capacitacao-e-manuais.jpg" />
+                            <img class="media-object" src="/images/capacitacao-e-manuais.jpg" />
                         </div>
                         <div class="media-body">
                             <h4>Capacitação e manuais de implantação e gestão</h4>
@@ -195,7 +195,7 @@ $title = "Seja um Franqueado Paulo Roberto Leardi";
                 <div class="col-lg-3">
                     <div class="media" style="margin-bottom:30px">
                         <div class="media-left">
-                            <img class="media-object" src="http://leardi.com.br/images/sistema-de-gestao.jpg" />
+                            <img class="media-object" src="/images/sistema-de-gestao.jpg" />
                         </div>
                         <div class="media-body">
                             <h4>Sistema completo de gestão online</h4>
@@ -205,7 +205,7 @@ $title = "Seja um Franqueado Paulo Roberto Leardi";
                 <div class="col-lg-3">
                     <div class="media" style="margin-bottom:30px">
                         <div class="media-left">
-                            <img class="media-object" src="http://leardi.com.br/images/universidade-leardi.jpg" />
+                            <img class="media-object" src="/images/universidade-leardi.jpg" />
                         </div>
                         <div class="media-body">
                             <h4>Universidade Leardi com mais de <b>90 cursos e tutoriais</b></h4>
@@ -215,7 +215,7 @@ $title = "Seja um Franqueado Paulo Roberto Leardi";
                 <div class="col-lg-3">
                     <div class="media" style="margin-bottom:30px">
                         <div class="media-left">
-                            <img class="media-object" src="http://leardi.com.br/images/abf.jpg" />
+                            <img class="media-object" src="/images/abf.jpg" />
                         </div>
                         <div class="media-body">
                             <h4>Associada a ABF</h4>
