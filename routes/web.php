@@ -20,17 +20,20 @@ Auth::routes();
 // redirect rules
 Route::get('{agencia_sigla}/imoveis', function($agencia_sigla) {
     $agencia = \App\Site\Agencia::where('agencia_sigla', $agencia_sigla)->first();
-    return redirect('http://'.$agencia->subdomain.'.leardi.com.br');
+    return redirect('http://'.$agencia->subdomain.'.grep.dev');
 });
 
 // Site Routes
-Route::group(['namespace' => 'Site', 'domain' => '{unidade}.leardi.com.br'], function() {
+Route::group(['namespace' => 'Site', 'domain' => '{unidade}.grep.dev'], function() {
     Route::get('/', 'HomeController@index');
     Route::get('/home', 'HomeController@index');
 
+    Route::get('/geturl/{tipo_negocio}/{tipo_imovel}/{estado}/{codcidade}/{codbairro?}', 'PesquisaController@getUrl');
+
     // lista de imoveis
-    Route::any('/venda/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@venda');
-    Route::any('/locacao/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@locacao');
+    Route::post('/pesquisa/digest', 'PesquisaController@digest');
+    Route::any('/{tipo_negocio}/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@digest');
+//    Route::any('/locacao/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@locacao');
     Route::any('/pesquisa/referencia', 'PesquisaController@referencia');
 
     // detalhes do imóvel
@@ -53,12 +56,17 @@ Route::group(['namespace' => 'Site', 'domain' => '{unidade}.leardi.com.br'], fun
     Route::post('/seja-um-franqueado/contato', 'FranqueadoController@storeContato');
 
     Route::get('/pesquisa/{expression1?}/{expression2?}/{expression3?}/{expression4?}/{expression5?}/{expression6?}/{expression7?}/{expression8?}/{expression9?}/{expression10?}', 'InteracaoController@index');
+
+    // dropdowns
+    Route::get('/dropdown/cidade/{estado}', 'DropDownController@cidade');
+    Route::get('/dropdown/bairro/{codcidade}', 'DropDownController@bairro');
+
 //'<agencia_sigla:([0-9]+)>/imoveis'=>'unidade/imoveis',
 
 });
 
 // area restrita
-Route::group(['namespace' => 'Site', 'middleware' => 'auth', 'domain' => '{unidade}.leardi.com.br'], function() {
+Route::group(['namespace' => 'Site', 'middleware' => 'auth', 'domain' => '{unidade}.grep.dev'], function() {
     Route::get('/area-restrita/index', 'AreaRestritaController@index');
     Route::get('/area-restrita/edita-alerta/{id}', 'AreaRestritaController@editaAlerta');
     Route::post('/area-restrita/edita-alerta/{id}', 'AreaRestritaController@storeAlerta');

@@ -41,10 +41,10 @@ class importaLocalidade extends Command
     public function handle()
     {
 
-//        \Illuminate\Support\Facades\DB::table('localidades')->truncate();
+        \Illuminate\Support\Facades\DB::table('localidades')->truncate();
         
         // importa cidades 
-        $cidades = Imovel::where('active', 1)->select('estado', 'cidade')->distinct()->get();
+        $cidades = Imovel::where('active', 1)->select('estado', 'cidade', 'codcidade')->distinct()->get();
         foreach($cidades as $cidade) {
             
             echo "Cidade: ".$cidade->cidade." - ".$cidade->estado."\n";
@@ -56,6 +56,7 @@ class importaLocalidade extends Command
                             'descricao' => mb_convert_case(trim($cidade->cidade), MB_CASE_TITLE)." - ".$cidade['estado'],
                             'estado' => $cidade->estado,
                             'cidade' => mb_convert_case(trim($cidade->cidade), MB_CASE_TITLE),
+                            'codcidade' => $cidade->codcidade,
                             'localidade_url'=> $this->toUrl(trim($cidade->estado)).'/'.$this->toUrl(trim($cidade->cidade)).'/todas-as-regioes',
                             'tipo' => 1,
                         ]);
@@ -70,7 +71,7 @@ class importaLocalidade extends Command
         
 
         // importa regioes 
-        $regioes = Imovel::where('active', 1)->select('estado', 'cidade', 'regiao_mercadologica')->distinct()->get();
+        $regioes = Imovel::where('active', 1)->select('estado', 'cidade', 'codcidade', 'regiao_mercadologica', 'codbairrorm')->distinct()->get();
         foreach($regioes as $regiao) {
             
             if (trim($regiao->regiao_mercadologica) == '') continue;
@@ -84,8 +85,10 @@ class importaLocalidade extends Command
                             'descricao' => mb_convert_case(trim($regiao->regiao_mercadologica), MB_CASE_TITLE)." - ".mb_convert_case(trim($regiao->cidade), MB_CASE_TITLE)." - ".$regiao['estado'],
                             'localidade_url'=> $this->toUrl($regiao->estado).'/'.$this->toUrl(trim($regiao->cidade)).'/'. $this->toUrl(trim($regiao->regiao_mercadologica)),
                             'cidade' => mb_convert_case(trim($regiao->cidade), MB_CASE_TITLE),
+                            'codcidade' => $regiao->codcidade,
                             'estado' => $regiao->estado,
                             'regiao' => mb_convert_case(trim($regiao->regiao_mercadologica), MB_CASE_TITLE),
+                            'codbairrorm' => $regiao->codbairrorm,
                             'tipo'=>2,
                         ]);
                 

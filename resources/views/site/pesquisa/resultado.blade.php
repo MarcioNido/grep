@@ -198,6 +198,3 @@ $bc = $searchResult['titles']['breadcrumbs'];
 </div>
 
 @endsection
-
-  
-

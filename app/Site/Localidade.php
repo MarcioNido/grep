@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Localidade extends Model
 {
     public $timestamps=false;
-    protected $fillable = ['nome', 'descricao', 'localidade_url', 'cidade', 'tipo', 'estado', 'regiao'];
+    protected $fillable = ['nome', 'descricao', 'localidade_url', 'cidade', 'tipo', 'estado', 'regiao', 'codcidade', 'codbairrorm'];
     
     public static function getList() 
     {

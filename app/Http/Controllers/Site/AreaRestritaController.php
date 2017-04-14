@@ -48,14 +48,11 @@ class AreaRestritaController extends Controller
             throw new \HttpException("Alerta não encontrado ...", 404);
         }
 
-        $localidade = Localidade::where(['localidade_url' => $request->localidade_url])->first();
-        if ($localidade == null) {
-            throw new \Exception("Localidade não encontrada", 404);
-        }
-
         $alerta->tipo_negocio = $request->tipo_negocio;
         $alerta->tipo_imovel = $request->tipo_imovel;
-        $alerta->localidade_url = serialize($request->localidade_url);
+        $alerta->estado = $request->estado;
+        $alerta->codcidade = $request->codcidade;
+        $alerta->codbairro = serialize($request->codbairro);
         $alerta->dormitorios = (int) $request->dormitorios;
         $alerta->vagas = (int) $request->vagas;
         $alerta->valor_minimo = (float) CHtml::removeMask($request->valor_minimo);

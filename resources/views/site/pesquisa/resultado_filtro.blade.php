@@ -1,12 +1,14 @@
 <?php
 use App\Http\Components\CHtml;
 use App\Site\Localidade;
+use App\DropDownTool;
 ?>
 
 <div class="panel" style="background-color: #FFFFFF;">
-    <form id='form_filter' class="form-group" method="post" action='#'>
+    <form id='form_filter' class="form-group" method="post" action='/pesquisa/digest'>
         {{ csrf_field() }}
         <input type="hidden" name="order" id="order" value="{{ $filter['order'] }}" />
+        <input type="hidden" name="page" id="page" value="{{ $filter['order'] }}" />
         <div class="panel-body">
             <div class="row">
                 <div class="col-xs-12">
@@ -27,11 +29,25 @@ use App\Site\Localidade;
         </div>                            
         <div class="panel-body" style="border-bottom: 1px solid #CCCCCC;">
             <div class="row">
-                <div class="col-md-12">
-                    {{ Form::activeDropDownList('Localidade', 'localidade_url[]', $filter['localidade_url'], \App\DropDownTool::getLocalidade(), ['multiple'=>'multiple', 'class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'localidade_url']) }}
-                    <h6 style="color: #286090">* filtre regiões ou adicione escrevendo acima</h6>
+                <div class="col-md-3" style="padding-right: 1px;">
+                    {{ Form::activeDropDownList('Estado', 'estado', $filter['estado'], DropDownTool::getEstado(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'onchange' => 'trigger_estado()', 'id'=>'estado', 'placeholder'=>'Estado']) }}
+                </div>
+                <div class="col-md-9" style="padding-left: 1px;">
+                    <span id="ph_codcidade">
+                        {{ Form::activeDropDownList('Cidade', 'codcidade', $filter['codcidade'], DropDownTool::getCidade($filter['estado'], 'titleCase'), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'codcidade', 'placeholder' => 'Cidade', 'onchange' => 'trigger_codcidade()']) }}
+                    </span>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <span id="ph_codbairro">
+                        {{ Form::activeDropDownList('Região', 'codbairro[]', $filter['codbairro'], DropDownTool::getBairro($filter['codcidade'], 'titleCase'), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'codbairro', 'multiple' => 'multiple', 'data-placeholder' => 'Todas as Regiões']) }}
+                        <h6 style="color: #286090">* filtre regiões ou adicione escrevendo acima</h6>
+                    </span>
+                    <input type="hidden" name="codbairro[]" />
+                </div>
+            </div>
+
         </div>
         <div class="panel-body" style="border-bottom: 1px solid #CCCCCC;">
             <div class="row">
@@ -177,17 +193,14 @@ function filtroVagas(vagas)
 function sendForm()
 {
     $('#ph_resultado').css('opacity', '0.5');
-
-    var url = '/' + $('#tipo_negocio').val();
-    if ($('#localidade_url option:selected').val() != undefined) {
-        url = url + '/' + $('#localidade_url option:selected').val();
-    } else {
-        url = url + '/sp/sao-paulo/todas-as-regioes';''
-    }
-    url = url + '/' + $('#tipo_imovel').val();
-    
-    $('#form_filter').attr('action',  url);
-    $('#form_filter').submit();
+    $.ajax('/geturl/'+$('#tipo_negocio').val()+'/'+$('#tipo_imovel').val()+'/'+$('#estado').val()+'/'+$('#codcidade').val()+'/'+$('#codbairro').val())
+        .done(function(url) {
+            $('#form_filter').attr('action', url);
+            $('#form_filter').submit();
+        })
+        .fail(function() {
+            window.alert('Ocorreu um erro ao processar a requisição');
+        });
 }
 
 $(document).ready(function() {

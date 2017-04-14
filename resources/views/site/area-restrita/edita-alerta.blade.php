@@ -2,6 +2,8 @@
 /* @var $this yii\web\View */
 use App\Http\Components\CHtml as CHtml;
 use App\Site\Localidade;
+use App\DropDownTool;
+
 $title = "Alerta por E-mail";
 $breadcrumbs = [
     'Home' => url('/'),
@@ -47,8 +49,21 @@ $breadcrumbs = [
                                 </div>
 
                                 <div class="row">
+                                    <div class="col-sm-3">
+                                        {{ Form::activeDropDownList('Estado', 'estado', $alerta->estado, DropDownTool::getEstado(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'onchange' => 'trigger_estado()', 'id'=>'estado', 'placeholder'=>'Estado']) }}
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <span id="ph_codcidade">
+                                            {{ Form::activeDropDownList('Cidade', 'codcidade', $alerta->codcidade, DropDownTool::getCidade($alerta->estado, 'titleCase'), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'codcidade', 'placeholder' => 'Cidade', 'onchange' => 'trigger_codcidade()']) }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="row">
                                     <div class="col-sm-12">
-                                        {{ Form::activeDropDownList('Localização', 'localidade_url[]', unserialize($alerta->localidade_url), \App\Site\Localidade::getDropDownData(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'multiple' => 'multiple']) }}
+                                        <span id="ph_codbairro">
+                                            {{ Form::activeDropDownList('Região', 'codbairro[]', unserialize($alerta->codbairro), DropDownTool::getBairro($alerta->codcidade, 'titleCase'), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'multiple' => 'multiple']) }}
+                                        </span>
                                     </div>
                                 </div>
 
@@ -118,3 +133,37 @@ $breadcrumbs = [
 </div>
 
 @endsection
+
+@push('scripts')
+<script language="javascript">
+    function trigger_estado()
+    {
+        $.ajax('/dropdown/cidade/'+$('#estado').val())
+            .done(function(response) {
+                $('#ph_codcidade').html(response)
+                $("#codcidade").select2({
+                    theme: "bootstrap",
+                    minimumResultsForSearch: 15
+                });
+            })
+            .fail(function() {
+                alert('Ocorreu um erro ao recuperar cidades ...');
+            });
+    }
+
+    function trigger_codcidade()
+    {
+        $.ajax('/dropdown/bairro/'+$('#codcidade').val())
+            .done(function(response) {
+                $('#ph_codbairro').html(response)
+                $("#codbairro").select2({
+                    theme: "bootstrap",
+                    minimumResultsForSearch: 15
+                });
+            })
+            .fail(function() {
+                alert('Ocorreu um erro ao recuperar bairros ...');
+            });
+    }
+
+</script>

@@ -66,20 +66,38 @@ class DropDownTool
             ->pluck('sigla', 'sigla');
     }
 
-    public static function getCidade($estado='')
+    public static function getCidade($estado='', $transform='')
     {
-        return Cidade::where(['siglaestado' => $estado, 'situacao' => 'Ativo'])
+        $result = Cidade::where(['siglaestado' => $estado, 'situacao' => 'Ativo'])
             ->select('codcidade', 'descricao')
             ->orderBy('descricao')
             ->pluck('descricao', 'codcidade');
+
+        if ($transform == 'titleCase') {
+            foreach ($result as $key => $value) {
+                $result[$key] = mb_convert_case($value, MB_CASE_TITLE);
+            }
+        }
+
+        return $result;
+
     }
 
-    public static function getBairro($codcidade=0)
+    public static function getBairro($codcidade=0, $transform='')
     {
-        return Bairro::where(['codcidade' => $codcidade, 'situacao'=>'Ativo'])
+        $result = Bairro::where(['codcidade' => $codcidade, 'situacao'=>'Ativo'])
             ->select('codbairro', 'descricao')
             ->orderBy('descricao')
             ->pluck('descricao', 'codbairro');
+
+        if ($transform == 'titleCase') {
+            foreach ($result as $key => $value) {
+                $result[$key] = mb_convert_case($value, MB_CASE_TITLE);
+            }
+        }
+
+        return $result;
+
     }
 
     public static function getLocalidade()

@@ -1,6 +1,7 @@
 <?php
 use App\Http\Components\CHtml;
 use App\Site\Localidade;
+use App\DropDownTool;
 
 $pesquisasPopulares = \Illuminate\Support\Facades\DB::table("web_pesquisas_populares")->get();
 $title = "Paulo Roberto Leardi";
@@ -26,22 +27,31 @@ $title = "Paulo Roberto Leardi";
                         <div class="panel-heading guru-home-panel-heading">Encontre aqui o seu futuro im&oacute;vel</div>
 
                         <div class="panel-body guru-home-panel-body">
-                            <form id="form_home" class="form-group" method="post" action="#">
+                            <form id="form_home" class="form-group" method="post" action="/pesquisa/digest">
                                 
                                 {{ csrf_field() }}
 
                                 <div id="ph_pesquisa" class="row">
                                     <div class="col-sm-12">
                                         <div class="row">
-                                            <div class="col-sm-3 col-xs-6 guru-home-search">
-                                                <?php echo CHtml::dropDownList('tipo_negocio', $filter['tipo_negocio'], ['venda'=>'Comprar', 'locacao'=>'Alugar'], ['class'=>'form-control guru-select', 'style' => 'width: 100%']); ?>
+                                            <div class="col-md-2 col-xs-6 guru-home-search">
+                                                <?php echo CHtml::dropDownList('tipo_negocio', $filter['tipo_negocio'], ['venda'=>'Comprar', 'locacao'=>'Alugar'], ['class'=>'form-control guru-select', 'style' => 'width: 100%', 'id' => 'tipo_negocio']); ?>
                                             </div>
-                                            <div class="col-sm-3 col-xs-6 guru-home-search">
-                                                <?php echo CHtml::dropDownList('tipo_imovel', $filter['tipo_imovel'], ['apartamento'=>'Apartamento', 'casa'=>'Casa', 'comercial'=>'Comercial', 'terreno'=>'Terreno', 'flat' => 'Flat', 'rural' => 'Rural'], ['class'=>'form-control guru-select', 'style' => 'width: 100%']); ?>
+                                            <div class="col-md-2 col-xs-6 guru-home-search">
+                                                <?php echo CHtml::dropDownList('tipo_imovel', $filter['tipo_imovel'], ['apartamento'=>'Apartamento', 'casa'=>'Casa', 'comercial'=>'Comercial', 'terreno'=>'Terreno', 'flat' => 'Flat', 'rural' => 'Rural'], ['class'=>'form-control guru-select', 'style' => 'width: 100%', 'id' => 'tipo_imovel']); ?>
                                             </div>
-                                            <div class="col-sm-5 col-xs-12 guru-home-search">
-                                                <?php //echo Html::dropDownList('localidade_id', $profile->localidade_id, Localidade::getList(), ['class'=>'form-control']); ?>
-                                                <?php echo Localidade::getDropDown($filter['localidade_url'][0]); ?>
+                                            <div class="col-md-1 guru-home-search">
+                                                {{ Form::activeDropDownList('', 'estado', '', DropDownTool::getEstado(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'onchange' => 'trigger_estado()', 'id'=>'estado', 'placeholder'=>'Estado']) }}
+                                            </div>
+                                            <div class="col-md-3 guru-home-search">
+                                                <span id="ph_codcidade">
+                                                    {{ Form::activeDropDownList('', 'codcidade', 0, DropDownTool::getCidade(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'codcidade', 'placeholder' => 'Cidade', 'onchange' => 'trigger_codcidade()']) }}
+                                                </span>
+                                            </div>
+                                            <div class="col-md-3 guru-home-search">
+                                                <span id="ph_codbairro">
+                                                    {{ Form::activeDropDownList('', 'codbairro[]', 0, DropDownTool::getBairro(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'codbairro', 'placeholder' => 'Região']) }}
+                                                </span>
                                             </div>
                                             <div class="col-sm-1 col-xs-12 guru-home-search">
                                                 <button id="bot_pesquisa" type="button" class="btn btn-warning guru-home-button" onclick="send_form()"><span class="fa fa-search"></span></button>
@@ -220,19 +230,29 @@ $title = "Paulo Roberto Leardi";
 
 function send_form()
 {
-    
-    if ($('#localidade_url').val() == '') {
-        window.alert('Favor selecionar uma localidade ...');
+    if ($('#estado').val() == '' || $('#codcidade').val() == '') {
+        window.alert('Favor selecionar um estado e cidade ...');
         return false;
     }
+
+    $.ajax('/geturl/'+$('#tipo_negocio').val()+'/'+$('#tipo_imovel').val()+'/'+$('#estado').val()+'/'+$('#codcidade').val()+'/'+$('#codbairro').val())
+        .done(function(url) {
+            $('#form_home').attr('action', url);
+            $('#form_home').submit();
+        })
+        .fail(function() {
+            window.alert('Ocorreu um erro ao processar a requisição');
+        });
     
-    var url = '/' + $('#tipo_negocio').val();
-    url = url + '/' + $('#localidade_url').val();
-    url = url + '/' + $('#tipo_imovel').val();
-    
-    $('#form_home').attr('action',  url);
-    $('#form_home').submit();
-    
+////    var url = '/' + $('#tipo_negocio').val();
+////    url = url + '/' + $('#localidade_url').val();
+////    url = url + '/' + $('#tipo_imovel').val();
+//
+//    var url = '/venda/sp/sao-paulo/todas-as-regioes/apartamento';
+//
+//    $('#form_home').attr('action',  url);
+//    $('#form_home').submit();
+//
 }
 
 function send_form_referencia()
@@ -258,6 +278,7 @@ function trigger_pesquisa()
 }
 
 $(document).ready(function() {
+    $('div.form-group').removeClass('form-group');
     window.setInterval(function() {
         var isMiami = $(".miami").is(":visible");
         if (isMiami) {
@@ -268,7 +289,40 @@ $(document).ready(function() {
             $('.miami').show();
         }
     }, 15000)
-})
+});
+
+function trigger_estado()
+{
+    $.ajax('/dropdown/cidade/'+$('#estado').val())
+        .done(function(response) {
+            $('#ph_codcidade').html(response)
+            $("#codcidade").select2({
+                theme: "bootstrap",
+                minimumResultsForSearch: 15
+            });
+            $('div.form-group').removeClass('form-group');
+        })
+        .fail(function() {
+            alert('Ocorreu um erro ao recuperar cidades ...');
+        });
+}
+
+function trigger_codcidade()
+{
+    $.ajax('/dropdown/bairro/'+$('#codcidade').val())
+        .done(function(response) {
+            $('#ph_codbairro').html(response)
+            $("#codbairro").select2({
+                theme: "bootstrap",
+                minimumResultsForSearch: 15
+            });
+            $('div.form-group').removeClass('form-group');
+        })
+        .fail(function() {
+            alert('Ocorreu um erro ao recuperar bairros ...');
+        });
+}
+
 
 </script>
 @endpush  

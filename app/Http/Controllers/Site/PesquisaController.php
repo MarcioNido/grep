@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Components\CHtml;
+use App\Site\Bairro;
+use App\Site\Cidade;
 use App\Site\Profile;
 use App\Tracker;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -42,6 +44,31 @@ class PesquisaController extends Controller
     protected $_order_ad;
 
     /**
+     * Receives a post request, saves the filter and redirects to venda or locacao ...
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function digest(Request $request)
+    {
+        $profile = Profile::getInstance();
+        $filter = $profile->getFilter();
+        $filter = array_merge($filter, $request->all());
+        if (!isset($filter['codcidade']) || $filter['codcidade'] == '') {
+            // acesso direto via url?
+            $localidade = Localidade::where('localidade_url', $request->estado.'/'.$request->cidade.'/'.$request->regiao)->first();
+            if (! $localidade) {
+                abort(404);
+            }
+            $filter['estado'] = $localidade->estado;
+            $filter['codcidade'] = $localidade->codcidade;
+            $filter['codbairro'] = array($localidade->codbairrorm);
+        }
+        $profile->setProfile($filter);
+        $searchResult = $this->processSearchRequest($filter);
+        return view('site.pesquisa.resultado', ['searchResult' => $searchResult]);
+    }
+
+    /**
      * Show the search results - properties for sale
      *
      * @param Request $request
@@ -70,13 +97,10 @@ class PesquisaController extends Controller
         return redirect('imovel/'.$request->imovel_id);
     }
 
-    protected function processSearchRequest(Request $request)
+    protected function processSearchRequest($filter)
     {
         // check the type of request (post, get, pagination, reference)
         // $requestType = $this->getRequestType($request);
-
-        $profile = Profile::getInstance();
-        $filter = $profile->getFilter();
 
         $unidade = session('unidade');
         if ($unidade != null) {
@@ -86,18 +110,23 @@ class PesquisaController extends Controller
         if (! isset($filter['subtipo_imovel'])) {
             $filter['subtipo_imovel'] = "";
         }
-        $filter = array_merge($filter, $request->all());
-        if ($request->isMethod('get')) {
-            $filter['localidade_url'][0] = $request->estado."/".$request->cidade."/".$request->regiao;
-            if (strpos($request->getUri(), '/venda/') !== false) {
-                $filter['tipo_negocio'] = 'venda';
-            } else {
-                $filter['tipo_negocio'] = 'locacao';
-            }
-            $filter['tipo_imovel'] = $this->sanitizeTipoImovel($request->tipo_imovel);
-        }
-        $filter = $this->sanitizeLocalidade($filter);
-        $profile->setProfile($filter);
+//        if ($request->isMethod('get') && ! isset($filter['codbairro'])) {
+//            $filter['localidade_url'][0] = $request->estado."/".$request->cidade."/".$request->regiao;
+//            $localidade = Localidade::where('localidade_url', $filter['localidade_url'][0])->first();
+//            if ($localidade) {
+//                $filter['estado'] = $localidade->estado;
+//                $filter['codcidade'] = $localidade->codcidade;
+//                $filter['codbairro'] = $localidade->codbairrorm;
+//            }
+//            if (strpos($request->getUri(), '/venda/') !== false) {
+//                $filter['tipo_negocio'] = 'venda';
+//            } else {
+//                $filter['tipo_negocio'] = 'locacao';
+//            }
+//            $filter['tipo_imovel'] = $this->sanitizeTipoImovel($request->tipo_imovel);
+//        }
+//        $filter = $this->sanitizeLocalidade($filter);
+//        $profile->setProfile($filter);
 
         $qb = $this->getQueryBuilder($filter);
         $imoveis = $qb->paginate(10);
@@ -117,18 +146,33 @@ class PesquisaController extends Controller
      */
     protected function getQueryBuilder($filter)
     {
-        $qb = Imovel::where(function($query) use ($filter) {
-            foreach($filter['localidade_url'] as $localidade_url) {
-                $localidade = Localidade::where('localidade_url', $localidade_url)->first();
-                if ($localidade) {
-                    if ($localidade['regiao'] != null) {
-                        $query->orWhere(['estado' => $localidade['estado'], 'cidade' => $localidade['cidade'], 'regiao_mercadologica' => $localidade['regiao']]);
-                    } else {
-                        $query->orWhere(['estado' => $localidade['estado'], 'cidade' => $localidade['cidade']]);
+        if (! isset($filter['codcidade'])) {
+            $qb = Imovel::where(function($query) use ($filter) {
+                foreach($filter['localidade_url'] as $localidade_url) {
+                    $localidade = Localidade::where('localidade_url', $localidade_url)->first();
+                    if ($localidade) {
+                        if ($localidade['regiao'] != null) {
+                            $query->orWhere(['estado' => $localidade['estado'], 'cidade' => $localidade['cidade'], 'regiao_mercadologica' => $localidade['regiao']]);
+                        } else {
+                            $query->orWhere(['estado' => $localidade['estado'], 'cidade' => $localidade['cidade']]);
+                        }
                     }
                 }
+            });
+        } else {
+            $qb = Imovel::where(['codcidade' => $filter['codcidade']]);
+            if (isset($filter['codbairro']) && count($filter['codbairro']) > 0 && $filter['codbairro'][0] != "") {
+                if (is_array($filter['codbairro'])) {
+                    $qb->where(function($query) use ($filter) {
+                        foreach($filter['codbairro'] as $codbairro) {
+                            $query->orWhere(['codbairrorm' => $codbairro]);
+                        }
+                    });
+                } else {
+                    $qb->where(['codbairrorm' => $filter['codbairro']]);
+                }
             }
-        });
+        }
 
         $qb->where(['active' => 1]);
 
@@ -252,45 +296,78 @@ class PesquisaController extends Controller
         $filter_desc[] = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE);
 
         $first = true;
-        foreach($filter['localidade_url'] as $localidade_url) {
-            $localidade = Localidade::where('localidade_url', $localidade_url)->first();
-            if ($localidade) {
-                if ($first) {
-                    $subtitle .= ' em '. ($localidade->regiao != null ? mb_convert_case($localidade->regiao, MB_CASE_TITLE). ', ' : '')
-                        . mb_convert_case($localidade->cidade, MB_CASE_TITLE) . ', ' . $localidade->estado;
-                    $title .= ' em '. ($localidade->regiao != null ? mb_convert_case($localidade->regiao, MB_CASE_TITLE). ', ' : '')
-                        . mb_convert_case($localidade->cidade, MB_CASE_TITLE) . ', ' . $localidade->estado;
+        if (isset($filter['codbairro']) && count($filter['codbairro']) > 0 && $filter['codbairro'][0] != "") {
 
-                    $breadcrumbs = [
-                        'tipo_negocio' => $filter['tipo_negocio'] == 'venda' ? 'Venda' : 'Locação',
-                        'estado' => $localidade->estado,
-                        'cidade' => $localidade->cidade,
-                        'regiao' => $localidade->regiao != null ? mb_convert_case($localidade->regiao, MB_CASE_TITLE) : 'Todas as Regiões',
-                        'tipo_imovel' => title_case($filter['tipo_imovel']),
-                    ];
-                    $first = false;
+            foreach($filter['codbairro'] as $codbairro) {
+                $localidade = Localidade::where('codbairrorm', $codbairro)->first();
+                if ($localidade) {
+                    if ($first) {
+                        $subtitle .= ' em '. ($localidade->regiao != null ? mb_convert_case($localidade->regiao, MB_CASE_TITLE). ', ' : '')
+                            . mb_convert_case($localidade->cidade, MB_CASE_TITLE) . ', ' . $localidade->estado;
+                        $title .= ' em '. ($localidade->regiao != null ? mb_convert_case($localidade->regiao, MB_CASE_TITLE). ', ' : '')
+                            . mb_convert_case($localidade->cidade, MB_CASE_TITLE) . ', ' . $localidade->estado;
+
+                        $breadcrumbs = [
+                            'tipo_negocio' => $filter['tipo_negocio'] == 'venda' ? 'Venda' : 'Locação',
+                            'estado' => $localidade->estado,
+                            'cidade' => $localidade->cidade,
+                            'regiao' => $localidade->regiao != null ? mb_convert_case($localidade->regiao, MB_CASE_TITLE) : 'Todas as Regiões',
+                            'tipo_imovel' => title_case($filter['tipo_imovel']),
+                        ];
+                        $first = false;
+                    }
+                    if ($localidade->regiao != null) {
+                        $filter_desc[] = $localidade->regiao.", ".$localidade->cidade.", ".$localidade->estado;
+                    } else {
+                        $filter_desc[] = $localidade->cidade.", ".$localidade->estado;
+                    }
                 }
+            }
+        } else {
+            $localidade = Localidade::where('codcidade', $filter['codcidade'])->whereNull('codbairrorm')->first();
+            if ($localidade) {
+                $subtitle .= ' em '. ($localidade->regiao != null ? mb_convert_case($localidade->regiao, MB_CASE_TITLE). ', ' : '')
+                    . mb_convert_case($localidade->cidade, MB_CASE_TITLE) . ', ' . $localidade->estado;
+                $title .= ' em '. ($localidade->regiao != null ? mb_convert_case($localidade->regiao, MB_CASE_TITLE). ', ' : '')
+                    . mb_convert_case($localidade->cidade, MB_CASE_TITLE) . ', ' . $localidade->estado;
+
+                $breadcrumbs = [
+                    'tipo_negocio' => $filter['tipo_negocio'] == 'venda' ? 'Venda' : 'Locação',
+                    'estado' => $localidade->estado,
+                    'cidade' => $localidade->cidade,
+                    'regiao' => $localidade->regiao != null ? mb_convert_case($localidade->regiao, MB_CASE_TITLE) : 'Todas as Regiões',
+                    'tipo_imovel' => title_case($filter['tipo_imovel']),
+                ];
                 if ($localidade->regiao != null) {
                     $filter_desc[] = $localidade->regiao.", ".$localidade->cidade.", ".$localidade->estado;
                 } else {
                     $filter_desc[] = $localidade->cidade.", ".$localidade->estado;
                 }
             }
+
         }
 
-        if (count($filter['localidade_url']) > 2) {
-            $subtitle .= ' e mais ' . (count($filter['localidade_url']) - 1) . ' Regiões';
-        } elseif (count($filter['localidade_url']) > 1) {
-            $subtitle .= ' e mais ' . (count($filter['localidade_url']) - 1) . ' Região';
-        }
+//        $breadcrumbs = [
+//            'tipo_negocio' => $filter['tipo_negocio'] == 'venda' ? 'Venda' : 'Locação',
+//            'estado' => 'SP',
+//            'cidade' => 'São Paulo',
+//            'regiao' => 'Todas as Regiões',
+//            'tipo_imovel' => title_case($filter['tipo_imovel']),
+//        ];
+
+//        if (count($filter['localidade_url']) > 2) {
+//            $subtitle .= ' e mais ' . (count($filter['localidade_url']) - 1) . ' Regiões';
+//        } elseif (count($filter['localidade_url']) > 1) {
+//            $subtitle .= ' e mais ' . (count($filter['localidade_url']) - 1) . ' Região';
+//        }
 
         $title .= " - Paulo Roberto Leardi";
 
-        if ($filter['dormitorios'] != '') {
+        if (isset($filter['dormitorios']) && $filter['dormitorios'] != '') {
             $filter_desc[] = $filter['dormitorios']." dormitório(s)";
         }
 
-        if ($filter['vagas'] != '') {
+        if (isset($filter['vagas']) && $filter['vagas'] != '') {
             $filter_desc[] = $filter['vagas']." vaga(s)";
         }
 
@@ -458,7 +535,9 @@ class PesquisaController extends Controller
 
         $notificacao = new NotificacaoImovel();
         $notificacao->user_id       = Auth::id();
-        $notificacao->localidade_url = serialize($filter['localidade_url']);
+        $notificacao->estado        = $filter['estado'];
+        $notificacao->codcidade     = $filter['codcidade'];
+        $notificacao->codbairro     = serialize($filter['codbairro']);
         $notificacao->tipo_negocio  = $filter['tipo_negocio'];
         $notificacao->tipo_imovel   = $filter['tipo_imovel'];
         $notificacao->valor_minimo  = CHtml::removeMask($filter['valor_minimo']);
@@ -475,21 +554,21 @@ class PesquisaController extends Controller
 
     protected function sanitizeLocalidade($filter)
     {
-        if ($filter['localidade_url'] && is_array($filter['localidade_url'])) {
-            foreach($filter['localidade_url'] as $key => $localidade) {
-                $parts = explode('/', $localidade);
-                if (isset($parts[2]) && $parts[2] == 'todas-as-regioes') {
-                    // check if there is another localidade with a specific neighborhood ... if so, remove the general one
-                    foreach($filter['localidade_url'] as $dupli) {
-                        $parts_dupli = explode('/', $dupli);
-                        if ($parts[0] == $parts_dupli[0] && $parts[1] == $parts_dupli[1] && $parts[2] != $parts_dupli[2]) {
-                            unset($filter['localidade_url'][$key]);
-                        }
-                    }
-                }
-            }
-        }
-        $filter['localidade_url'] = array_values($filter['localidade_url']);
+//        if ($filter['localidade_url'] && is_array($filter['localidade_url'])) {
+//            foreach($filter['localidade_url'] as $key => $localidade) {
+//                $parts = explode('/', $localidade);
+//                if (isset($parts[2]) && $parts[2] == 'todas-as-regioes') {
+//                    // check if there is another localidade with a specific neighborhood ... if so, remove the general one
+//                    foreach($filter['localidade_url'] as $dupli) {
+//                        $parts_dupli = explode('/', $dupli);
+//                        if ($parts[0] == $parts_dupli[0] && $parts[1] == $parts_dupli[1] && $parts[2] != $parts_dupli[2]) {
+//                            unset($filter['localidade_url'][$key]);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        $filter['localidade_url'] = array_values($filter['localidade_url']);
         return $filter;
     }
 
@@ -514,6 +593,18 @@ class PesquisaController extends Controller
             $tipo_imovel = 'rural';
         }
         return $tipo_imovel;
+    }
+
+    public function getUrl(Request $request)
+    {
+        $qb = Localidade::where('estado', $request->estado);
+        $qb->where('codcidade', $request->codcidade);
+        if ($request->codbairro) {
+            $qb->where('codbairrorm', $request->codbairro);
+        }
+        $localidade = $qb->first();
+
+        echo '/'.$request->tipo_negocio.'/'.$localidade->localidade_url.'/'.$request->tipo_imovel;
     }
 
 }

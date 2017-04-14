@@ -31,22 +31,22 @@ class ImovelUtil
             $title .= mb_convert_case($vars['tipo_imovel'], MB_CASE_TITLE)." ";
         }
 
-        // localizacao
-        if (isset($vars['localidade_url'])) {
-            $localidades = unserialize($vars['localidade_url']);
-            if (!empty($localidades) && is_array($localidades)) {
-                $title .= " em ";
-                foreach($localidades as $localidade) {
-                    $rowLocalidade = Localidade::where('localidade_url', $localidade)->first();
-                    if ($rowLocalidade != null) {
-                        if ($rowLocalidade->regiao != null) {
-                            $title .= $rowLocalidade->regiao . ' - ' . $rowLocalidade->cidade . ' - ' . $rowLocalidade->estado.", ";
-                        } else {
-                            $title .= $rowLocalidade->cidade . ' - ' . $rowLocalidade->estado.", ";
-                        }
-                    }
+        if (isset($vars['codcidade'])) {
+            $cidade = Cidade::where('codcidade', $vars['codcidade'])->first();
+        } else {
+            $cidade = '';
+        }
+
+        $codbairro = unserialize($vars['codbairro']);
+        if (isset($codbairro) && $codbairro != null && count($codbairro) > 0) {
+            foreach($codbairro as $bairro) {
+                if ($bairro != "") {
+                    $rowBairro = Bairro::where('codbairro', $bairro)->first();
+                    $title .= mb_convert_case($rowBairro->descricao . ' - ' . $cidade->descricao, MB_CASE_TITLE) . ' - ' . $vars['estado'] . ', ';
                 }
             }
+        } else {
+            $title .= $cidade->descricao. ' - '.$vars['estado']. ', ';
         }
 
         if ($title != '') $title = substr($title, 0, -2);

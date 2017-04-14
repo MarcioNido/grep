@@ -36,14 +36,14 @@ class Profile {
      */
     public function getFilter()
     {
-        $filter = $this->getProfileFromSession();
-        if (! $filter) {
-            $filter = $this->getProfileFromCookies();
+        $this->filter = $this->getProfileFromSession();
+        if (! $this->filter) {
+            $this->filter = $this->getProfileFromCookies();
         }
-        if (! $filter) {
-            $filter = $this->createProfile();
+        if (! $this->filter) {
+            $this->filter = $this->createProfile();
         }
-        return $filter;
+        return $this->filter;
     }
 
     protected function getProfileFromSession()
@@ -58,12 +58,13 @@ class Profile {
 
     protected function createProfile()
     {
-        $localidade_url = $this->getLocalidadeUrl();
-        $filter = [
+        $this->filter = [
             'tipo_negocio' => 'venda',
             'tipo_imovel' => 'apartamento',
             'subtipo_imovel' => '',
-            'localidade_url' => [$localidade_url],
+            'estado' => '',
+            'codcidade' => '',
+            'codbairro' => [],
             'valor_minimo' => '',
             'valor_maximo' => '',
             'dormitorios' => '',
@@ -73,8 +74,8 @@ class Profile {
             'order' => 'Mais Recentes',
         ];
 
-        $this->setProfile($filter);
-        return $filter;
+        $this->setProfile($this->filter);
+        return $this->filter;
     }
 
     public function setProfile($filter)
@@ -103,6 +104,19 @@ class Profile {
         }
 
         return $localidade_url;
+    }
+
+    public function getUrl()
+    {
+        $cidade = Cidade::where(['codcidade' => $request->codcidade])->first();
+        if ($request->codbairro) {
+            $regiao = Bairro::where(['codbairro' => $request->codbairro])->first();
+            $url = Localidade::where(['estado' => $request->estado, 'cidade'=>$cidade->descricao, 'regiao' => $regiao->descricao])->first();
+        } else {
+            $url = Localidade::where(['estado' => $request->estado, 'cidade'=>$cidade->descricao])->whereNull('regiao')->first();
+        }
+
+        return $request->tipo_negocio.'/'.$url->localidade_url.'/'.$request->tipo_imovel;
     }
     
 }
