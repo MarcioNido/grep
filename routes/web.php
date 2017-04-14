@@ -20,11 +20,11 @@ Auth::routes();
 // redirect rules
 Route::get('{agencia_sigla}/imoveis', function($agencia_sigla) {
     $agencia = \App\Site\Agencia::where('agencia_sigla', $agencia_sigla)->first();
-    return redirect('http://'.$agencia->subdomain.'.grep.dev');
+    return redirect('http://'.$agencia->subdomain.'.leardi.com.br');
 });
 
 // Site Routes
-Route::group(['namespace' => 'Site', 'domain' => '{unidade}.grep.dev'], function() {
+Route::group(['namespace' => 'Site', 'domain' => '{unidade}.leardi.com.br'], function() {
     Route::get('/', 'HomeController@index');
     Route::get('/home', 'HomeController@index');
 
@@ -66,7 +66,7 @@ Route::group(['namespace' => 'Site', 'domain' => '{unidade}.grep.dev'], function
 });
 
 // area restrita
-Route::group(['namespace' => 'Site', 'middleware' => 'auth', 'domain' => '{unidade}.grep.dev'], function() {
+Route::group(['namespace' => 'Site', 'middleware' => 'auth', 'domain' => '{unidade}.leardi.com.br'], function() {
     Route::get('/area-restrita/index', 'AreaRestritaController@index');
     Route::get('/area-restrita/edita-alerta/{id}', 'AreaRestritaController@editaAlerta');
     Route::post('/area-restrita/edita-alerta/{id}', 'AreaRestritaController@storeAlerta');
