@@ -19,8 +19,16 @@ $title = "Paulo Roberto Leardi";
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h3>Obrigado pela sua participação.</h3>
+                <h1>Obrigado pela sua participação.</h1>
             </div>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script language="javascript">
+    window.setTimeout(function() {
+        location.href="http://www.leardi.com.br";
+    }, 3000);
+</script>
+@endpush

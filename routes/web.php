@@ -33,7 +33,6 @@ Route::group(['namespace' => 'Site', 'domain' => '{unidade}.leardi.com.br'], fun
     // lista de imoveis
     Route::post('/pesquisa/digest', 'PesquisaController@digest');
     Route::any('/{tipo_negocio}/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@digest');
-//    Route::any('/locacao/{estado}/{cidade}/{regiao}/{tipo_imovel}', 'PesquisaController@locacao');
     Route::any('/pesquisa/referencia', 'PesquisaController@referencia');
 
     // detalhes do imóvel
@@ -55,6 +54,9 @@ Route::group(['namespace' => 'Site', 'domain' => '{unidade}.leardi.com.br'], fun
     Route::get('/seja-um-franqueado', 'FranqueadoController@index');
     Route::post('/seja-um-franqueado/contato', 'FranqueadoController@storeContato');
 
+    Route::any('/pesquisa/atendimento3dias/evt_id/{evt_id}/evt_code/{evt_code}/resposta/{resposta}', 'InteracaoController@atendimento3Dias');
+    Route::get('/pesquisa/concluido', 'InteracaoController@obrigado');
+    Route::get('/image/logo/evt_id/{evt_id}/evt_code/{evt_code}', 'InteracaoController@logo');
     Route::get('/pesquisa/{expression1?}/{expression2?}/{expression3?}/{expression4?}/{expression5?}/{expression6?}/{expression7?}/{expression8?}/{expression9?}/{expression10?}', 'InteracaoController@index');
 
     // dropdowns

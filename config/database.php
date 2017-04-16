@@ -83,7 +83,7 @@ return [
 
         'crm' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST_CRM', '10.1.97.119'),
+            'host' => env('DB_HOST_CRM', '200.155.6.231'),
             'port' => '3306',
             'database' => env('DB_DATABASE_CRM','leardi_crm'),
             'username' => env('DB_USERNAME_CRM','leardi_user'),

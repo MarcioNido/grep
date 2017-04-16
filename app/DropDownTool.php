@@ -117,4 +117,11 @@ class DropDownTool
 
     }
 
+    public static function getSimNaoBoolean()
+    {
+        return [
+            0 => 'Não',
+            1 => 'Sim',
+        ];
+    }
 }
