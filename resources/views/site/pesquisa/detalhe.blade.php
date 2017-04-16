@@ -37,14 +37,14 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
     </div>
 
 
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.8";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.8";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
 
 <div style="background-color: #E1ECF8; width: 100%;">
     <div class="container" style="padding-top: 20px;">
@@ -148,7 +148,10 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
                                             <div class="col-xs-3 col-sm-3 col-md-2 col-lg-1" style="text-align: right; margin-top: -5px;">
                                                 
                                                 <div class="btn-group-vertical" role="group">
+                                                    <div class="fb-share-button" data-href="http://www.leardi.com.br/imovel/{{ $imovel->id }}" data-layout="icon" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fwww.leardi.com.br%2Fimovel%2F{{ $imovel->id }}&amp;src=sdkpreparse"><span class="fa fa-facebook-square"></span></a></div>
+                                                    <!--
                                                     <a type="button" data-mobile-iframe="true" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ url('imovel/'.$imovel->id) }}&src=sdkpreparse&display=popup" data-href="{{ url('imovel/'.$imovel->id) }}" class="btn btn-primary fb-share-button fb-xfbml-parse-ignore" style="font-weight: 300; font-size: 18px;"><span class="fa fa-facebook-square"></span></a>
+                                                    -->
                                                     @if ( CHtml::isMobile() )
                                                         <a href="whatsapp://send?text={{ url('imovel/'.$imovel->id) }}/" data-action="share/whatsapp/share" type="button" class="btn btn-success" style="font-weight: 300; font-size: 18px;"><span class="fa fa-whatsapp"> </span></a>
                                                     @endif
