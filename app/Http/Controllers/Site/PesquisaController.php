@@ -296,6 +296,8 @@ class PesquisaController extends Controller
         $filter_desc[] = mb_convert_case($filter['tipo_imovel'], MB_CASE_TITLE);
 
         $first = true;
+        $breadcrumbs = [];
+        
         if (isset($filter['codbairro']) && count($filter['codbairro']) > 0 && $filter['codbairro'][0] != "") {
 
             foreach($filter['codbairro'] as $codbairro) {
