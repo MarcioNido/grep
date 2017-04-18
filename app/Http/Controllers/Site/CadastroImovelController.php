@@ -163,23 +163,28 @@ class CadastroImovelController extends Controller
     }
 
 
-    public function tipoimovel($codtiposimplificado=0)
+    public function tipoimovel(Request $request)
     {
+        $codtiposimplificado = $request->codtiposimplificado;
         return FormFacade::activeDropDownList('Subtipo de Imóvel', 'codtipoimovel', 0, DropDownTool::getTipoImovel($codtiposimplificado), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'codtipoimovel', 'placeholder' => 'Selecione ...']);
     }
 
-    public function cidade($estado='')
+    public function cidade(Request $request)
     {
+        $estado = $request->estado;
         return FormFacade::activeDropDownList('Cidade', 'codcidade', 0, DropDownTool::getCidade($estado), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'codcidade', 'placeholder' => '...', 'onchange' => 'trigger_codcidade()']);
     }
 
-    public function bairro($codcidade=0)
+    public function bairro(Request $request)
     {
+        $codcidade = $request->codcidade;
         return FormFacade::activeDropDownList('Bairro', 'codbairro', 0, DropDownTool::getBairro($codcidade), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'codbairro', 'placeholder' => '...']);
     }
 
-    public function cep($cep='')
+    public function cep(Request $request)
     {
+        $cep = $request->cep;
+
         $endereco = Cep::where(['cep' => $cep])->first();
         $response = [
             'tipo_logradouro' => $endereco->codtipologradouro,

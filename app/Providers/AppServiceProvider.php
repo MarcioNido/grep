@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Bdi\Observers\CadastroImovelObserver;
 use App\Bdi\Observers\FranqueadoObserver;
+use App\Bdi\Observers\TrabalheConoscoObserver;
 use App\Site\CadImovel;
 use App\Site\ContatoFranqueado;
+use App\Site\TrabalheConosco;
 use Collective\Html\FormFacade;
 use Illuminate\Support\ServiceProvider;
 use App\Bdi\Observers\ContatoObserver;
@@ -32,6 +34,9 @@ class AppServiceProvider extends ServiceProvider
 
         // observer for the franqueado model
         ContatoFranqueado::observe(FranqueadoObserver::class);
+
+        // observer for the trabalhe conosco model
+        TrabalheConosco::observe(TrabalheConoscoObserver::class);
 
         // form components
         FormFacade::component('activeText', 'components.form.activeText', ['label', 'name', 'value'=>null, 'attributes'=>[]]);

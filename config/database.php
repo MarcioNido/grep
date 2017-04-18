@@ -69,7 +69,7 @@ return [
 
         'bdi' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST_BDI', '10.1.97.114'),
+            'host' => env('DB_HOST_BDI', '200.155.6.226'), // 10.1.97.114
             'port' => '3306',
             'database' => env('DB_DATABASE_BDI','NI4_Leardi'),
             'username' => env('DB_USERNAME_BDI','bdiadmin3'),
@@ -83,7 +83,7 @@ return [
 
         'crm' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST_CRM', '200.155.6.231'),
+            'host' => env('DB_HOST_CRM', '200.155.6.231'), // 10.1.97.119
             'port' => '3306',
             'database' => env('DB_DATABASE_CRM','leardi_crm'),
             'username' => env('DB_USERNAME_CRM','leardi_user'),
