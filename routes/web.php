@@ -63,6 +63,8 @@ Route::group(['namespace' => 'Site', 'domain' => '{unidade}.leardi.com.br'], fun
     Route::get('/dropdown/cidade/{estado}', 'DropDownController@cidade');
     Route::get('/dropdown/bairro/{codcidade}', 'DropDownController@bairro');
 
+    Route::get('/admin/{action}', 'HomeController@admin');
+
 //'<agencia_sigla:([0-9]+)>/imoveis'=>'unidade/imoveis',
 
 });

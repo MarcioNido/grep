@@ -297,7 +297,7 @@ class PesquisaController extends Controller
 
         $first = true;
         $breadcrumbs = [];
-        
+
         if (isset($filter['codbairro']) && count($filter['codbairro']) > 0 && $filter['codbairro'][0] != "") {
 
             foreach($filter['codbairro'] as $codbairro) {

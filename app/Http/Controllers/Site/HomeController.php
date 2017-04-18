@@ -22,4 +22,12 @@ class HomeController extends Controller
         return view('site.home', ['filter'=>$filter]);
     }
 
+    public function admin(Request $request)
+    {
+        if ($request->action == "logs") {
+            shell_exec('chmod -R 777 /var/www/grep/storage/logs');
+            return "OK";
+        }
+    }
+
 }
