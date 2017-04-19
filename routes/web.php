@@ -18,10 +18,9 @@
 Auth::routes();
 
 // redirect rules
-Route::get('{agencia_sigla}/imoveis', function($agencia_sigla) {
-    $agencia = \App\Site\Agencia::where('agencia_sigla', $agencia_sigla)->first();
-    return redirect('http://'.$agencia->subdomain.'.leardi.com.br');
-});
+Route::get('{agencia_sigla}', function($agencia_sigla) {
+    return redirect('http://'.$agencia_sigla.'.leardi.com.br');
+})->where('agencia_sigla', '[0-9]+');
 
 // Site Routes
 Route::group(['namespace' => 'Site', 'domain' => '{unidade}.leardi.com.br'], function() {
