@@ -36,7 +36,7 @@ class Post extends Model
 
     public static function getDestaques()
     {
-        return self::orderBy('id', 'desc')->limit(3)->get();
+        return self::where('ativo', 1)->orderBy('id', 'desc')->limit(3)->get();
     }
 
 

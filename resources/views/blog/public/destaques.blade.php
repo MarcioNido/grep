@@ -20,7 +20,9 @@ $posts = \App\Blog\Post::getDestaques();
 
             <div class="thumbnail">
                 <a href="/blogleardi/{{$post->key}}">
-                    <img class="img-responsive" style="width: 100%" src="/wp-content/uploads/{{ $post->imagem->arquivo }}" />
+                    @if ($post->imagem != null)
+                        <img class="img-responsive" style="width: 100%" src="/wp-content/uploads/{{ $post->imagem->arquivo }}" />
+                    @endif
                 </a>
                 <div class="caption">
                     <h3><a href="/blogleardi/{{$post->key}}">{{ $post->titulo }}</a></h3>

@@ -76,6 +76,9 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="{{ url('/area-restrita/index') }}">Minha Leardi</a></li>
+                                    @if( Auth::user()->email == 'blog@leardi.com.br')
+                                        <li><a href="{{ url('/blogadmin') }}">Blog Admin</a></li>
+                                    @endif
                                     <li>
                                         <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();

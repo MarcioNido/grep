@@ -1,5 +1,6 @@
 <?php
 
+use \App\Http\Middleware\IsBlogAdmin;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -97,3 +98,10 @@ Route::group(['namespace' => 'Blog'], function() {
     Route::get('/blogleardi/index.php/{key}', 'BlogController@viewPost');
     Route::get('/blogleardi/{key}', 'BlogController@viewPost');
 });
+
+Route::group(['namespace' => 'Blog', 'middleware' => ['auth', IsBlogAdmin::class]], function() {
+    Route::get('/blogadmin', 'BlogAdminController@index');
+    Route::any('/blogadmin/inclui', 'BlogAdminController@inclui');
+    Route::any('/blogadmin/edita/{id}', 'BlogAdminController@edita');
+});
+

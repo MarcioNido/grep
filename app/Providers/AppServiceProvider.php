@@ -45,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
         FormFacade::component('activeDropDownList', 'components.form.activeDropDownList', ['label', 'name', 'value'=>null, 'data'=>[], 'attributes'=>[]]);
         FormFacade::component('activeRadio', 'components.form.activeRadio', ['label', 'name', 'value', 'checked_value'=>null, 'attributes'=>[]]);
         FormFacade::component('activeCheckBox', 'components.form.activeCheckBox', ['label', 'name', 'checked'=>0, 'attributes'=>[]]);
+        FormFacade::component('activeFile', 'components.form.activeFile', ['label', 'name', 'value'=>null, 'attributes'=>[]]);
         FormFacade::component('errors', 'components.form.errors', []);
         FormFacade::component('flash_message', 'components.form.flashMessage', []);
         FormFacade::component('breadcrumbs', 'components.form.breadcrumbs', ['breadcrumbs']);
