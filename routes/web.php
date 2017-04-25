@@ -55,6 +55,7 @@ Route::group(['namespace' => 'Site', 'domain' => '{unidade}.leardi.com.br'], fun
     Route::post('/seja-um-franqueado/contato', 'FranqueadoController@storeContato');
 
     Route::any('/pesquisa/atendimento3dias/evt_id/{evt_id}/evt_code/{evt_code}/resposta/{resposta}', 'InteracaoController@atendimento3Dias');
+    Route::any('/pesquisa/atendimento10dias/evt_id/{evt_id}/evt_code/{evt_code}/resposta/{resposta}', 'InteracaoController@atendimento10Dias');
     Route::get('/pesquisa/concluido', 'InteracaoController@obrigado');
     Route::get('/image/logo/evt_id/{evt_id}/evt_code/{evt_code}', 'InteracaoController@logo');
     Route::get('/pesquisa/{expression1?}/{expression2?}/{expression3?}/{expression4?}/{expression5?}/{expression6?}/{expression7?}/{expression8?}/{expression9?}/{expression10?}', 'InteracaoController@index');
