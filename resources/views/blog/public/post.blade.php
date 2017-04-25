@@ -1,11 +1,11 @@
 <?php
 use App\Http\Components\CHtml;
 $title = $post->titulo;
-if ($post->imagem) {
+//if ($post->imagem) {
     $arquivo = '/wp-content/uploads/'. $post->imagem->arquivo;
-} else {
-    $arquivo = "";
-}
+//} else {
+//    $arquivo = "";
+//}
 ?>
 
 @extends('layouts.app')
