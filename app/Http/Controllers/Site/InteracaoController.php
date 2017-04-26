@@ -230,6 +230,67 @@ class InteracaoController extends Controller
 
 
 
+    public function atendimentoEncerrado(Request $request)
+    {
+        //$evt_id=0, $evt_code='', $resposta=''
+        $evt_id = $request->evt_id;
+        $evt_code = $request->evt_code;
+        $resposta = $request->resposta;
+
+        if (base64_encode($this->crypto->encrypt($evt_id)) == $evt_code) {
+            // pega o evento de e-mail enviado ...
+            $evt_email_enviado = EvtEmailEnviado::where('evt_email_enviado_id', $evt_id)->first();
+            if ($evt_email_enviado == null) {
+                abort(404);
+            }
+
+            $crmFac = CrmFac::where('fac_id', $evt_email_enviado->chave_id)->first();
+            if ($crmFac == null) {
+                $tipo_negocio = 'V';
+            } else {
+                $tipo_negocio = $crmFac->tipo_negocio;
+            }
+            if ($tipo_negocio == null || $tipo_negocio == '') {
+                $tipo_negocio = 'V';
+            }
+
+            $model = EvtEmailFacCq2::where('evt_email_enviado_id', $evt_id)->first();
+            if ($model == null) {
+                $model = new EvtEmailFacCq2();
+                $model->evt_email_enviado_id = $evt_id;
+                $model->email_id = $evt_email_enviado['email_id'];
+            }
+
+            // esta parte sempre grava, porque o cliente pode clicar em outra opção ...
+            $model->encerramento = $resposta;
+            if ($resposta == 'CONTINUA PROCURANDO' && $tipo_negocio == 'V') {
+                $model->alerta = 1;
+            } else {
+                $model->alerta = 0;
+            }
+
+            $model->saveOrFail();
+
+            if ($request->isMethod('post')) {
+                $model->encerramento_detalhe  = $request->encerramento_detalhe;
+                $model->comentario          = $request->comentario;
+
+                $model->saveOrFail();
+                return redirect('pesquisa/concluido');
+
+            }
+
+            return view('site.interacao.faccq2_encerramento', array('model'=>$model));
+
+        } else {
+            abort(404, 'Não conseguimos processar a solicitação ... ');
+        }
+
+    }
+
+
+
+
     public function obrigado()
     {
         return view('site.interacao.obrigado');
