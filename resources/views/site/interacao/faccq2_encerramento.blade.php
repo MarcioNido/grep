@@ -33,7 +33,8 @@ $breadcrumbs = [
                         Obrigado pela informação. Sua resposta já está registrada.<br />
                         Fique à vontade para fazer mais algum comentário se desejar.
                     </h5>
-
+                <?php } ?>
+                
                         <form method="post">
                             {{ csrf_field() }}
 
@@ -68,7 +69,7 @@ $breadcrumbs = [
 
                         </form>
 
-            <?php } ?>
+
             </div>
 
         </div>
