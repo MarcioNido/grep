@@ -57,6 +57,7 @@ Route::group(['namespace' => 'Site', 'domain' => '{unidade}.leardi.com.br'], fun
     Route::any('/pesquisa/atendimento3dias/evt_id/{evt_id}/evt_code/{evt_code}/resposta/{resposta}', 'InteracaoController@atendimento3Dias');
     Route::any('/pesquisa/atendimento10dias/evt_id/{evt_id}/evt_code/{evt_code}/resposta/{resposta}', 'InteracaoController@atendimento10Dias');
     Route::any('/pesquisa/atendimento30dias/evt_id/{evt_id}/evt_code/{evt_code}/resposta/{resposta}', 'InteracaoController@atendimento30Dias');
+    Route::any('/pesquisa/atendimentoEncerrado/evt_id/{evt_id}/evt_code/{evt_code}/resposta/{resposta}', 'InteracaoController@atendimentoEncerrado');
 
     Route::get('/pesquisa/concluido', 'InteracaoController@obrigado');
     Route::get('/image/logo/evt_id/{evt_id}/evt_code/{evt_code}', 'InteracaoController@logo');
