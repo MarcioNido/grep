@@ -23,18 +23,16 @@ $breadcrumbs = [
         <div class="row">
             <div class="col-md-12">
                 <br />
-                <?php if ($model->encerramento == 'DESISTIU NEGOCIO') { ?>
-                    <h5>
+                <h5><b>
+                        <?php if ($model->encerramento != 'DESISTIU NEGOCIO') { ?>
                         Obrigado pela informação. Sua resposta já está registrada.<br />
                         Se possível, responda apenas mais esta questão abaixo e fique à vontade para fazer mais algum comentário se desejar.
-                    </h5>
-                <?php } else { ?>
-                    <h5>
+                        <?php } else { ?>
                         Obrigado pela informação. Sua resposta já está registrada.<br />
                         Fique à vontade para fazer mais algum comentário se desejar.
-                    </h5>
-                <?php } ?>
-                
+                        <?php } ?>
+                    </b></h5>
+
                         <form method="post">
                             {{ csrf_field() }}
 
