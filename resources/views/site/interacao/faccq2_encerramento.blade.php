@@ -40,7 +40,7 @@ $breadcrumbs = [
                             @if( $model->encerramento == 'FECHOU NEGOCIO')
                                 <div class="row" style="margin-top: 35px;">
                                     <div class="col-md-6">
-                                        {{ Form::activeDropDownList('Como foi realizado o fechamento do negócio?', 'encerramento_detalhe', array('FECHOU LEARDI' => 'Fechou negócio com a LEARDI', 'FECHOU IMOBILIARIA' => 'Fechou negócio com outra imobiliária', 'FECHOU CORRETOR' => 'Fechou negócio com corretor independente', 'FECHOU PROPRIETARIO' => 'Fechou direto com o proprietário'), array('class'=>'form-control guru-select', 'placeholder'=>'...')) }}
+                                        {{ Form::activeDropDownList('Como foi realizado o fechamento do negócio?', 'encerramento_detalhe', $model->encerramento_detalhe,  array('FECHOU LEARDI' => 'Fechou negócio com a LEARDI', 'FECHOU IMOBILIARIA' => 'Fechou negócio com outra imobiliária', 'FECHOU CORRETOR' => 'Fechou negócio com corretor independente', 'FECHOU PROPRIETARIO' => 'Fechou direto com o proprietário'), array('class'=>'form-control guru-select', 'placeholder'=>'...')) }}
                                     </div>
                                 </div>
                             @endif
@@ -48,7 +48,7 @@ $breadcrumbs = [
                             @if( $model->encerramento == 'CONTINUA PROCURANDO')
                                 <div class="row" style="margin-top: 35px;">
                                     <div class="col-md-6">
-                                        {{ Form::activeDropDownList('Como gostaria de continuar o seu atendimento?', 'encerramento_detalhe', array('MESMO PROFISSIONAL'=>'Continuar com o mesmo profissional', 'OUTRO PROFISSIONAL'=>'Ser atendido por outro profissional'), array('class'=>'form-control guru-select', 'placeholder'=>'...')) }}
+                                        {{ Form::activeDropDownList('Como gostaria de continuar o seu atendimento?', 'encerramento_detalhe', $model->encerramento_detalhe, array('MESMO PROFISSIONAL'=>'Continuar com o mesmo profissional', 'OUTRO PROFISSIONAL'=>'Ser atendido por outro profissional'), array('class'=>'form-control guru-select', 'placeholder'=>'...')) }}
                                     </div>
                                 </div>
                             @endif
