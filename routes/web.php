@@ -58,6 +58,8 @@ Route::group(['namespace' => 'Site', 'domain' => '{unidade}.leardi.com.br'], fun
     Route::any('/pesquisa/atendimento10dias/evt_id/{evt_id}/evt_code/{evt_code}/resposta/{resposta}', 'InteracaoController@atendimento10Dias');
     Route::any('/pesquisa/atendimento30dias/evt_id/{evt_id}/evt_code/{evt_code}/resposta/{resposta}', 'InteracaoController@atendimento30Dias');
     Route::any('/pesquisa/atendimentoEncerrado/evt_id/{evt_id}/evt_code/{evt_code}/resposta/{resposta}', 'InteracaoController@atendimentoEncerrado');
+    // http://www.leardi.com.br/emktLink/redirect1/evt_id/2452139/evt_code/S1lyM0E1eVI3TFZlYmpaYlBBeFd1UT09/imovel_id/494378-20
+    Route::get('/emktLink/redirect1/evt_id/{evt_id}/evt_code/{evt_code}/imovel_id/{imovel_id}', 'InteracaoController@redirect1');
 
     Route::get('/pesquisa/concluido', 'InteracaoController@obrigado');
     Route::get('/image/logo/evt_id/{evt_id}/evt_code/{evt_code}', 'InteracaoController@logo');

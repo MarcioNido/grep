@@ -406,7 +406,11 @@ class PesquisaController extends Controller
      */
     public function detalhe(Request $request)
     {
-        $imovel = Imovel::find($request->imovel_id);
+        $imovel_id = $request->imovel_id;
+        if (strpos($imovel_id, '-') !== false) {
+            $imovel_id = substr($imovel_id, 0, strpos($imovel_id, '-'));
+        }
+        $imovel = Imovel::find($imovel_id);
         if ($imovel == null) {
             throw new ModelNotFoundException("Imóvel não encontrado");
         }
