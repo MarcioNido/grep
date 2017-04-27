@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Bdi\CrmFac;
+use App\Bdi\EvtEmailClicado;
 use App\Bdi\EvtEmailEnviado;
 use App\Bdi\EvtEmailFacCq2;
 use App\Crypto;
@@ -288,6 +289,27 @@ class InteracaoController extends Controller
 
     }
 
+    /**
+     * Redirecionamento 1 - links de ofertas de imóveis ...
+     */
+    public function redirect1(Request $request) {
+
+        $evt_id = $request->evt_id;
+        $evt_code = $request->evt_code;
+        $imovel_id = $request->imovel_id;
+
+        if (base64_encode($this->crypto->encrypt($evt_id)) == $evt_code) {
+            $evtClick = new EvtEmailClicado();
+            $evtClick->evt_email_enviado_id = $evt_id;
+            $evtClick->tipo_link = 'OFERTA';
+            $evtClick->link = $imovel_id;
+            $evtClick->data_hora_click = date('Y-m-d H:i:s');
+            $evtClick->save();
+        }
+
+        return redirect('/imovel/'.$imovel_id);
+
+    }
 
 
 
