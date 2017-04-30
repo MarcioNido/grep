@@ -43,25 +43,21 @@ class importaBlog extends Command
     public function handle()
     {
 
-        DB::table('blog_post_imagem')->truncate();
-        DB::table('blog_post')->truncate();
+//        DB::table('blog_post_imagem')->truncate();
+//        DB::table('blog_post')->truncate();
 
         $wposts = DB::table('blogleardi.wp_posts')->where(['post_type' => 'post', 'post_status' => 'publish'])->get();
         foreach($wposts as $wpost) {
 
             $post = Post::where('key', $wpost->post_name)->first();
-            if ($post != null) {
-                echo "Post já importado ... ".$wpost->post_name."\n";
-                continue;
+            if ($post == null) {
+                $post = new Post();
+                $post->key = $wpost->post_name;
+                $post->titulo = $wpost->post_title;
+                $post->texto = $wpost->post_content;
+                $post->ativo = 1;
+                $post->saveOrFail();
             }
-
-            echo  $wpost->ID." - ".$wpost->post_title."\n";
-            $post = new Post();
-            $post->key = $wpost->post_name;
-            $post->titulo = $wpost->post_title;
-            $post->texto = $wpost->post_content;
-            $post->ativo = 1;
-            $post->saveOrFail();
 
             $thumb_id = DB::table('blogleardi.wp_postmeta')->where(['post_id' => $wpost->ID, 'meta_key' => '_thumbnail_id'])->first();
             if (! $thumb_id) {
