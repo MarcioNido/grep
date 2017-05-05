@@ -90,12 +90,21 @@ Route::group(['namespace' => 'Site', 'middleware' => 'auth', 'domain' => '{unida
     Route::get('/area-restrita/busca-cep/{cep?}', 'CadastroImovelController@cep');
     Route::any('/area-restrita/envia-fotos/{id}', 'CadastroImovelController@enviaFotos');
     Route::get('/area-restrita/fotos-enviadas', 'CadastroImovelController@fotosEnviadas');
-    Route::any('/area-restrita/trabalhe-conosco/{id?}', 'TrabalheConoscoController@edita');
+    Route::any('/area-restrita/trabalhe-conosco/{id?}/{origem?}', 'TrabalheConoscoController@edita');
     Route::any('/area-restrita/dados-pessoais', 'UserController@edita');
     Route::get('/area-restrita/ebook', 'AreaRestritaController@ebook');
     Route::get('/area-restrita/ebook-download', 'AreaRestritaController@ebookDownload');
     Route::get('/area-restrita/ebook-corretor', 'AreaRestritaController@ebookCorretor');
     Route::get('/area-restrita/ebook-corretor-download', 'AreaRestritaController@ebookCorretorDownload');
+    Route::get('/linkedin', function() {
+        return redirect('/area-restrita/trabalhe-conosco/0/linkedin');
+    });
+    Route::get('/Linkedin', function() {
+        return redirect('/area-restrita/trabalhe-conosco/0/linkedin');
+    });
+    Route::get('/LinkedIn', function() {
+        return redirect('/area-restrita/trabalhe-conosco/0/linkedin');
+    });
 });
 
 // Blog Routes

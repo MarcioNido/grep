@@ -21,6 +21,10 @@ class TrabalheConoscoController extends Controller
 
     public function edita(Request $request)
     {
+        $origem = 'SITE';
+        if (isset($request->origem)) {
+            $origem = mb_convert_case($request->origem, MB_CASE_UPPER);
+        }
         if (isset($request->id) && $request->id != 0) {
             $trabalhe = TrabalheConosco::where(['id'=>$request->id, 'user_id'=>Auth::id()])->first();
             if (! $trabalhe) {
@@ -42,6 +46,7 @@ class TrabalheConoscoController extends Controller
             $trabalhe->nascimento = CHtml::dateUs($trabalhe->nascimento) ?: null;
             $trabalhe->unidade = (int) $trabalhe->unidade;
             $trabalhe->bloco = (int) $trabalhe->bloco;
+            $trabalhe->origem = $origem;
             $trabalhe->saveOrFail();
             return redirect('/area-restrita/index');
         }
