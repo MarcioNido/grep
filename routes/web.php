@@ -105,6 +105,40 @@ Route::group(['namespace' => 'Site', 'middleware' => 'auth', 'domain' => '{unida
     Route::get('/LinkedIn', function() {
         return redirect('/area-restrita/trabalhe-conosco/0/linkedin');
     });
+    Route::get('/oportunidade', function() {
+        return redirect('/area-restrita/trabalhe-conosco/0/folhapg');
+    });
+    Route::get('/corretor', function() {
+        return redirect('/area-restrita/trabalhe-conosco/0/folhasoltos');
+    });
+    Route::get('/corretores', function() {
+        return redirect('/area-restrita/trabalhe-conosco/0/oespsoltos');
+    });
+    Route::get('/catho', function() {
+        return redirect('/area-restrita/trabalhe-conosco/0/catho');
+    });
+    Route::get('/vagas', function() {
+        return redirect('/area-restrita/trabalhe-conosco/0/vagas');
+    });
+    Route::get('/infojobs', function() {
+        return redirect('/area-restrita/trabalhe-conosco/0/infojobs');
+    });
+    Route::get('/curriculum', function() {
+        return redirect('/area-restrita/trabalhe-conosco/0/curriculum');
+    });
+    Route::get('/olx', function() {
+        return redirect('/area-restrita/trabalhe-conosco/0/olx');
+    });
+    Route::get('/ml', function() {
+        return redirect('/area-restrita/trabalhe-conosco/0/mercadolivre');
+    });
+    Route::get('/trabalheconosco', function() {
+        return redirect('/area-restrita/trabalhe-conosco/0/site');
+    });
+    Route::get('/trabalheConosco', function() {
+        return redirect('/area-restrita/trabalhe-conosco/0/site');
+    });
+
 });
 
 // Blog Routes

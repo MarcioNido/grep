@@ -42,7 +42,7 @@ class TrabalheConoscoFacJob implements ShouldQueue
         $fac = new ProspeccaoProfissional();
         $fac->estagio = 'CADASTRO';
         $fac->prioridade = 'ALTA';
-        $fac->origem = 'SITE';
+        $fac->origem = $this->contato->origem;
         $fac->agencia_id = 24;
         $fac->chave_id = $this->contato->id;
         $fac->cadastro = date('Y-m-d H:i:s');
