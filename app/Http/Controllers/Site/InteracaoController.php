@@ -313,6 +313,8 @@ class InteracaoController extends Controller
             if ($resposta == 'Gostaria de Alterar Dados') {$resposta_pp = iconv('utf8', 'iso-8859-1','ALTERAÇÕES'); }
             if (strpos('Foi Negociado', $resposta) !== false) {$resposta_pp = 'NEGOCIADO'; }
 
+            echo "RESPOSTA; ".$resposta;
+
             $model->resposta = $resposta_pp;
             $model->alerta = 0;
 
