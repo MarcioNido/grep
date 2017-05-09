@@ -10,13 +10,13 @@ use Illuminate\Database\Eloquent\Model;
 class EvtEmailPP extends Model
 {
     // primary key
-    protected $primaryKey = "evt_email_pp";
+    protected $primaryKey = "evt_email_enviado_id";
 
     // connection
     protected $connection = "crm";
 
     // table name
-    protected $table = "evt_email_enviado_id";
+    protected $table = "evt_email_pp";
 
     // timestamps
     public $timestamps=false;
