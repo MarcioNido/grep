@@ -325,7 +325,7 @@ class InteracaoController extends Controller
                 if ($request->comentario != '') {
                     $model->alerta = 1;
                 }
-                $model->comentario = $request->comentario;
+                $model->comentario = iconv('utf8', 'iso-8859-1', $request->comentario);
                 $model->saveOrFail();
                 return redirect('pesquisa/concluido');
             }
