@@ -310,7 +310,7 @@ class InteracaoController extends Controller
             $resposta = utf8_decode($resposta);
             $resposta_pp = "ATUALIZADO";
             if ($resposta == 'Atualizar Meu Imóvel') { $resposta_pp = 'ATUALIZADO'; }
-            if ($resposta == 'Gostaria de Alterar Dados') {$resposta_pp = 'ALTERAÇÕES'; }
+            if ($resposta == 'Gostaria de Alterar Dados') {$resposta_pp = iconv('utf8', 'iso-8859-1','ALTERAÇÕES'); }
             if ($resposta == 'Meu Imóvel Já Foi Negociado') {$resposta_pp = 'NEGOCIADO'; }
 
             $model->resposta = $resposta_pp;
