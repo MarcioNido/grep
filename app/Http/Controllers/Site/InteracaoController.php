@@ -6,6 +6,7 @@ use App\Bdi\CrmFac;
 use App\Bdi\EvtEmailClicado;
 use App\Bdi\EvtEmailEnviado;
 use App\Bdi\EvtEmailFacCq2;
+use App\Bdi\EvtEmailPP;
 use App\Crypto;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -288,6 +289,56 @@ class InteracaoController extends Controller
         }
 
     }
+
+
+
+    public function relAtividades(Request $request)
+    {
+        //$evt_id=0, $evt_code='', $resposta=''
+        $evt_id = $request->evt_id;
+        $evt_code = $request->evt_code;
+        $resposta = $request->resposta;
+
+        if (base64_encode($this->crypto->encrypt($evt_id)) == $evt_code) {
+            // pega o evento de e-mail enviado ...
+            $model = EvtEmailPP::where('evt_email_enviado_id', $evt_id)->first();
+            if ($model == null) {
+                $model = new EvtEmailPP();
+                $model->evt_email_enviado_id = $evt_id;
+            }
+
+            $resposta = utf8_decode($resposta);
+            $resposta_pp = "ATUALIZADO";
+            if ($resposta == 'Atualizar Meu Imóvel') { $resposta_pp = 'ATUALIZADO'; }
+            if ($resposta == 'Gostaria de Alterar Dados') {$resposta_pp = 'ALTERAÇÕES'; }
+            if ($resposta == 'Meu Imóvel Já Foi Negociado') {$resposta_pp = 'NEGOCIADO'; }
+
+            $model->resposta = $resposta_pp;
+            $model->alerta = 0;
+
+            if ($resposta_pp == 'ALTERAÇÕES' || $resposta_pp == 'NEGOCIADO') {
+                $model->alerta = 1;
+            }
+
+            $model->saveOrFail();
+
+            if ($request->isMethod('post')) {
+                if ($request->comentario != '') {
+                    $model->alerta = 1;
+                }
+                $model->comentario = $request->comentario;
+                $model->saveOrFail();
+                return redirect('pesquisa/concluido');
+            }
+
+            return view('site.interacao.rel_atividades', array('model'=>$model));
+
+        } else {
+            abort(404, 'Não conseguimos processar a solicitação ... ');
+        }
+
+    }
+
 
     /**
      * Redirecionamento 1 - links de ofertas de imóveis ...
