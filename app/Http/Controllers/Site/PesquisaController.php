@@ -408,7 +408,11 @@ class PesquisaController extends Controller
     {
         $imovel_id = $request->imovel_id;
         if (strpos($imovel_id, '-') !== false) {
-            $imovel_id = substr($imovel_id, 0, strpos($imovel_id, '-'));
+            $a_imovel = explode('-', $imovel_id);
+            $imovel_id = $a_imovel[0];
+            $unidade_anuncio = $a_imovel[1];
+        } else {
+            $unidade_anuncio = null;
         }
         $imovel = Imovel::find($imovel_id);
         if ($imovel == null) {
@@ -418,7 +422,7 @@ class PesquisaController extends Controller
         $titles = $this->setTitles($filter, 1);
         $filter_desc = $titles['filter_desc'];
         $imoveisSimilares = $this->getImoveisSimilares($imovel, $filter_desc);
-        return view('site.pesquisa.detalhe', ['imovel' => $imovel, 'filter_desc' => $filter_desc, 'imoveisSimilares' => $imoveisSimilares]);
+        return view('site.pesquisa.detalhe', ['imovel' => $imovel, 'filter_desc' => $filter_desc, 'imoveisSimilares' => $imoveisSimilares, 'unidade_anuncio' => $unidade_anuncio]);
     }
 
     /**

@@ -3,6 +3,10 @@ $unidade = session('unidade');
 if ($unidade == null) {
     $unidade = $imovel->agenciaPublicacao;
 }
+
+if (isset($unidade_anuncio) && $unidade_anuncio != null) {
+    $unidade = \App\Site\Agencia::where('id', $unidade_anuncio)->first();
+}
 ?>
 <div class="panel panel-primary">
 
