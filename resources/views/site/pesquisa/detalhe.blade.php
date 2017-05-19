@@ -110,8 +110,8 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
 
                                                     @if ($imovel->area())
                                                     <div class="col-lg-2 col-md-3 col-xs-3">
-                                                        <h7 style="color: #333333; font-weight: 300">&Aacute;rea (&#13217;)</h7>
-                                                        <h5 style="margin-top: 0; font-weight: 300">{{ $imovel->area() }}</h5>
+                                                        <h7 style="color: #333333; font-weight: 300">&Aacute;rea</h7>
+                                                        <h5 style="margin-top: 0; font-weight: 300">{{ $imovel->area() }}&#13217;</h5>
                                                     </div>
                                                     @endif
 
