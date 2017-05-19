@@ -109,7 +109,7 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
                                                     @endif
 
                                                     @if ($imovel->area())
-                                                    <div class="col-lg-2 col-md-3 col-xs-3">
+                                                    <div class="col-lg-2 col-md-3 col-xs-4">
                                                         <h7 style="color: #333333; font-weight: 300">&Aacute;rea</h7>
                                                         <h5 style="margin-top: 0; font-weight: 300">{{ $imovel->area() }}&#13217;</h5>
                                                     </div>
@@ -130,7 +130,7 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
                                                     @endif
 
                                                     @if ($imovel->vaga)
-                                                    <div class="col-lg-1 col-md-2 col-sm-3 col-xs-3">
+                                                    <div class="col-lg-1 col-md-2 col-sm-3 col-xs-2">
                                                         <h7 style="color: #333333; font-weight: 300">Vagas</h7>
                                                         <h5 style="margin-top: 0; font-weight: 300">{{ $imovel->vaga }}</h5>
                                                     </div>
