@@ -138,9 +138,9 @@ $bc = $searchResult['titles']['breadcrumbs'];
                                         <div class="row">
                                             <div class="col-md-9">
                                                 <div class="row" style="text-align: center;">
-                                                    <div class="col-xs-3 col-md-3">
-                                                        <h6 style="color: #333333; font-weight: 300" class="guru-label">&Aacute;rea (&#13217;)</h6>
-                                                        <h4 style="margin-top: 0; font-weight: 300">{{ $imovel->tipo_simplificado == "TERRENO" || $imovel->tipo_simplificado == "RURAL" ? $imovel->area_total_terreno : $imovel->area_util_construida }}</h4>                                                     
+                                                    <div class="col-xs-4 col-md-3">
+                                                        <h6 style="color: #333333; font-weight: 300" class="guru-label">&Aacute;rea</h6>
+                                                        <h4 style="margin-top: 0; font-weight: 300">{{ $imovel->tipo_simplificado == "TERRENO" || $imovel->tipo_simplificado == "RURAL" ? $imovel->area_total_terreno : $imovel->area_util_construida }}&#13217;</h4>
                                                     </div>
                                                     
                                                     @if ( $filter['tipo_imovel'] != 'comercial' && $filter['tipo_imovel'] != 'terreno' )
@@ -155,7 +155,7 @@ $bc = $searchResult['titles']['breadcrumbs'];
                                                     @endif
                                                     
                                                     @if ($imovel->vaga != 0) 
-                                                    <div class="col-xs-3 col-md-3">
+                                                    <div class="col-xs-2 col-md-3">
                                                         <h6 style="color: #333333; font-weight: 300" class="guru-label">Vagas</h6>
                                                         <h4 style="margin-top: 0; font-weight: 300">{{ $imovel->vaga }}</h4>                                                       
                                                     </div>
