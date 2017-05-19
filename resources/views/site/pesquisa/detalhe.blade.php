@@ -95,14 +95,14 @@ $title = $imovel->title().' - Paulo Roberto Leardi';
                                                     </div>
 
                                                     @if ($imovel->valor_iptu)
-                                                    <div class="col-lg-2 hidden-xs">
+                                                    <div class="col-lg-2 col-xs-6">
                                                         <h7 style="color: #333333; font-weight: 300">IPTU</h7>
                                                         <h5 style="margin-top: 0; font-weight: 300">R$ {{ $imovel->toCurrency('valor_iptu') }}</h5>
                                                     </div>
                                                     @endif
 
                                                     @if ($imovel->valor_condominio)
-                                                    <div class="col-lg-2 hidden-xs">
+                                                    <div class="col-lg-2 col-xs-6">
                                                         <h7 style="color: #333333; font-weight: 300">Condom&iacute;nio</h7>
                                                         <h5 style="margin-top: 0; font-weight: 300">R$ {{ $imovel->toCurrency('valor_condominio') }}</h5>
                                                     </div>
