@@ -49,7 +49,7 @@ class TrabalheConoscoFacJob implements ShouldQueue
         $fac->atualizacao = date('Y-m-d H:i:s');
         $fac->nome = $this->contato->nome;
         $fac->ddd1 = $this->contato->ddd1;
-        $fac->telefone1 = $this->contato->telefone1;
+        $fac->telefone1 = str_replace('-', '', $this->contato->telefone1);
         $fac->email = $this->contato->email;
         $fac->res_estado = $this->contato->estado;
         $fac->res_codcidade = $this->contato->codcidade;
