@@ -41,16 +41,16 @@ $title = "Paulo Roberto Leardi";
                                                 <?php echo CHtml::dropDownList('tipo_imovel', $filter['tipo_imovel'], ['apartamento'=>'Apartamento', 'casa'=>'Casa', 'comercial'=>'Comercial', 'terreno'=>'Terreno', 'flat' => 'Flat', 'rural' => 'Rural'], ['class'=>'form-control guru-select', 'style' => 'width: 100%', 'id' => 'tipo_imovel']); ?>
                                             </div>
                                             <div class="col-md-1 col-xs-3 guru-home-search">
-                                                {{ Form::activeDropDownList('', 'estado', '', DropDownTool::getEstado(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'onchange' => 'trigger_estado()', 'id'=>'estado', 'placeholder'=>'Estado']) }}
+                                                {{ Form::activeDropDownList('', 'estado', $filter['estado'], DropDownTool::getEstado(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'onchange' => 'trigger_estado()', 'id'=>'estado', 'placeholder'=>'Estado']) }}
                                             </div>
                                             <div class="col-md-3 col-xs-9 guru-home-search">
                                                 <span id="ph_codcidade">
-                                                    {{ Form::activeDropDownList('', 'codcidade', 0, DropDownTool::getCidade(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'codcidade', 'placeholder' => 'Cidade', 'onchange' => 'trigger_codcidade()']) }}
+                                                    {{ Form::activeDropDownList('', 'codcidade', $filter['codcidade'], DropDownTool::getCidade($filter['estado'], 'titleCase'), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'codcidade', 'placeholder' => 'Cidade', 'onchange' => 'trigger_codcidade()']) }}
                                                 </span>
                                             </div>
                                             <div class="col-md-3 col-xs-12 guru-home-search">
                                                 <span id="ph_codbairro">
-                                                    {{ Form::activeDropDownList('', 'codbairro[]', 0, DropDownTool::getBairro(), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'codbairro', 'placeholder' => 'Região']) }}
+                                                    {{ Form::activeDropDownList('', 'codbairro[]', 0, DropDownTool::getBairro($filter['codcidade'], 'titleCase'), ['class'=>'form-control guru-select filtro', 'style' => 'width: 100%', 'id' => 'codbairro', 'placeholder' => 'Região']) }}
                                                 </span>
                                             </div>
                                             <div class="col-sm-1 col-xs-12 guru-home-search">

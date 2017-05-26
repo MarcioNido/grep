@@ -43,6 +43,11 @@ class Profile {
         if (! $this->filter) {
             $this->filter = $this->createProfile();
         }
+
+        if ($this->filter['estado'] == "") {
+            $this->getLocalidadeUrl();
+        }
+
         return $this->filter;
     }
 
@@ -90,20 +95,21 @@ class Profile {
             $json = file_get_contents('http://ip-api.com/json');
             $obj = json_decode($json);
             if (isset($obj->city) && isset($obj->region)) {
-                $cidade = $obj->city ." - ". $obj->region;
-            } else {
-                $cidade = "";
+                if ($obj->regionName == 'Federal District') {
+                    $this->filter['estado'] = 'DF';
+                    $this->filter['codcidade'] = 1778;
+                } else {
+                    $this->filter['estado'] = $obj->region;
+                    $cidade = Cidade::where('siglaestado',$obj->region)->where('descricao', $obj->city)->first();
+                    if ($cidade) {
+                        $this->filter['codcidade'] = $cidade->codcidade;
+                    }
+                }
             }
         } catch (Exception $ex) {
             $cidade = "São Paulo - SP"; // default
         }
-        // try to find the url
-        $localidade_url = Localidade::where('descricao', $cidade)->value('localidade_url');
-        if ($localidade_url == null) {
-            $localidade_url = 'sp/sao-paulo/todas-as-regioes';
-        }
 
-        return $localidade_url;
     }
 
     public function getUrl()
