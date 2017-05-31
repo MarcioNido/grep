@@ -71,6 +71,11 @@ Route::group(['namespace' => 'Site', 'domain' => '{unidade}.leardi.com.br'], fun
     Route::get('/dropdown/bairro/{codcidade}', 'DropDownController@bairro');
 
     Route::get('/admin/{action}', 'HomeController@admin');
+    Route::any('/area-restrita/trabalhe-conosco/{id?}/{origem?}', 'TrabalheConoscoController@edita');
+    Route::get('/area-restrita/drop-down/tipo-imovel/{codtiposimplificado?}', 'CadastroImovelController@tipoimovel');
+    Route::get('/area-restrita/drop-down/cidade/{estado?}', 'CadastroImovelController@cidade');
+    Route::get('/area-restrita/drop-down/bairro/{codcidade?}', 'CadastroImovelController@bairro');
+    Route::get('/area-restrita/busca-cep/{cep?}', 'CadastroImovelController@cep');
 
 //'<agencia_sigla:([0-9]+)>/imoveis'=>'unidade/imoveis',
 
@@ -85,13 +90,8 @@ Route::group(['namespace' => 'Site', 'middleware' => 'auth', 'domain' => '{unida
     Route::post('/area-restrita/cancela-alerta/{id}', 'AreaRestritaController@cancelaAlerta');
     Route::any('/area-restrita/cadastro-imovel/{id?}', 'CadastroImovelController@edita');
     Route::any('/area-restrita/cancela-imovel/{id}', 'CadastroImovelController@cancelaImovel');
-    Route::get('/area-restrita/drop-down/tipo-imovel/{codtiposimplificado?}', 'CadastroImovelController@tipoimovel');
-    Route::get('/area-restrita/drop-down/cidade/{estado?}', 'CadastroImovelController@cidade');
-    Route::get('/area-restrita/drop-down/bairro/{codcidade?}', 'CadastroImovelController@bairro');
-    Route::get('/area-restrita/busca-cep/{cep?}', 'CadastroImovelController@cep');
     Route::any('/area-restrita/envia-fotos/{id}', 'CadastroImovelController@enviaFotos');
     Route::get('/area-restrita/fotos-enviadas', 'CadastroImovelController@fotosEnviadas');
-    Route::any('/area-restrita/trabalhe-conosco/{id?}/{origem?}', 'TrabalheConoscoController@edita');
     Route::any('/area-restrita/dados-pessoais', 'UserController@edita');
     Route::get('/area-restrita/ebook', 'AreaRestritaController@ebook');
     Route::get('/area-restrita/ebook-download', 'AreaRestritaController@ebookDownload');

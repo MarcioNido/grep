@@ -13,12 +13,12 @@ class TrabalheConosco extends Model
     protected $table = "web_trabalhe_conosco";
 
     // not fillable
-    protected $guarded = ['id', 'nome', 'email'];
+    protected $guarded = ['id'];
 
     // validation
     protected $rules = [
         'nome' => 'required',
-        'email' => 'required',
+        'email' => 'required|unique',
         'cep' => 'required|max:8',
         'tipo_logradouro' => 'required',
         'endereco' => 'required',

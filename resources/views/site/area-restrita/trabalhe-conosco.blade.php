@@ -38,10 +38,10 @@ $breadcrumbs = [
 
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        {{ Form::activeText('Nome', 'nome', $trabalhe->nome, ['disabled'=>'disabled']) }}
+                                        {{ Form::activeText('Nome', 'nome', $trabalhe->nome) }}
                                     </div>
                                     <div class="col-sm-6">
-                                        {{ Form::activeText('Email', 'email', $trabalhe->email, ['disabled' => 'disabled']) }}
+                                        {{ Form::activeText('Email', 'email', $trabalhe->email) }}
                                     </div>
                                 </div>
 
