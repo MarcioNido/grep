@@ -390,7 +390,7 @@ class InteracaoController extends Controller
                 $resposta->resposta = $opt_id;
                 $resposta->saveOrFail();
             }
-            $link = MktEmailPart::where('email_part_id', $opt_id);
+            $link = MktEmailPart::where('email_part_id', $opt_id)->first()->link;
             return new RedirectResponse($link);
         }
         abort(404);
