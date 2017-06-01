@@ -66,7 +66,7 @@ Route::group(['namespace' => 'Site', 'domain' => '{unidade}.leardi.com.br'], fun
     // http://www.leardi.com.br/mkt/replypp/evt_id/2489829/evt_code/aUZRQ05Od0FtUFdvd25MSFJ5RzNIdz09/resposta/Atualizar%20Meu%20Imóvel
     Route::get('/pesquisa/concluido', 'InteracaoController@obrigado');
     Route::get('/image/logo/evt_id/{evt_id}/evt_code/{evt_code}', 'InteracaoController@logo');
-    Route::get('/image/mktLogo/id/{id}/code/{code}', 'InteracaoController@mktLogo');
+    Route::get('/image/mktLogo/id/{id}/code/{code}/trilha/{trilha?}', 'InteracaoController@mktLogo');
     Route::get('/pesquisa/{expression1?}/{expression2?}/{expression3?}/{expression4?}/{expression5?}/{expression6?}/{expression7?}/{expression8?}/{expression9?}/{expression10?}', 'InteracaoController@index');
 
     // dropdowns
