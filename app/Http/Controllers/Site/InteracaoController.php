@@ -14,6 +14,7 @@ use App\Bdi\MktTrilhaEmailEnviado;
 use App\Bdi\MktTrilhaEmailResposta;
 use App\Crypto;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Site\Interacao;
 
@@ -387,7 +388,7 @@ class InteracaoController extends Controller
                 $resposta->saveOrFail();
             }
             $link = MktEmailPart::where('email_part_id', $opt_id);
-            return redirect($link);
+            return new RedirectResponse($link);
         }
         abort(404);
     }
