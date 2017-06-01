@@ -415,9 +415,9 @@ class InteracaoController extends Controller
             }
 
             // esta parte sempre grava, porque o cliente pode clicar em outra opção ...
-            $model->resposta = $opt_id;
 
             if ($id != 0) {
+                $model->resposta = $opt_id;
                 $model->saveOrFail();
             }
 
