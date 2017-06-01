@@ -373,7 +373,7 @@ class InteracaoController extends Controller
     public function redirect2(Request $request)
     {
         $id = $request->id;
-        $base_id = $reqeust->base_id;
+        $base_id = $request->base_id;
         $opt_id = $request->opt_id;
         $code = $request->code;
 
