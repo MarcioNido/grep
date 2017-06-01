@@ -381,7 +381,10 @@ class InteracaoController extends Controller
         if (base64_encode($this->crypto->encrypt($id)) == $code || $id == 0) {
             if ($id != 0) {
                 $email_id = MktEmailEnviado::where('email_enviado_id', $id)->first()->email_id;
-                $resposta = new MktEmailResposta();
+                $resposta = MktEmailResposta::where('email_enviado_id', $id)->first();
+                if (! $resposta) {
+                    $resposta = new MktEmailResposta();
+                }
                 $resposta->email_enviado_id = $id;
                 $resposta->email_id = $email_id;
                 $resposta->resposta = $opt_id;
