@@ -376,6 +376,7 @@ class InteracaoController extends Controller
         $base_id = $request->base_id;
         $opt_id = $request->opt_id;
         $code = $request->code;
+        $trilha = ($request->trilha ?: 0);
 
         if ($trilha == 0) {
 
