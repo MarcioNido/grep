@@ -402,11 +402,7 @@ class InteracaoController extends Controller
         return view('site.interacao.obrigado');
     }
 
-    /**
-     * Exibe a foto do profissional
-     * @param Request $request
-     * @return view
-     */
+
     public function logo(Request $request)
     {
         //$evt_id=0, $evt_code=''
@@ -415,6 +411,18 @@ class InteracaoController extends Controller
 
         if (base64_encode($this->crypto->encrypt($evt_id)) == $evt_code) {
             EvtEmailEnviado::where('evt_email_enviado_id', $evt_id)->update(['visualizado' => 1, 'data_hora_visualizacao' => date('Y-m-d H:i:s')]);
+        }
+        return view('site.interacao._logo_rodape');
+    }
+
+    public function mktLogo(Request $request)
+    {
+        //$evt_id=0, $evt_code=''
+        $id = $request->id;
+        $code = $request->code;
+
+        if (base64_encode($this->crypto->encrypt($id)) == $code) {
+            MktEmailEnviado::where('email_enviado_id', $id)->update(['visualizado' => 1, 'data_hora_visualizacao' => date('Y-m-d H:i:s')]);
         }
         return view('site.interacao._logo_rodape');
     }
