@@ -7,6 +7,7 @@ use App\Bdi\EvtEmailClicado;
 use App\Bdi\EvtEmailEnviado;
 use App\Bdi\EvtEmailFacCq2;
 use App\Bdi\EvtEmailPP;
+use App\Bdi\MktEmailEnviado;
 use App\Bdi\MktEmailPart;
 use App\Bdi\MktEmailResposta;
 use App\Bdi\MktTrilhaEmailEnviado;
@@ -373,77 +374,22 @@ class InteracaoController extends Controller
     public function redirect2(Request $request)
     {
         $id = $request->id;
-        $base_id = $request->base_id;
         $opt_id = $request->opt_id;
         $code = $request->code;
-        $trilha = ($request->trilha ?: 0);
 
-        if ($trilha == 0) {
-
-            if (base64_encode($this->crypto->encrypt($id)) == $code || $id == 0) {
-                $email_enviado = EvtEmailEnviado::where('evt_email_enviado_id', $id)->first();
-                if ($email_enviado) {
-                    $model = MktEmailResposta::where('email_enviado_id', $id)->first();
-                    if ($model == null) {
-                        $model = new MktEmailResposta();
-                        $model->email_enviado_id = $id;
-                        $model->email_id = $email_enviado->email_id;
-                    }
-
-                } else {
-
-                    $email_enviado = MktTrilhaEmailEnviado::where('email_enviado_id', $id)->first();
-                    if ($email_enviado) {
-                        $model = MktTrilhaEmailResposta::where('email_enviado_id', $id)->first();
-                        if ($model == null) {
-                            $model = new MktTrilhaEmailResposta();
-                            $model->email_enviado_id = $id;
-                            $model->email_id = $email_enviado->email_id;
-                        }
-                    }
-                }
-
-            } else {
-                $email_enviado = MktTrilhaEmailEnviado::where('email_enviado_id', $id)->first();
-                $model = MktTrilhaEmailResposta::where('email_enviado_id', $id)->first();
-                if ($model == null) {
-                    $model = new MktTrilhaEmailResposta();
-                    $model->email_enviado_id = $id;
-                    $model->email_id = $email_enviado->email_id;
-                }
-
-            }
-
-            // esta parte sempre grava, porque o cliente pode clicar em outra opção ...
-
+        if (base64_encode($this->crypto->encrypt($id)) == $code || $id == 0) {
             if ($id != 0) {
-                $model->resposta = $opt_id;
-                $model->saveOrFail();
+                $email_id = MktEmailEnviado::where('email_enviado_id', $id)->first()->email_id;
+                $resposta = new MktEmailResposta();
+                $resposta->email_enviado_id = $id;
+                $resposta->email_id = $email_id;
+                $resposta->resposta = $opt_id;
+                $resposta->saveOrFail();
             }
-
-            if (isset($_POST['MktEmailResposta'])) {
-                $form = $_POST['MktEmailResposta'];
-                $model->comentario = $form['comentario'];
-
-                if ($id != 0) {
-                    if ($model->save()) {
-                        return redirect('pesquisa/concluido');
-                    }
-                } else {
-                    return redirect('pesquisa/concluido');
-                }
-            }
-
-            $emailPart = MktEmailPart::where('email_part_id', $model->resposta);
-            // se for um botão do tipo "link", apenas redireciona para o link ... ex: BAIXE A REVISTA PDF
-            if ($emailPart->link != '') {
-                return redirect($emailPart->link);
-            }
-
-            return view('site.interacao.resposta', array('model' => $model));
-
+            $link = MktEmailPart::where('email_part_id', $opt_id);
+            return redirect($link);
         }
-
+        abort(404);
     }
 
 
