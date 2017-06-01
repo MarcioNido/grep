@@ -393,13 +393,14 @@ class InteracaoController extends Controller
                 } else {
 
                     $email_enviado = MktTrilhaEmailEnviado::where('email_enviado_id', $id)->first();
-                    $model = MktTrilhaEmailResposta::where('email_enviado_id', $id)->first();
-                    if ($model == null) {
-                        $model = new MktTrilhaEmailResposta();
-                        $model->email_enviado_id = $id;
-                        $model->email_id = $email_enviado->email_id;
+                    if ($email_enviado) {
+                        $model = MktTrilhaEmailResposta::where('email_enviado_id', $id)->first();
+                        if ($model == null) {
+                            $model = new MktTrilhaEmailResposta();
+                            $model->email_enviado_id = $id;
+                            $model->email_id = $email_enviado->email_id;
+                        }
                     }
-
                 }
 
             } else {
