@@ -79,26 +79,6 @@ Route::group(['namespace' => 'Site', 'domain' => '{unidade}.leardi.com.br'], fun
     Route::get('/area-restrita/drop-down/bairro/{codcidade?}', 'CadastroImovelController@bairro');
     Route::get('/area-restrita/busca-cep/{cep?}', 'CadastroImovelController@cep');
 
-//'<agencia_sigla:([0-9]+)>/imoveis'=>'unidade/imoveis',
-
-});
-
-// area restrita
-Route::group(['namespace' => 'Site', 'middleware' => 'auth', 'domain' => '{unidade}.leardi.com.br'], function() {
-    Route::get('/area-restrita/index', 'AreaRestritaController@index');
-    Route::get('/area-restrita/edita-alerta/{id}', 'AreaRestritaController@editaAlerta');
-    Route::post('/area-restrita/edita-alerta/{id}', 'AreaRestritaController@storeAlerta');
-    Route::get('/area-restrita/cancela-alerta/{id}', 'AreaRestritaController@cancelaAlerta');
-    Route::post('/area-restrita/cancela-alerta/{id}', 'AreaRestritaController@cancelaAlerta');
-    Route::any('/area-restrita/cadastro-imovel/{id?}', 'CadastroImovelController@edita');
-    Route::any('/area-restrita/cancela-imovel/{id}', 'CadastroImovelController@cancelaImovel');
-    Route::any('/area-restrita/envia-fotos/{id}', 'CadastroImovelController@enviaFotos');
-    Route::get('/area-restrita/fotos-enviadas', 'CadastroImovelController@fotosEnviadas');
-    Route::any('/area-restrita/dados-pessoais', 'UserController@edita');
-    Route::get('/area-restrita/ebook', 'AreaRestritaController@ebook');
-    Route::get('/area-restrita/ebook-download', 'AreaRestritaController@ebookDownload');
-    Route::get('/area-restrita/ebook-corretor', 'AreaRestritaController@ebookCorretor');
-    Route::get('/area-restrita/ebook-corretor-download', 'AreaRestritaController@ebookCorretorDownload');
     Route::get('/linkedin', function() {
         return redirect('/area-restrita/trabalhe-conosco/0/linkedin');
     });
@@ -141,6 +121,28 @@ Route::group(['namespace' => 'Site', 'middleware' => 'auth', 'domain' => '{unida
     Route::get('/trabalheConosco', function() {
         return redirect('/area-restrita/trabalhe-conosco/0/site');
     });
+
+
+//'<agencia_sigla:([0-9]+)>/imoveis'=>'unidade/imoveis',
+
+});
+
+// area restrita
+Route::group(['namespace' => 'Site', 'middleware' => 'auth', 'domain' => '{unidade}.leardi.com.br'], function() {
+    Route::get('/area-restrita/index', 'AreaRestritaController@index');
+    Route::get('/area-restrita/edita-alerta/{id}', 'AreaRestritaController@editaAlerta');
+    Route::post('/area-restrita/edita-alerta/{id}', 'AreaRestritaController@storeAlerta');
+    Route::get('/area-restrita/cancela-alerta/{id}', 'AreaRestritaController@cancelaAlerta');
+    Route::post('/area-restrita/cancela-alerta/{id}', 'AreaRestritaController@cancelaAlerta');
+    Route::any('/area-restrita/cadastro-imovel/{id?}', 'CadastroImovelController@edita');
+    Route::any('/area-restrita/cancela-imovel/{id}', 'CadastroImovelController@cancelaImovel');
+    Route::any('/area-restrita/envia-fotos/{id}', 'CadastroImovelController@enviaFotos');
+    Route::get('/area-restrita/fotos-enviadas', 'CadastroImovelController@fotosEnviadas');
+    Route::any('/area-restrita/dados-pessoais', 'UserController@edita');
+    Route::get('/area-restrita/ebook', 'AreaRestritaController@ebook');
+    Route::get('/area-restrita/ebook-download', 'AreaRestritaController@ebookDownload');
+    Route::get('/area-restrita/ebook-corretor', 'AreaRestritaController@ebookCorretor');
+    Route::get('/area-restrita/ebook-corretor-download', 'AreaRestritaController@ebookCorretorDownload');
 
 });
 
