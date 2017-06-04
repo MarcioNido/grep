@@ -17,7 +17,6 @@ class CadImovel extends Model
     public $timestamps=false;
 
     protected $rules=[
-        'user_id' => 'required',
         'codtiposimplificado' => 'required',
         'codtipoimovel' => 'required',
         'motivo_cancelamento' => 'string|max:2000|nullable',

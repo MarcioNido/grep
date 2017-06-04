@@ -9,12 +9,14 @@ use App\Site\Agencia;
 use App\Site\CadImovel;
 use App\Site\Localidade;
 use App\Site\NotificacaoImovel;
+use App\User;
 use Collective\Html\FormFacade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\DropDownTool;
 use App\Site\Cep;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 
@@ -30,15 +32,18 @@ class CadastroImovelController extends Controller
     public function edita(Request $request)
     {
 
-        if (isset($request->id) && $request->id != 0) {
-            $imovel = CadImovel::where(['id'=>$request->id, 'user_id'=>Auth::id()])->first();
-            if (! $imovel) {
-                throw new \Exception("Imóvel não encontrado ...", 404);
-            }
-        } else {
+        if (Auth::guest()) {
             $imovel = new CadImovel();
-            $imovel->user_id = Auth::id();
-            $imovel->agencia_id = $this->getAgenciaId($request->latitude, $request->longitude);
+        } else {
+            if (isset($request->id) && $request->id != 0) {
+                $imovel = CadImovel::where('id', $request->id)->where('user_id', Auth::id())->first();
+                if (! $imovel) {
+                    abort(404);
+                }
+            } else {
+                $imovel = new CadImovel();
+                $imovel->user_id = Auth::id();
+            }
         }
 
         if ($request->isMethod('post')) {
@@ -59,8 +64,21 @@ class CadastroImovelController extends Controller
             $imovel->dormitorio = (int) $imovel->dormitorio;
             $imovel->suite = (int) $imovel->suite;
             $imovel->vaga = (int) $imovel->vaga;
+            $imovel->agencia_id = $this->getAgenciaId($request->latitude, $request->longitude);
             $imovel->saveOrFail();
-            return redirect('/area-restrita/index');
+
+            if (Auth::guest()) {
+                if ($user_id = $this->addUser($imovel)) {
+                    $imovel->user_id = $user_id;
+                    $imovel->save();
+                    return redirect('/area-restrita/index');
+                } else {
+                    return redirect('/');
+                }
+            } else {
+                return redirect('/area-restrita/index');
+            }
+
         }
 
         $imovel->nascimento = CHtml::dateBr($imovel->nascimento);
@@ -68,6 +86,23 @@ class CadastroImovelController extends Controller
 
         return view('site.area-restrita.cadastro-imovel', ['imovel' => $imovel, 'crypto_email' => $crypto_email]);
 
+    }
+
+    protected function addUser($imovel)
+    {
+        $user = new User();
+        $user->name = $imovel->nome;
+        $user->email = $imovel->email;
+        $user->area_code = $imovel->ddd1;
+        $user->phone = $imovel->telefone1;
+        $user->password = Hash::make(str_random(10));
+        try {
+            $user->save();
+            Auth::login($user);
+            return $user->id;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     public function getAgenciaId($latitude='', $longitude='') {
