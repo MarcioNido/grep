@@ -23,7 +23,7 @@ class FranqueadoObserver
      */
     public function created(ContatoFranqueado $contato)
     {
-        $jobEmail = (new TrabalheConoscoEmailJob($contato))->onQueue('main');
+        $jobEmail = (new FranqueadoEmailJob($contato))->onQueue('main');
         dispatch($jobEmail);
 
         $jobFac = (new FranqueadoFacJob($contato))->onQueue('main');
