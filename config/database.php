@@ -65,6 +65,9 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
+            'options' => [
+                \PDO::ATTR_EMULATE_PREPARES => true,
+            ]
         ],
 
         'bdi' => [
