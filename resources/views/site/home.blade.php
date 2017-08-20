@@ -12,6 +12,7 @@ $title = "Paulo Roberto Leardi";
 @section('title', $title)
 
 @section('content')
+    <input type="hidden" id="bannerId" value="2">
     <div id="banner" class="container-fluid" style="background: #ddd url('/images/bannerhomeleardi2.jpg') center no-repeat; height: 490px;">
         <div class="">
             <div class="row" style="height: 100px;">
@@ -214,9 +215,6 @@ $title = "Paulo Roberto Leardi";
                 
             </div>
         
-            
-            
-            
         </div>
         
         
@@ -277,6 +275,7 @@ function trigger_pesquisa()
     $('#ph_pesquisa').slideDown('fast');
 }
 
+@if(session('unidade') == null || session('unidade')->banner1 == null)
 $(document).ready(function() {
     $('div.form-group').removeClass('form-group');
     window.setInterval(function() {
@@ -290,6 +289,30 @@ $(document).ready(function() {
         }
     }, 15000)
 });
+@else
+$(document).ready(function() {
+    var banner1 = "{{ session('unidade')->banner1 }}";
+    var banner2 = "{{ session('unidade')->banner2 }}";
+    $('div.form-group').removeClass('form-group');
+    $('.miami').hide();
+
+    if (banner2 == "") {
+        $('#banner').css('background-image', "url('" + banner1 + "'");
+    } else {
+        window.setInterval(function() {
+            var banner = $("#bannerId").val();
+            if (banner == 2) {
+                $("#bannerId").val(1);
+                $('#banner').css('background-image', "url('" + banner1 + "'");
+            } else {
+                $("#bannerId").val(2);
+                $('#banner').css('background-image', "url('" + banner2 + "'");
+            }
+        }, 15000)
+    }
+
+});
+@endif
 
 function trigger_estado()
 {
