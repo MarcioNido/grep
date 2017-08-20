@@ -13,7 +13,7 @@ $title = "Paulo Roberto Leardi";
 
 @section('content')
     <input type="hidden" id="bannerId" value="2">
-    <div id="banner" class="container-fluid" style="background: #ddd url('/images/bannerhomeleardi2.jpg') center no-repeat; height: 490px;">
+    <div id="banner" class="container-fluid" style="background: #ddd center no-repeat; height: 490px;">
         <div class="">
             <div class="row" style="height: 100px;">
                 <div class="col-lg-12" style="text-align: center;">
@@ -278,6 +278,8 @@ function trigger_pesquisa()
 @if(session('unidade') == null || session('unidade')->banner1 == null)
 $(document).ready(function() {
     $('div.form-group').removeClass('form-group');
+    $('#banner').css('background-image', "url('/images/bannerhomeleardi2.jpg')");
+    $('.miami').hide();
     window.setInterval(function() {
         var isMiami = $(".miami").is(":visible");
         if (isMiami) {
@@ -299,6 +301,8 @@ $(document).ready(function() {
     if (banner2 == "") {
         $('#banner').css('background-image', "url('" + banner1 + "'");
     } else {
+        $("#bannerId").val(1);
+        $('#banner').css('background-image', "url('" + banner1 + "'");
         window.setInterval(function() {
             var banner = $("#bannerId").val();
             if (banner == 2) {
