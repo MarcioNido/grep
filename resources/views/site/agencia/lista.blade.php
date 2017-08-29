@@ -64,7 +64,11 @@ if (! isset($term)) {
                             <div class="thumbnail">
                                 <div class="guru-image-wrapper" style='background: transparent;'>
                                     <div class="guru-image-background" style="background-image: url('http://www.leardi.com.br/imagens/agencias/{{ $agencia->foto_agencia }}')"></div>
-                                    <img class="img-responsive guru-image" style="width: 100%" src="http://www.leardi.com.br/imagens/agencias/{{ $agencia->foto_agencia }}" />
+                                    @if ($agencia->foto_site != '')
+                                        <img class="img-responsive guru-image" style="width: 100%" src="{{ $agencia->foto_site }}" />
+                                    @else
+                                        <img class="img-responsive guru-image" style="width: 100%" src="http://www.leardi.com.br/imagens/agencias/{{ $agencia->foto_agencia }}" />
+                                    @endif
                                 </div>
                                 <div class="caption">
                                     <h3>Unidade {{ mb_convert_case($agencia->nome, MB_CASE_TITLE) }}</h3>
