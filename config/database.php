@@ -72,11 +72,11 @@ return [
 
         'bdi' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST_BDI', '200.155.6.226'), // 10.1.97.114
+            'host' => env('DB_HOST_BDI', 'localhost'),
             'port' => '3306',
-            'database' => env('DB_DATABASE_BDI','NI4_Leardi'),
-            'username' => env('DB_USERNAME_BDI','bdiadmin3'),
-            'password' => env('DB_PASSWORD_BDI','bdileardi#bdapl'),
+            'database' => env('DB_DATABASE_BDI','forge'),
+            'username' => env('DB_USERNAME_BDI','forge'),
+            'password' => env('DB_PASSWORD_BDI',''),
             'charset' => 'utf8',
             'collation' => 'utf8_general_ci',
             'prefix' => '',
@@ -86,11 +86,11 @@ return [
 
         'crm' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST_CRM', '200.155.6.231'), // 10.1.97.119
+            'host' => env('DB_HOST_CRM', 'localhost'),
             'port' => '3306',
-            'database' => env('DB_DATABASE_CRM','leardi_crm'),
-            'username' => env('DB_USERNAME_CRM','leardi_user'),
-            'password' => env('DB_PASSWORD_CRM','bdi@leardi2013'),
+            'database' => env('DB_DATABASE_CRM','forge'),
+            'username' => env('DB_USERNAME_CRM','forge'),
+            'password' => env('DB_PASSWORD_CRM',''),
             'charset' => 'latin1',
             'collation' => 'latin1_swedish_ci',
             'prefix' => '',
